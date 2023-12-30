@@ -1,0 +1,53 @@
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id String @id @default(uuid())
+  tuid Int? @unique
+  firstName String
+  lastName String
+  tuEmail String @unique
+  isAdmin Boolean @default(false)
+  isCoordinator Boolean @default(false)
+  isFaculty Boolean @default(false)
+  isStaff Boolean @default(false)
+
+  courses Course[]
+}
+
+model Course {
+  id String @id @default(uuid())
+  roomNum Int
+  classType ClassType
+  department String
+  courseNum Int
+  section Int?
+  crn Int
+  semester String
+  hasSecuredRoom Boolean
+
+  userId String
+  instrcutor User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  isNewInstrcutor Boolean
+  specialInfo String? @db.Text
+  notes String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+enum ClassType {
+  IN_PERSON
+  ONLINE
+  HYBRID
+}

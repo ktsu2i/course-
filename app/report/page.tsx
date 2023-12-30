@@ -1,6 +1,11 @@
+import Navbar from "@/components/Navbar";
+
 const ReportPage = () => {
   return (
-    <div>This is a report page</div>
+    <>
+      <Navbar />
+      <div>report page</div>
+    </>
   );
 };
  

@@ -1,6 +1,11 @@
+import Navbar from "@/components/Navbar";
+
 const ManagementPage = () => {
   return (
-    <div>This is a management page</div>
+    <>
+      <Navbar />
+      <div>management page</div>
+    </>
   );
 };
  

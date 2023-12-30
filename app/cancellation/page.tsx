@@ -1,6 +1,11 @@
+import Navbar from "@/components/Navbar";
+
 const CancellationPage = () => {
   return (
-    <div>This is a cancellation page</div>
+    <>
+      <Navbar />
+      <div>cancellation page</div>
+    </>
   );
 };
  
