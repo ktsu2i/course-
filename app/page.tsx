@@ -12,9 +12,7 @@ export default async function Home() {
   return (
     <>
       <Navbar />
-      <p className="text-xl text-center m-5">
-        Your Role: {role}
-      </p>
+      <p className="text-xl text-center m-5">Your Role: {role}</p>
       {metadata?.hasRegistered ? (
         <div className="text-center">
           You already have registered TUID. Thank you!
@@ -28,13 +26,16 @@ export default async function Home() {
         </div>
       )}
       <div className="mt-10 grid gap-5 justify-center">
-        <Link href="/cancellation">
-          <Button variant="temple">Cancel a course</Button>
+        <Link href="/user-management">
+          <Button variant="temple">Manage users</Button>
         </Link>
         <Link href="/management">
           <Button variant="temple">Add/Update/Delete a course</Button>
         </Link>
-        <Link href="/report">
+        <Link href="/cancellation">
+          <Button variant="temple">Cancel a course</Button>
+        </Link>
+        <Link href="/reports">
           <Button variant="temple">Check all the courses</Button>
         </Link>
         <Link href="/profile/register">
