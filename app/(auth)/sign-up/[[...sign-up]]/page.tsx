@@ -1,6 +1,6 @@
 import { SignUp } from "@clerk/nextjs";
 
-const SignUpPage = () => {
+const SignUpPage = async () => {
   return (
     <SignUp />
   );

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 
+import ToasterProvider from '@/components/providers/ToasterProvider';
+
 export const metadata: Metadata = {
   title: 'Course Manager',
   description: 'Created by Kaito Tsutsui',
@@ -16,6 +18,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body>
+          <ToasterProvider />
           {children}
         </body>
       </html>
