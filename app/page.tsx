@@ -15,7 +15,7 @@ export default async function Home() {
       <p className="text-xl text-center m-5">Your Role: {role}</p>
       {metadata?.hasRegistered ? (
         <div className="text-center">
-          You already have registered TUID. Thank you!
+          You have already registered TUID. Thank you!
         </div>
       ) : (
         <div className="flex p-2 justify-center">

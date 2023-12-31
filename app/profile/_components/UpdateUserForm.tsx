@@ -7,7 +7,6 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { User } from "@prisma/client";
 
 import {
   Form,
