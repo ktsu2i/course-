@@ -6,7 +6,7 @@ const ManagementPage = () => {
     <>
       <Navbar />
       <div className="text-2xl font-bold text-center mt-5">Manage a course</div>
-      <div className="mt-5 mx-20">
+      <div className="mt-5 mx-48">
         <CourseForm />
       </div>
     </>

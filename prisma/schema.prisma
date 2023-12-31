@@ -24,12 +24,13 @@ model User {
 
 model Course {
   id String @id @default(uuid())
-  roomNum Int
-  classType ClassType
   department String
   courseNum Int
-  section Int?
+  section Int
   crn Int
+  title String
+  classType String
+  roomNum Int
   semester String
   hasSecuredRoom Boolean
 
@@ -44,10 +45,6 @@ model Course {
   updatedAt DateTime @updatedAt
 
   @@index([userId])
-}
 
-enum ClassType {
-  IN_PERSON
-  ONLINE
-  HYBRID
+  @@unique(fields: [department, courseNum, section], name: "course_identifier")
 }
