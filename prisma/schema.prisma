@@ -31,8 +31,8 @@ model Course {
   title String
   classType String
   roomNum Int
-  semester String
   hasSecuredRoom Boolean
+  semester String
 
   userId String
   instrcutor User @relation(fields: [userId], references: [id], onDelete: Cascade)

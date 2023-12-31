@@ -98,8 +98,7 @@ const courseFormSchema = z.object({
   section: z
     .string()
     .regex(/^\d+$/, { message: "Must be a number" })
-    .transform(Number)
-    .optional(),
+    .transform(Number),
   title: z
     .string().min(1, { message: "Must be at least 1 character long" }),
   crn: z
