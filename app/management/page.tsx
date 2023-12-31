@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
-import CourseForm from "./_components/CourseForm";
-
+import CourseForms from "./_components/CourseForms";
 import getAllProfessors from "../actions/getAllProfessors";
 
 const ManagementPage = async () => {
@@ -11,7 +10,7 @@ const ManagementPage = async () => {
       <Navbar />
       <div className="text-2xl font-bold text-center mt-5">Manage a course</div>
       <div className="mt-5 mx-48">
-        <CourseForm professors={professors} />
+        <CourseForms professors={professors} />
       </div>
     </>
   );

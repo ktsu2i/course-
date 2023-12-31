@@ -27,16 +27,16 @@ export default async function Home() {
       )}
       <div className="mt-10 grid gap-5 justify-center">
         <Link href="/user-management">
-          <Button variant="temple">Manage users</Button>
+          <Button variant="temple">Manage users - admin</Button>
         </Link>
         <Link href="/management">
-          <Button variant="temple">Add/Update/Delete a course</Button>
+          <Button variant="temple">Add/Update/Delete a course - coordinator</Button>
         </Link>
         <Link href="/cancellation">
-          <Button variant="temple">Cancel a course</Button>
+          <Button variant="temple">Cancel a course - coordinator & faculty</Button>
         </Link>
         <Link href="/reports">
-          <Button variant="temple">Check all the courses</Button>
+          <Button variant="temple">Check all the courses - staff</Button>
         </Link>
         <Link href="/profile/register">
           <Button>Register</Button>

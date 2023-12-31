@@ -18,13 +18,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const registerUserFormSchema = z.object({
   tuid: z
     .string()
     .regex(/^\d+$/, { message: "Must be a 9-digit number" })
     .length(9, { message: "Must be a 9-digit number" })
-    .transform(Number)
+    .transform(Number),
 });
 
 const RegisterUserForm = () => {

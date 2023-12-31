@@ -2,16 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import AddCourseForm from "./AddCourseForm";
-import { User } from "@prisma/client";
-
-interface CourseFormProps {
-  professors: User[] | null,
-};
-
-const CourseForm: React.FC<CourseFormProps> = ({
-  professors,
-}) => {
+const UserForms = () => {
   return (
     <Tabs>
       <TabsList>
@@ -20,16 +11,17 @@ const CourseForm: React.FC<CourseFormProps> = ({
         <TabsTrigger value="delete">Delete</TabsTrigger>
       </TabsList>
       <TabsContent value="add">
-        <AddCourseForm professors={professors} />
+        <div className="text-2xl font-bold">Add a user</div>
+        <p className="text-slate-600">Please be sure this does not change any user information for authentication, but this adds the user information in the database.</p>
       </TabsContent>
       <TabsContent value="update">
-        <div>Update a course</div>
+        <div>Update a user</div>
       </TabsContent>
       <TabsContent value="delete">
-        <div>Delete a course</div>
+        <div>Delete a user</div>
       </TabsContent>
     </Tabs>
   );
-}
- 
-export default CourseForm;
+};
+
+export default UserForms;

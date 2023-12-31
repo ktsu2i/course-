@@ -88,6 +88,12 @@ const departments = [
   { label: "University Seminar", value: "unvs" },
 ];
 
+enum Semesters {
+  SPRING = 0,
+  SUMMER = 1,
+  FALL = 2,
+};
+
 interface AddCourseFormProps {
   professors: User[] | null,
 };
@@ -115,6 +121,7 @@ const courseFormSchema = z.object({
   instructor: z
     .string()
     .min(1, { message: "Must be at least 1 character long" }),
+  isNewInstructor: z.boolean().default(false),
   classType: z.enum(["in-person", "online", "hybrid"], {
     required_error: "Please select a class type",
   }),
@@ -124,6 +131,18 @@ const courseFormSchema = z.object({
     .transform(Number)
     .optional(),
   hasSecuredRoom: z.boolean().default(false).optional(),
+  dayAndTime: z.string().min(1, {
+    message: "Required"
+  }),
+  // days: z
+  //   .array(z.string())
+  //   .refine((value) => value.some((day) => day), {
+  //     message: "Must select at least one day",
+  //   }),
+  // time: z.array(z.string().min(1, {
+  //   message: "Please fill out the time"
+  // })),
+  semester: z.string(),
 });
 
 const AddCourseForm: React.FC<AddCourseFormProps> = ({
@@ -141,6 +160,9 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
       instructor: undefined,
       roomNum: undefined,
       hasSecuredRoom: false,
+      dayAndTime: undefined,
+      // days: [],
+      // semester: undefined,
     },
   });
 
@@ -148,10 +170,13 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
 
   const classTypeValue = form.watch("classType");
   const hasSecuredRoomValue = form.watch("hasSecuredRoom");
+  // const dayValues = form.watch("days");
 
   const onSubmit = (values: z.infer<typeof courseFormSchema>) => {
     console.log(values);
   };
+
+  const year = new Date().getFullYear();
 
   return (
     <Form {...form}>
@@ -284,7 +309,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                       {field.value
                         ? professors?.find(
                             (professor) => professor.id === field.value
-                          )?.firstName
+                          )?.fullName
                         : "Select an instructor"}
                     </Button>
                   </FormControl>
@@ -318,6 +343,76 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="isNewInstructor"
+          render={({ field }) => (
+            <FormItem className="mt-3">
+              <div className="flex items-center space-x-1">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormLabel>Approved as a new hire by the ADAA</FormLabel>
+              </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="dayAndTime"
+          render={({ field }) => (
+            <FormItem className="mt-5">
+              <FormLabel>Day & Time</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={isSubmitting}
+                  placeholder="e.g. TTh 12:00-13:30"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>Enter &apos;Asynchronous&apos; if provided asynchronously</FormDescription>
+            </FormItem>
+          )}
+        />
+        {/* <FormField
+          control={form.control}
+          name="days"
+          render={() => (
+            <FormItem className="mt-5">
+              <FormLabel>Days</FormLabel>
+              {days.map((day) => (
+                <FormField
+                  key={day.id}
+                  control={form.control}
+                  name="days"
+                  render={({ field }) => (
+                    <FormItem
+                      key={day.id}
+                      className="flex flex-row items-start space-x-3 space-y-0"
+                    >
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value?.includes(day.id)}
+                          onCheckedChange={(checked) => {
+                            checked
+                              ? field.onChange([...field.value, day.id])
+                              : field.onChange(
+                                field.value?.filter((value) => value !== day.id))
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel>{day.label}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+            </FormItem>
+          )}
+        /> */}
         <FormField
           control={form.control}
           name="classType"

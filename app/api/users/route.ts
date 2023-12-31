@@ -16,6 +16,7 @@ export async function POST(
     const { tuid } = await request.json();
     const firstName = user?.firstName as string;
     const lastName = user?.lastName as string;
+    const fullName = firstName + " " + lastName;
     const emailAddress = user?.emailAddresses[0].emailAddress as string;
 
     const newUser = await db.user.create({
@@ -23,7 +24,7 @@ export async function POST(
         tuid: tuid,
         firstName: firstName,
         lastName: lastName,
-        fullName: firstName + " " + lastName,
+        fullName: fullName,
         tuEmail: emailAddress,
       }
     });
