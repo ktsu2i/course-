@@ -23,6 +23,7 @@ export async function POST(
         tuid: tuid,
         firstName: firstName,
         lastName: lastName,
+        fullName: firstName + " " + lastName,
         tuEmail: emailAddress,
       }
     });

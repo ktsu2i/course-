@@ -30,6 +30,7 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
+import { User } from "@prisma/client";
 
 const departments = [
   { label: "Accounting", value: "acct" },
@@ -87,6 +88,10 @@ const departments = [
   { label: "University Seminar", value: "unvs" },
 ];
 
+interface AddCourseFormProps {
+  professors: User[] | null,
+};
+
 const courseFormSchema = z.object({
   department: z.string({
     required_error: "Please select a department",
@@ -100,12 +105,16 @@ const courseFormSchema = z.object({
     .regex(/^\d+$/, { message: "Must be a number" })
     .transform(Number),
   title: z
-    .string().min(1, { message: "Must be at least 1 character long" }),
+    .string()
+    .min(1, { message: "Must be at least 1 character long" }),
   crn: z
     .string()
     .regex(/^\d+$/, { message: "Must be a number" })
     .length(5, { message: "Must be a 5-digit number" })
     .transform(Number),
+  instructor: z
+    .string()
+    .min(1, { message: "Must be at least 1 character long" }),
   classType: z.enum(["in-person", "online", "hybrid"], {
     required_error: "Please select a class type",
   }),
@@ -117,7 +126,9 @@ const courseFormSchema = z.object({
   hasSecuredRoom: z.boolean().default(false).optional(),
 });
 
-const AddCourseForm = () => {
+const AddCourseForm: React.FC<AddCourseFormProps> = ({
+  professors,
+}) => {
   const form = useForm<z.infer<typeof courseFormSchema>>({
     mode: "onChange",
     resolver: zodResolver(courseFormSchema),
@@ -126,6 +137,8 @@ const AddCourseForm = () => {
       courseNum: undefined,
       section: undefined,
       title: undefined,
+      crn: undefined,
+      instructor: undefined,
       roomNum: undefined,
       hasSecuredRoom: false,
     },
@@ -260,6 +273,53 @@ const AddCourseForm = () => {
         />
         <FormField
           control={form.control}
+          name="instructor"
+          render={({ field }) => (
+            <FormItem className="flex flex-col mt-5">
+              <FormLabel>Instructor</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button variant="outline" role="combobox">
+                      {field.value
+                        ? professors?.find(
+                            (professor) => professor.id === field.value
+                          )?.firstName
+                        : "Select an instructor"}
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search professor..."
+                      className="h-9"
+                    />
+                    <CommandEmpty>No professor found.</CommandEmpty>
+                    <ScrollArea className="h-[300px]">
+                      <CommandGroup>
+                        {professors?.map((professor) => (
+                          <CommandItem
+                            value={professor.id}
+                            key={professor.id}
+                            onSelect={() => {
+                              form.setValue("instructor", professor.id);
+                            }}
+                          >
+                            {professor.firstName + " " + professor.lastName}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                      <ScrollBar orientation="vertical" />
+                    </ScrollArea>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="classType"
           render={({ field }) => (
             <FormItem className="mt-5 space-y-3">
@@ -329,8 +389,8 @@ const AddCourseForm = () => {
                   </div>
                   {!hasSecuredRoomValue ? (
                     <FormDescription>
-                      If not, please talk to Facilities Office ASAP to secure the
-                    room.
+                      If not, please talk to Facilities Office ASAP to secure
+                      the room.
                     </FormDescription>
                   ) : undefined}
                 </FormItem>

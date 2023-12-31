@@ -13,6 +13,7 @@ model User {
   tuid Int @unique
   firstName String
   lastName String
+  fullName String
   tuEmail String @unique
   isAdmin Boolean @default(false)
   isCoordinator Boolean @default(false)
