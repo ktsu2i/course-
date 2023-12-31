@@ -16,9 +16,12 @@ export async function POST(
       department,
       courseNum,
       section,
+      crn,
       title,
+      classType,
       roomNum,
-      hasSecuredRoom
+      hasSecuredRoom,
+      semester,
     } = await request.json();
 
     const course = await db.course.create({

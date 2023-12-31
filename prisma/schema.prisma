@@ -10,7 +10,7 @@ generator client {
 
 model User {
   id String @id @default(uuid())
-  tuid Int? @unique
+  tuid Int @unique
   firstName String
   lastName String
   tuEmail String @unique
