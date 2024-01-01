@@ -4,6 +4,10 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 import {
   Form,
@@ -38,26 +42,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useState } from "react";
 
 
 const departments = [
@@ -140,9 +124,9 @@ const courseFormSchema = z.object({
     .regex(/^\d+$/, { message: "Must be a number" })
     .length(5, { message: "Must be a 5-digit number" })
     .transform(Number),
-  instructor: z
+  instructorId: z
     .string()
-    .min(1, { message: "Must be at least 1 character long" }),
+    .min(1),
   isNewInstructor: z.boolean().default(false),
   classType: z.enum(["in-person", "online", "hybrid"], {
     required_error: "Please select a class type",
@@ -177,6 +161,8 @@ const courseFormSchema = z.object({
 const AddCourseForm: React.FC<AddCourseFormProps> = ({
   professors,
 }) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof courseFormSchema>>({
     mode: "onChange",
     resolver: zodResolver(courseFormSchema),
@@ -186,7 +172,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
       section: undefined,
       title: undefined,
       crn: undefined,
-      instructor: undefined,
+      instructorId: undefined,
       roomNum: undefined,
       hasSecuredRoom: false,
       dayAndTime: undefined,
@@ -205,7 +191,6 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
   const sectionValue = form.watch("section");
   const titleValue = form.watch("title");
   const crnValue = form.watch("crn");
-  // const instructorName = form.watch("instructor");
   const [instructorFullName, setInstructorFullName] = useState("");
   const isNewInstructorValue = form.watch("isNewInstructor");
   const dayAndTimeValue = form.watch("dayAndTime");
@@ -218,8 +203,14 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
   const notesValue = form.watch("notes");
   // const dayValues = form.watch("days");
 
-  const onSubmit = (values: z.infer<typeof courseFormSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof courseFormSchema>) => {
+    try {
+      await axios.post("/api/courses", values);
+      toast.success("Course created!");
+      router.refresh(); // not working
+    } catch {
+      toast.error("Something went wrong");
+    }
   };
 
   const currentYear = new Date().getFullYear();
@@ -345,7 +336,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
         />
         <FormField
           control={form.control}
-          name="instructor"
+          name="instructorId"
           render={({ field }) => (
             <FormItem className="flex flex-col mt-6">
               <FormLabel>Instructor</FormLabel>
@@ -375,7 +366,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                             value={professor.id}
                             key={professor.id}
                             onSelect={() => {
-                              form.setValue("instructor", professor.id);
+                              form.setValue("instructorId", professor.id);
                               setInstructorFullName(professor.fullName);
                             }}
                           >
@@ -646,56 +637,13 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             </FormItem>
           )}
         />
-        <AlertDialog>
-          <AlertDialogTrigger>
-            <Button
-              className="mt-10 mb-20"
-              disabled={!isValid || isSubmitting}
-              variant="temple"
-            >
-              Request
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                Double check the course below
-              </AlertDialogDescription>
-              <Card>
-                <CardHeader>
-                  <CardTitle>
-                    <div>
-                      {departmentValue?.toUpperCase()} {courseNumValue} ({sectionValue}): {titleValue}
-                    </div>
-                  </CardTitle>
-                  <CardContent>
-                    <div>CRN: {crnValue}</div>
-                    <div>Instructor: {instructorFullName} {isNewInstructorValue ? "(New)" : ""}</div>
-                    <div>Day and Time: {dayAndTimeValue} in {semesterValue}, {yearValue}</div>
-                    <div>Class Type: {classTypeValue}</div>
-                    <div>
-                      {classTypeValue === "online"
-                        ? `Room Number: ${roomNumValue} ${hasSecuredRoomValue ? "(Already secured)" : "(Not secured yet!)"}`
-                        : ""}
-                    </div>
-                    <div>Special Information: {specialInfoValue ? specialInfoValue : "N/A"}</div>
-                    <div>Notes: {notesValue ? notesValue : "N/A"}</div>
-                  </CardContent>
-                </CardHeader>
-              </Card>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <Button
-                  type="submit"
-                  variant="temple"
-                >
-                  Request
-                </Button>
-              </AlertDialogFooter>
-            </AlertDialogHeader>
-          </AlertDialogContent>
-        </AlertDialog>
+        <Button
+          className="mt-10 mb-20"
+          disabled={!isValid || isSubmitting}
+          variant="temple"
+        >
+          Request
+        </Button>
       </form>
     </Form>
   );

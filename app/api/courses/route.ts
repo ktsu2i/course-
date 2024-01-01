@@ -16,24 +16,61 @@ export async function POST(
       department,
       courseNum,
       section,
-      crn,
       title,
+      crn,
+      instructorId,
+      isNewInstructor,
+      dayAndTime,
+      semester,
+      year,
       classType,
       roomNum,
       hasSecuredRoom,
-      semester,
+      specialInfo,
+      notes,
     } = await request.json();
 
-    const course = await db.course.create({
-      data: {
-        department: department,
-        courseNum: courseNum,
-        section: section,
-        title: title,
-        roomNum: roomNum,
-        hasSecuredRoom: hasSecuredRoom,
-      }
-    });
+    let course;
+
+    if (classType === "online") {
+      course = await db.course.create({
+        data: {
+          department: department,
+          courseNum: courseNum,
+          section: section,
+          title: title,
+          crn: crn,
+          userId: instructorId,
+          isNewInstructor: isNewInstructor,
+          dayAndTime: dayAndTime,
+          semester: semester,
+          year: year,
+          classType: classType,
+          specialInfo: specialInfo,
+          notes: notes,
+        },
+      });
+    } else {
+      course = await db.course.create({
+        data: {
+          department: department,
+          courseNum: courseNum,
+          section: section,
+          title: title,
+          crn: crn,
+          userId: instructorId,
+          isNewInstructor: isNewInstructor,
+          dayAndTime: dayAndTime,
+          semester: semester,
+          year: year,
+          classType: classType,
+          roomNum: roomNum,
+          hasSecuredRoom: hasSecuredRoom,
+          specialInfo: specialInfo,
+          notes: notes,
+        },
+      });
+    }
 
     return NextResponse.json(course);
 

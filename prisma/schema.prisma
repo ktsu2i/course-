@@ -31,18 +31,17 @@ model Course {
   crn Int
   title String
   classType String
-  roomNum Int
-  hasSecuredRoom Boolean
-  days String
-  time String
+  roomNum Int?
+  hasSecuredRoom Boolean?
+  dayAndTime String
   semester String
   year Int
-  credits Int
+  credits Int?
 
   userId String
-  instrcutor User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  instructor User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  isNewInstrcutor Boolean
+  isNewInstructor Boolean
   specialInfo String? @db.Text
   notes String? @db.Text
 
