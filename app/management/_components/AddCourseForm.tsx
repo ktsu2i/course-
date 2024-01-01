@@ -29,7 +29,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
@@ -38,6 +37,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useState } from "react";
+
 
 const departments = [
   { label: "Accounting", value: "acct" },
@@ -95,12 +116,6 @@ const departments = [
   { label: "University Seminar", value: "unvs" },
 ];
 
-enum Semesters {
-  SPRING = 0,
-  SUMMER = 1,
-  FALL = 2,
-};
-
 interface AddCourseFormProps {
   professors: User[] | null,
 };
@@ -155,6 +170,8 @@ const courseFormSchema = z.object({
   year: z
     .string({ required_error: "Please select a year" })
     .transform(Number),
+  specialInfo: z.string().optional(),
+  notes: z.string().optional(),
 });
 
 const AddCourseForm: React.FC<AddCourseFormProps> = ({
@@ -175,13 +192,30 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
       dayAndTime: undefined,
       // days: [],
       semester: undefined,
+      year: undefined,
+      specialInfo: undefined,
+      notes: undefined,
     },
   });
 
   const { isSubmitting, isValid } = form.formState;
 
+  const departmentValue = form.watch("department");
+  const courseNumValue = form.watch("courseNum");
+  const sectionValue = form.watch("section");
+  const titleValue = form.watch("title");
+  const crnValue = form.watch("crn");
+  // const instructorName = form.watch("instructor");
+  const [instructorFullName, setInstructorFullName] = useState("");
+  const isNewInstructorValue = form.watch("isNewInstructor");
+  const dayAndTimeValue = form.watch("dayAndTime");
+  const semesterValue = form.watch("semester");
+  const yearValue = form.watch("year");
   const classTypeValue = form.watch("classType");
+  const roomNumValue = form.watch("roomNum");
   const hasSecuredRoomValue = form.watch("hasSecuredRoom");
+  const specialInfoValue = form.watch("specialInfo");
+  const notesValue = form.watch("notes");
   // const dayValues = form.watch("days");
 
   const onSubmit = (values: z.infer<typeof courseFormSchema>) => {
@@ -198,7 +232,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           control={form.control}
           name="department"
           render={({ field }) => (
-            <FormItem className="flex flex-col mt-5">
+            <FormItem className="flex flex-col mt-6">
               <FormLabel>Department</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -245,7 +279,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           control={form.control}
           name="courseNum"
           render={({ field }) => (
-            <FormItem className="mt-5">
+            <FormItem className="mt-6">
               <FormLabel>Course Number</FormLabel>
               <FormControl>
                 <Input
@@ -262,7 +296,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           control={form.control}
           name="section"
           render={({ field }) => (
-            <FormItem className="mt-5">
+            <FormItem className="mt-6">
               <FormLabel>Section</FormLabel>
               <FormControl>
                 <Input
@@ -279,7 +313,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           control={form.control}
           name="title"
           render={({ field }) => (
-            <FormItem className="mt-5">
+            <FormItem className="mt-6">
               <FormLabel>Course Title</FormLabel>
               <FormControl>
                 <Input
@@ -296,7 +330,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           control={form.control}
           name="crn"
           render={({ field }) => (
-            <FormItem className="mt-5">
+            <FormItem className="mt-6">
               <FormLabel>CRN</FormLabel>
               <FormControl>
                 <Input
@@ -313,7 +347,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           control={form.control}
           name="instructor"
           render={({ field }) => (
-            <FormItem className="flex flex-col mt-5">
+            <FormItem className="flex flex-col mt-6">
               <FormLabel>Instructor</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -342,9 +376,10 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                             key={professor.id}
                             onSelect={() => {
                               form.setValue("instructor", professor.id);
+                              setInstructorFullName(professor.fullName);
                             }}
                           >
-                            {professor.firstName + " " + professor.lastName}
+                            {professor.fullName}
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -377,7 +412,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           control={form.control}
           name="dayAndTime"
           render={({ field }) => (
-            <FormItem className="mt-5">
+            <FormItem className="mt-6">
               <FormLabel>Day & Time</FormLabel>
               <FormControl>
                 <Input
@@ -433,7 +468,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             control={form.control}
             name="semester"
             render={({ field }) => (
-              <FormItem className="mt-5 flex-1">
+              <FormItem className="mt-6 flex-1">
                 <FormLabel>Semester</FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
@@ -454,7 +489,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             control={form.control}
             name="year"
             render={({ field }) => (
-              <FormItem className="mt-5 flex-1">
+              <FormItem className="flex-1">
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
@@ -474,11 +509,11 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             )}
           />
         </div>
-        <FormField
+        {/* <FormField
           control={form.control}
           name="classType"
           render={({ field }) => (
-            <FormItem className="mt-5 space-y-3">
+            <FormItem className="mt-6 space-y-3">
               <FormLabel>Class Type</FormLabel>
               <FormControl>
                 <RadioGroup
@@ -509,6 +544,27 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
               <FormMessage />
             </FormItem>
           )}
+        /> */}
+        <FormField
+          control={form.control}
+          name="classType"
+          render={({ field }) => (
+            <FormItem className="mt-6 flex-1">
+              <FormLabel>Class Type</FormLabel>
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a class type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="in-person">In-person</SelectItem>
+                  <SelectItem value="online">Online</SelectItem>
+                  <SelectItem value="hybrid">Hybrid</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
         />
         {classTypeValue !== "online" ? (
           <>
@@ -516,7 +572,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
               control={form.control}
               name="roomNum"
               render={({ field }) => (
-                <FormItem className="mt-5">
+                <FormItem className="mt-6">
                   <FormLabel>Room Number</FormLabel>
                   <FormControl>
                     <Input
@@ -554,14 +610,92 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             />
           </>
         ) : undefined}
-        <Button
-          className="mt-10"
-          type="submit"
-          disabled={!isValid || isSubmitting}
-          variant="temple"
-        >
-          Request
-        </Button>
+        <FormField
+          control={form.control}
+          name="specialInfo"
+          render={({ field }) => (
+            <FormItem className="mt-6">
+              <FormLabel>Special Information (Optional)</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="e.g. Cross-list, Media Fees, Special Permission, Extra Studio Time, etc."
+                  className="resize-none"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                This will be indicated on the &apos;Special Info&apos; column on
+                the website.
+              </FormDescription>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem className="mt-6">
+              <FormLabel>Notes (Optional)</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Any other notes or comments"
+                  className="resize-none"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button
+              className="mt-10 mb-20"
+              disabled={!isValid || isSubmitting}
+              variant="temple"
+            >
+              Request
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Double check the course below
+              </AlertDialogDescription>
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    <div>
+                      {departmentValue?.toUpperCase()} {courseNumValue} ({sectionValue}): {titleValue}
+                    </div>
+                  </CardTitle>
+                  <CardContent>
+                    <div>CRN: {crnValue}</div>
+                    <div>Instructor: {instructorFullName} {isNewInstructorValue ? "(New)" : ""}</div>
+                    <div>Day and Time: {dayAndTimeValue} in {semesterValue}, {yearValue}</div>
+                    <div>Class Type: {classTypeValue}</div>
+                    <div>
+                      {classTypeValue === "online"
+                        ? `Room Number: ${roomNumValue} ${hasSecuredRoomValue ? "(Already secured)" : "(Not secured yet!)"}`
+                        : ""}
+                    </div>
+                    <div>Special Information: {specialInfoValue ? specialInfoValue : "N/A"}</div>
+                    <div>Notes: {notesValue ? notesValue : "N/A"}</div>
+                  </CardContent>
+                </CardHeader>
+              </Card>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <Button
+                  type="submit"
+                  variant="temple"
+                >
+                  Request
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogHeader>
+          </AlertDialogContent>
+        </AlertDialog>
       </form>
     </Form>
   );
