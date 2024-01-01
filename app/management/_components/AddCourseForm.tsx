@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
 
 import {
   Form,
@@ -30,7 +31,13 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { User } from "@prisma/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const departments = [
   { label: "Accounting", value: "acct" },
@@ -142,7 +149,12 @@ const courseFormSchema = z.object({
   // time: z.array(z.string().min(1, {
   //   message: "Please fill out the time"
   // })),
-  semester: z.string(),
+  semester: z.string({
+    required_error: "Please select a semester"
+  }),
+  year: z
+    .string({ required_error: "Please select a year" })
+    .transform(Number),
 });
 
 const AddCourseForm: React.FC<AddCourseFormProps> = ({
@@ -162,7 +174,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
       hasSecuredRoom: false,
       dayAndTime: undefined,
       // days: [],
-      // semester: undefined,
+      semester: undefined,
     },
   });
 
@@ -176,7 +188,8 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
     console.log(values);
   };
 
-  const year = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
+  const nextYear = currentYear + 1;
 
   return (
     <Form {...form}>
@@ -373,7 +386,9 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                   {...field}
                 />
               </FormControl>
-              <FormDescription>Enter &apos;Asynchronous&apos; if provided asynchronously</FormDescription>
+              <FormDescription>
+                Enter &apos;Asynchronous&apos; if provided asynchronously
+              </FormDescription>
             </FormItem>
           )}
         />
@@ -413,6 +428,52 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             </FormItem>
           )}
         /> */}
+        <div className="flex items-end">
+          <FormField
+            control={form.control}
+            name="semester"
+            render={({ field }) => (
+              <FormItem className="mt-5 flex-1">
+                <FormLabel>Semester</FormLabel>
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a semester" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="spring">Spring</SelectItem>
+                    <SelectItem value="summer">Summer</SelectItem>
+                    <SelectItem value="fall">Fall</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="year"
+            render={({ field }) => (
+              <FormItem className="mt-5 flex-1">
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a year" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value={currentYear.toString()}>
+                      {currentYear}
+                    </SelectItem>
+                    <SelectItem value={nextYear.toString()}>
+                      {nextYear}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="classType"
