@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
-import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -156,6 +155,15 @@ const courseFormSchema = z.object({
     .transform(Number),
   specialInfo: z.string().optional(),
   notes: z.string().optional(),
+}).refine(({ classType, roomNum }) => {
+  if (classType !== "online" && !roomNum) {
+    return false;
+  } else {
+    return true;
+  }
+}, {
+  message: "Required",
+  path: ["roomNum"],
 });
 
 const AddCourseForm: React.FC<AddCourseFormProps> = ({
@@ -186,28 +194,15 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
 
   const { isSubmitting, isValid } = form.formState;
 
-  const departmentValue = form.watch("department");
-  const courseNumValue = form.watch("courseNum");
-  const sectionValue = form.watch("section");
-  const titleValue = form.watch("title");
-  const crnValue = form.watch("crn");
-  const [instructorFullName, setInstructorFullName] = useState("");
-  const isNewInstructorValue = form.watch("isNewInstructor");
-  const dayAndTimeValue = form.watch("dayAndTime");
-  const semesterValue = form.watch("semester");
-  const yearValue = form.watch("year");
   const classTypeValue = form.watch("classType");
-  const roomNumValue = form.watch("roomNum");
   const hasSecuredRoomValue = form.watch("hasSecuredRoom");
-  const specialInfoValue = form.watch("specialInfo");
-  const notesValue = form.watch("notes");
   // const dayValues = form.watch("days");
 
   const onSubmit = async (values: z.infer<typeof courseFormSchema>) => {
     try {
       await axios.post("/api/courses", values);
       toast.success("Course created!");
-      router.refresh(); // not working
+      router.push("/");
     } catch {
       toast.error("Something went wrong");
     }
@@ -367,7 +362,6 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                             key={professor.id}
                             onSelect={() => {
                               form.setValue("instructorId", professor.id);
-                              setInstructorFullName(professor.fullName);
                             }}
                           >
                             {professor.fullName}
