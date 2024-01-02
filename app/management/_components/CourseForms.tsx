@@ -10,7 +10,7 @@ import DeleteCourseForm from "./DeleteCourseForm";
 
 interface CourseFormsProps {
   professors: User[] | null,
-  courses: Course[] | null,
+  courses: Course[],
 };
 
 const CourseForms: React.FC<CourseFormsProps> = ({
