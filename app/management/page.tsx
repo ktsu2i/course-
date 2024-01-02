@@ -8,9 +8,13 @@ const ManagementPage = async () => {
   return (
     <>
       <Navbar />
-      <div className="text-2xl font-bold text-center mt-5">Manage a course</div>
-      <div className="mt-5 mx-48">
-        <CourseForms professors={professors} />
+      <div className="max-w-max mx-auto mt-[85px]">
+        <div className="text-2xl font-bold text-center mt-5">
+          Manage a course
+        </div>
+        <div className="mt-5">
+          <CourseForms professors={professors} />
+        </div>
       </div>
     </>
   );

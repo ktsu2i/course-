@@ -17,7 +17,7 @@ export async function POST(
     const firstName = user?.firstName as string;
     const lastName = user?.lastName as string;
     const fullName = firstName + " " + lastName;
-    const emailAddress = user?.emailAddresses[0].emailAddress as string;
+    const emailAddress = user?.emailAddresses[0].emailAddress;
 
     const newUser = await db.user.create({
       data: {

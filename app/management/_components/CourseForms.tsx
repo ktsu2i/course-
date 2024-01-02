@@ -13,8 +13,8 @@ const CourseForms: React.FC<CourseFormsProps> = ({
   professors,
 }) => {
   return (
-    <Tabs>
-      <TabsList>
+    <Tabs defaultValue="add">
+      <TabsList className="grid grid-cols-3 w-full">
         <TabsTrigger value="add">Add</TabsTrigger>
         <TabsTrigger value="update">Update</TabsTrigger>
         <TabsTrigger value="delete">Delete</TabsTrigger>

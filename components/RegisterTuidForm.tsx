@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const registerUserFormSchema = z.object({
+const registerTuidFormSchema = z.object({
   tuid: z
     .string()
     .regex(/^\d+$/, { message: "Must be a 9-digit number" })
@@ -27,19 +27,19 @@ const registerUserFormSchema = z.object({
     .transform(Number),
 });
 
-const RegisterUserForm = () => {
+const RegisterTuidForm = () => {
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof registerUserFormSchema>>({
-    resolver: zodResolver(registerUserFormSchema),
+  const form = useForm<z.infer<typeof registerTuidFormSchema>>({
+    resolver: zodResolver(registerTuidFormSchema),
     defaultValues: {
-      tuid: undefined
+      tuid: undefined,
     },
   });
 
   const { isSubmitting, isValid } = form.formState;
-  
-  const onSubmit = async (values: z.infer<typeof registerUserFormSchema>) => {
+
+  const onSubmit = async (values: z.infer<typeof registerTuidFormSchema>) => {
     try {
       await axios.post("/api/users", values);
       toast.success("Your TUID registered!");
@@ -57,7 +57,7 @@ const RegisterUserForm = () => {
           name="tuid"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>TUID</FormLabel>
+              <FormLabel>Register Your TUID</FormLabel>
               <FormControl>
                 <Input
                   disabled={isSubmitting}
@@ -69,12 +69,7 @@ const RegisterUserForm = () => {
             </FormItem>
           )}
         />
-        <div className="flex items-center gap-x-2 mt-5">
-          <Link href="/">
-            <Button type="button" variant="temple">
-              Cancel
-            </Button>
-          </Link>
+        <div className="mt-5">
           <Button
             type="submit"
             disabled={!isValid || isSubmitting}
@@ -87,5 +82,5 @@ const RegisterUserForm = () => {
     </Form>
   );
 };
- 
-export default RegisterUserForm;
+
+export default RegisterTuidForm;

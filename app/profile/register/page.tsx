@@ -6,9 +6,7 @@ const RegisterProfilePage = () => {
     <>
       <Navbar />
       <div className="m-10 flex-col justify-center">
-        <div className="text-2xl mb-5">
-          Register Your TUID
-        </div>
+        <div className="text-2xl mb-5">Register Your TUID</div>
         <RegisterUserForm />
       </div>
     </>
