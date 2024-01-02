@@ -1,16 +1,21 @@
 "use client";
 
+import { Course, User } from "@prisma/client";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import AddCourseForm from "./AddCourseForm";
-import { User } from "@prisma/client";
+import UpdateCourseForm from "./UpdateCourseForm";
+import DeleteCourseForm from "./DeleteCourseForm";
 
 interface CourseFormsProps {
   professors: User[] | null,
+  courses: Course[] | null,
 };
 
 const CourseForms: React.FC<CourseFormsProps> = ({
   professors,
+  courses,
 }) => {
   return (
     <Tabs defaultValue="add">
@@ -23,10 +28,10 @@ const CourseForms: React.FC<CourseFormsProps> = ({
         <AddCourseForm professors={professors} />
       </TabsContent>
       <TabsContent value="update">
-        <div>Update a course</div>
+        <UpdateCourseForm professors={professors} />
       </TabsContent>
       <TabsContent value="delete">
-        <div>Delete a course</div>
+        <DeleteCourseForm courses={courses} />
       </TabsContent>
     </Tabs>
   );

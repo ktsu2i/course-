@@ -99,7 +99,7 @@ const departments = [
   { label: "University Seminar", value: "unvs" },
 ];
 
-interface AddCourseFormProps {
+interface UpdateCourseFormProps {
   professors: User[] | null,
 };
 
@@ -126,19 +126,19 @@ const courseFormSchema = z.object({
   instructorId: z
     .string()
     .min(1),
-  isNewInstructor: z.boolean().default(false),
-  classType: z.enum(["in-person", "online", "hybrid"], {
-    required_error: "Please select a class type",
-  }),
-  roomNum: z
-    .string()
-    .regex(/^\d+$/, { message: "Must be a number" })
-    .transform(Number)
-    .optional(),
-  hasSecuredRoom: z.boolean().default(false).optional(),
-  dayAndTime: z.string().min(1, {
-    message: "Required"
-  }),
+  // isNewInstructor: z.boolean().default(false),
+  // classType: z.enum(["in-person", "online", "hybrid"], {
+  //   required_error: "Please select a class type",
+  // }),
+  // roomNum: z
+  //   .string()
+  //   .regex(/^\d+$/, { message: "Must be a number" })
+  //   .transform(Number)
+  //   .optional(),
+  // hasSecuredRoom: z.boolean().default(false).optional(),
+  // dayAndTime: z.string().min(1, {
+  //   message: "Required"
+  // }),
   // days: z
   //   .array(z.string())
   //   .refine((value) => value.some((day) => day), {
@@ -147,26 +147,17 @@ const courseFormSchema = z.object({
   // time: z.array(z.string().min(1, {
   //   message: "Please fill out the time"
   // })),
-  semester: z.string({
-    required_error: "Please select a semester",
-  }),
-  year: z
-    .string({ required_error: "Please select a year" })
-    .transform(Number),
-  specialInfo: z.string().optional(),
-  notes: z.string().optional(),
-}).refine(({ classType, roomNum }) => {
-  if (classType !== "online" && !roomNum) {
-    return false;
-  } else {
-    return true;
-  }
-}, {
-  message: "Required",
-  path: ["roomNum"],
+  // semester: z.string({
+  //   required_error: "Please select a semester"
+  // }),
+  // year: z
+  //   .string({ required_error: "Please select a year" })
+  //   .transform(Number),
+  // specialInfo: z.string().optional(),
+  // notes: z.string().optional(),
 });
 
-const AddCourseForm: React.FC<AddCourseFormProps> = ({
+const UpdateCourseForm: React.FC<UpdateCourseFormProps> = ({
   professors,
 }) => {
   const router = useRouter();
@@ -181,14 +172,14 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
       title: undefined,
       crn: undefined,
       instructorId: undefined,
-      roomNum: undefined,
-      hasSecuredRoom: false,
-      dayAndTime: undefined,
+      // roomNum: undefined,
+      // hasSecuredRoom: false,
+      // dayAndTime: undefined,
       // days: [],
-      semester: undefined,
-      year: undefined,
-      specialInfo: undefined,
-      notes: undefined,
+      // semester: undefined,
+      // year: undefined,
+      // specialInfo: undefined,
+      // notes: undefined,
     },
   });
 
@@ -253,7 +244,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                           </CommandItem>
                         ))}
                       </CommandGroup>
-                      <ScrollBar orientation="vertical"/>
+                      <ScrollBar orientation="vertical" />
                     </ScrollArea>
                   </Command>
                 </PopoverContent>
@@ -312,7 +303,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="crn"
           render={({ field }) => (
@@ -328,7 +319,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <FormField
           control={form.control}
           name="instructorId"
@@ -358,7 +349,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                       <CommandGroup>
                         {professors?.map((professor) => (
                           <CommandItem
-                            value={professor.fullName}
+                            value={professor.id}
                             key={professor.id}
                             onSelect={() => {
                               form.setValue("instructorId", professor.id);
@@ -368,7 +359,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                           </CommandItem>
                         ))}
                       </CommandGroup>
-                      <ScrollBar orientation="vertical"/>
+                      <ScrollBar orientation="vertical" />
                     </ScrollArea>
                   </Command>
                 </PopoverContent>
@@ -376,7 +367,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="isNewInstructor"
           render={({ field }) => (
@@ -392,8 +383,8 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
               </div>
             </FormItem>
           )}
-        />
-        <FormField
+        /> */}
+        {/* <FormField
           control={form.control}
           name="dayAndTime"
           render={({ field }) => (
@@ -411,45 +402,9 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
               </FormDescription>
             </FormItem>
           )}
-        />
-        {/* <FormField
-          control={form.control}
-          name="days"
-          render={() => (
-            <FormItem className="mt-5">
-              <FormLabel>Days</FormLabel>
-              {days.map((day) => (
-                <FormField
-                  key={day.id}
-                  control={form.control}
-                  name="days"
-                  render={({ field }) => (
-                    <FormItem
-                      key={day.id}
-                      className="flex flex-row items-start space-x-3 space-y-0"
-                    >
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value?.includes(day.id)}
-                          onCheckedChange={(checked) => {
-                            checked
-                              ? field.onChange([...field.value, day.id])
-                              : field.onChange(
-                                field.value?.filter((value) => value !== day.id))
-                          }}
-                        />
-                      </FormControl>
-                      <FormLabel>{day.label}</FormLabel>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ))}
-            </FormItem>
-          )}
         /> */}
         <div className="flex items-end">
-          <FormField
+          {/* <FormField
             control={form.control}
             name="semester"
             render={({ field }) => (
@@ -478,7 +433,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a year" />
+                      <SelectValue placeholder="Select a year"/>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -492,45 +447,9 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                 </Select>
               </FormItem>
             )}
-          />
+          /> */}
         </div>
         {/* <FormField
-          control={form.control}
-          name="classType"
-          render={({ field }) => (
-            <FormItem className="mt-6 space-y-3">
-              <FormLabel>Class Type</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="in-person" />
-                    </FormControl>
-                    <FormLabel>In-person</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="online" />
-                    </FormControl>
-                    <FormLabel>Online</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="hybrid" />
-                    </FormControl>
-                    <FormLabel>Hybrid</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-        <FormField
           control={form.control}
           name="classType"
           render={({ field }) => (
@@ -550,8 +469,8 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
               </Select>
             </FormItem>
           )}
-        />
-        {classTypeValue !== "online" ? (
+        /> */}
+        {/* {classTypeValue !== "online" ? (
           <>
             <FormField
               control={form.control}
@@ -594,8 +513,8 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
               )}
             />
           </>
-        ) : undefined}
-        <FormField
+        ) : undefined} */}
+        {/* <FormField
           control={form.control}
           name="specialInfo"
           render={({ field }) => (
@@ -614,8 +533,8 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
               </FormDescription>
             </FormItem>
           )}
-        />
-        <FormField
+        /> */}
+        {/* <FormField
           control={form.control}
           name="notes"
           render={({ field }) => (
@@ -630,7 +549,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
               </FormControl>
             </FormItem>
           )}
-        />
+        /> */}
         <Button
           className="mt-10 mb-20"
           disabled={!isValid || isSubmitting}
@@ -643,4 +562,4 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
   );
 };
 
-export default AddCourseForm;
+export default UpdateCourseForm;

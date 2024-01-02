@@ -37,6 +37,7 @@ model Course {
   semester String
   year Int
   credits Int?
+  label String
 
   userId String
   instructor User @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -13,21 +13,44 @@ export default async function Home() {
   
   const hasRegistered = currentUser !== null;
   const isAdmin = currentUser?.isAdmin;
+  const isCoordinator = currentUser?.isCoordinator;
+  const isFaculty = currentUser?.isFaculty;
+  const isStaff = currentUser?.isStaff;
+  const hasNoRoles = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
+
+  let alertContent;
+
+  if (hasRegistered) {
+    if (hasNoRoles) {
+      alertContent = (
+        <>
+          <div className="text-bold text-center">
+            Your Role: ---
+          </div>
+          <div className="text-slate-600 text-center">
+            Please wait until the coordinator adds your role.
+          </div>
+        </>
+      );
+    } else {
+      alertContent = (
+        <div className="text-bold text-center">
+          Your Role: Admin
+        </div>
+      );
+    }
+  } else {
+    alertContent = (
+      <SignedIn>
+        <TuidAlert />
+      </SignedIn>
+    );
+  }
 
   return (
     <>
       <Navbar />
-      <div className="w-1/2 mx-auto mt-[85px]">
-        {hasRegistered ? (
-          <div className="text-bold text-center">
-            Thank you for the registration!
-          </div>
-        ) : (
-          <SignedIn>
-            <TuidAlert />
-          </SignedIn>
-        )}
-      </div>
+      <div className="w-1/2 mx-auto pt-[85px]">{alertContent}</div>
       <div className="mt-10 grid gap-5 justify-center">
         <Button disabled={!hasRegistered || !isAdmin} variant="temple">
           <Link href="/user-management">Manage users - admin</Link>
