@@ -14,6 +14,6 @@ export default async function getAllProfessors() {
     return professors;
     
   } catch (error) {
-    return null;
+    return [];
   }
 }

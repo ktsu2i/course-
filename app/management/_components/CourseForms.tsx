@@ -9,7 +9,7 @@ import UpdateCourseForm from "./UpdateCourseForm";
 import DeleteCourseForm from "./DeleteCourseForm";
 
 interface CourseFormsProps {
-  professors: User[] | null,
+  professors: User[],
   courses: Course[],
 };
 
@@ -31,7 +31,7 @@ const CourseForms: React.FC<CourseFormsProps> = ({
         <UpdateCourseForm professors={professors} />
       </TabsContent>
       <TabsContent value="delete">
-        <DeleteCourseForm courses={courses} />
+        <DeleteCourseForm professors={professors} courses={courses} />
       </TabsContent>
     </Tabs>
   );

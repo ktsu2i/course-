@@ -100,7 +100,7 @@ const departments = [
 ];
 
 interface AddCourseFormProps {
-  professors: User[] | null,
+  professors: User[],
 };
 
 const courseFormSchema = z.object({
@@ -201,8 +201,8 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
   const onSubmit = async (values: z.infer<typeof courseFormSchema>) => {
     try {
       await axios.post("/api/courses", values);
-      toast.success("Course created!");
       router.push("/");
+      toast.success("Course created!");
     } catch {
       toast.error("Something went wrong");
     }

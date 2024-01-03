@@ -1,7 +1,9 @@
-import getUserById from "@/app/actions/getUserById";
 import { db } from "@/lib/db";
+
 import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+
+import getUserById from "@/app/actions/getUserById";
 
 export async function POST(
   request: Request
@@ -31,9 +33,9 @@ export async function POST(
       notes,
     } = await request.json();
 
-    const instructor = await getUserById(instructorId);
+    // const instructor = await getUserById(instructorId);
 
-    const label = `${department.toUpperCase()} ${courseNum} (${section}): ${title} - ${instructor?.fullName}`;
+    const label = `${department.toUpperCase()} ${courseNum} (${section})`;
 
     let course;
 
