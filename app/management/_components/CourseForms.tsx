@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import AddCourseForm from "./AddCourseForm";
 import UpdateCourseForm from "./UpdateCourseForm";
+// import DeleteCourseForm from "./DeleteCourseForm";
 import DeleteCourseForm from "./DeleteCourseForm";
 
 interface CourseFormsProps {

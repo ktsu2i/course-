@@ -11,7 +11,8 @@ const ManagementPage = async () => {
   return (
     <>
       <Navbar />
-      <div className="max-w-[420px] mx-auto mt-[85px]">
+      {/* <div className="max-w-[420px] mx-auto mt-[85px]"> */}
+      <div className="max-w-[600px] mx-auto mt-[85px]">
         <div className="text-2xl font-bold text-center mt-5">
           Manage a course
         </div>
