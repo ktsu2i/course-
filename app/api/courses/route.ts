@@ -187,13 +187,13 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const course = await db.course.delete({
+    await db.course.delete({
       where: {
         id: courseId,
       },
     });
 
-    return NextResponse.json(course);
+    return NextResponse.json({ message: "Success" });
 
   } catch (error) {
     console.log("[COURSES] - DELETE", error);

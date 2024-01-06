@@ -16,7 +16,7 @@ export default async function getCurrentUserFromDb() {
 
     const uniqueUser = await db.user.findUnique({
       where: {
-        tuEmail: emailAddress,
+        tuMail: emailAddress,
       },
     });
 

@@ -186,7 +186,6 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
       roomNum: undefined,
       hasSecuredRoom: false,
       dayAndTime: undefined,
-      // days: [],
       semester: undefined,
       year: undefined,
       specialInfo: undefined,
@@ -198,13 +197,12 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
 
   const classTypeValue = form.watch("classType");
   const hasSecuredRoomValue = form.watch("hasSecuredRoom");
-  // const dayValues = form.watch("days");
 
   const onSubmit = async (values: z.infer<typeof courseFormSchema>) => {
     try {
       await axios.post("/api/courses", values);
       toast.success("Course created!");
-      router.refresh();
+      location.reload();
     } catch {
       toast.error("Something went wrong");
     }

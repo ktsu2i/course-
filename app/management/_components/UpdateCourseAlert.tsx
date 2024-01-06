@@ -110,17 +110,16 @@ const departments = [
   { label: "University Seminar", value: "unvs" },
 ];
 
-interface UpdateAlertProps {
+interface UpdateCourseAlertProps {
   professors: User[];
   courses: Course[];
   courseId: string;
 };
 
 const courseFormSchema = z.object({
-  // department: z.string({
-  //   required_error: "Please select a department",
-  // }),
-  department: z.string().min(1),
+  department: z.string({
+    required_error: "Please select a department",
+  }),
   courseNum: z.coerce.number({
     required_error: "Must be a number",
   }),
@@ -162,7 +161,7 @@ const courseFormSchema = z.object({
   path: ["roomNUm"],
 });
 
-const UpdateAlert: React.FC<UpdateAlertProps> = ({
+const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
   professors,
   courses,
   courseId,
@@ -598,7 +597,7 @@ const UpdateAlert: React.FC<UpdateAlertProps> = ({
                 </FormItem>
               )}
             />
-            <AlertDialogFooter className="mt-10 mb-10">
+            <AlertDialogFooter className="mt-10">
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <Button
                 type="submit"
@@ -615,4 +614,4 @@ const UpdateAlert: React.FC<UpdateAlertProps> = ({
   );
 };
 
-export default UpdateAlert;
+export default UpdateCourseAlert;

@@ -14,7 +14,7 @@ model User {
   firstName String
   lastName String
   fullName String
-  tuEmail String @unique
+  tuMail String @unique
   isAdmin Boolean @default(false)
   isCoordinator Boolean @default(false)
   isFaculty Boolean @default(false)

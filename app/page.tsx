@@ -6,7 +6,7 @@ import TuidAlert from "@/components/TuidAlert";
 import Navbar from "@/components/Navbar";
 
 import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn } from "@clerk/nextjs";
 
 export default async function Home() {
   const currentUser = await getCurrentUserFromDb();
@@ -17,6 +17,20 @@ export default async function Home() {
   const isFaculty = currentUser?.isFaculty;
   const isStaff = currentUser?.isStaff;
   const hasNoRoles = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
+
+  let role;
+
+  if (isAdmin) {
+    role = "Admin";
+  } else if (isCoordinator) {
+    role = "Coordinator";
+  } else if (isFaculty) {
+    role = "Faculty";
+  } else if (isStaff) {
+    role = "Staff";
+  } else {
+    role = "Guest";
+  }
 
   let alertContent;
 
@@ -35,7 +49,7 @@ export default async function Home() {
     } else {
       alertContent = (
         <div className="text-bold text-center">
-          Your Role: Admin
+          Your Role: {role}
         </div>
       );
     }
@@ -51,7 +65,7 @@ export default async function Home() {
     <>
       <Navbar />
       <div className="w-1/2 mx-auto pt-[85px]">{alertContent}</div>
-      <div className="mt-10 grid gap-5 justify-center">
+      <div className="mt-10 grid gap-5 justify-center my-auto">
         <Button disabled={!hasRegistered || !isAdmin} variant="temple">
           <Link href="/user-management">Manage users - admin</Link>
         </Button>

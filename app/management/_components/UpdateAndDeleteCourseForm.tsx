@@ -1,19 +1,13 @@
-import {
-  ColumnDef,
-} from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import {
-  Trash2,
-  ArrowUpDown,
-  Pencil,
-} from "lucide-react";
+import { Trash2, ArrowUpDown } from "lucide-react";
 
 import { Course, User } from "@prisma/client";
-import UpdateAlert from "./UpdateAlert";
+import UpdateCourseAlert from "./UpdateCourseAlert";
+import { DataTable } from "@/app/management/_components/DataTable";
 
-import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -26,15 +20,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
-
-interface DeleteCourseFormProps {
+interface UpdateAndDeleteCourseFormProps {
   professors: User[];
   courses: Course[];
 };
 
-const DeleteCourseForm: React.FC<DeleteCourseFormProps> = ({
+const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
   professors,
   courses,
 }) => {
@@ -106,33 +98,7 @@ const DeleteCourseForm: React.FC<DeleteCourseFormProps> = ({
       cell: ({ row }) => {
         return (
           <div className="flex gap-x-2">
-            {/* <AlertDialog>
-              <AlertDialogTrigger>
-                <Button size="sm" variant="ghost">
-                  <Pencil className="h-5 w-5" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Confirmation</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to delete &apos;
-                    {row.getValue("label")}
-                    &apos;?
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                    onClick={() => handleDelete(row.getValue("id"))}
-                  >
-                    Delete
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog> */}
-            <UpdateAlert
+            <UpdateCourseAlert
               professors={professors}
               courses={courses}
               courseId={row.getValue("id")}
@@ -147,9 +113,7 @@ const DeleteCourseForm: React.FC<DeleteCourseFormProps> = ({
                 <AlertDialogHeader>
                   <AlertDialogTitle>Confirmation</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete &apos;
-                    {row.getValue("label")}
-                    &apos;?
+                    Are you sure you want to delete &apos;{row.getValue("label")}&apos;?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -172,4 +136,4 @@ const DeleteCourseForm: React.FC<DeleteCourseFormProps> = ({
   return <DataTable columns={columns} data={courses} />;
 }
 
-export default DeleteCourseForm;
+export default UpdateAndDeleteCourseForm;
