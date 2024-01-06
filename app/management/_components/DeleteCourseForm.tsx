@@ -4,7 +4,11 @@ import {
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Trash2 } from "lucide-react";
+import {
+  Trash2,
+  ArrowUpDown,
+  MoreHorizontal,
+} from "lucide-react";
 
 import { Course, User } from "@prisma/client";
 
@@ -47,7 +51,18 @@ const DeleteCourseForm: React.FC<DeleteCourseFormProps> = ({
   const columns: ColumnDef<Course>[] = [
     {
       accessorKey: "label",
-      header: "Course (section)",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="pr-0"
+          >
+            Course (section)
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
     },
     {
       accessorKey: "userId",
@@ -61,25 +76,28 @@ const DeleteCourseForm: React.FC<DeleteCourseFormProps> = ({
         const lastName = instructor?.lastName;
 
         return `${lastName}, ${firstName?.charAt(0).toUpperCase()}.`;
-      }
+      },
     },
     {
       accessorKey: "crn",
-      header: "CRN"
+      header: "CRN",
     },
     {
       accessorKey: "semester",
       header: "Semester",
       cell: ({ row }) => {
         const semester = row.getValue("semester") as string;
-        const capitalizedSemester = semester.charAt(0).toUpperCase() + semester.slice(1);
+        const capitalizedSemester =
+          semester.charAt(0).toUpperCase() + semester.slice(1);
 
         return capitalizedSemester;
-      }
+      },
     },
     {
       accessorKey: "year",
+      accessorFn: (row) => row.year.toString(),
       header: "Year",
+      enableHiding: false,
     },
     {
       accessorKey: "id",
@@ -102,11 +120,10 @@ const DeleteCourseForm: React.FC<DeleteCourseFormProps> = ({
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Confirmation
-                </AlertDialogTitle>
+                <AlertDialogTitle>Confirmation</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Are you sure you want to delete &apos;{row.getValue("label")}&apos;?
+                  Are you sure you want to delete &apos;{row.getValue("label")}
+                  &apos;?
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -121,11 +138,11 @@ const DeleteCourseForm: React.FC<DeleteCourseFormProps> = ({
             </AlertDialogContent>
           </AlertDialog>
         );
-      }
-    }
+      },
+    },
   ];
 
-  return  <DataTable columns={columns} data={courses} />;
+  return <DataTable columns={columns} data={courses} />;
 }
 
 export default DeleteCourseForm;

@@ -201,8 +201,8 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
   const onSubmit = async (values: z.infer<typeof courseFormSchema>) => {
     try {
       await axios.post("/api/courses", values);
-      router.push("/");
       toast.success("Course created!");
+      router.refresh();
     } catch {
       toast.error("Something went wrong");
     }

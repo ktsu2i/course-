@@ -7,6 +7,8 @@ import {
   useReactTable,
   ColumnFiltersState,
   getFilteredRowModel,
+  SortingState,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
 
@@ -19,6 +21,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,6 +40,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -39,31 +49,61 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
       columnFilters,
       rowSelection,
+      sorting,
     },
   });
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex gap-x-2 py-4">
         <Input
           placeholder="Filter courses..."
           value={table.getColumn("label")?.getFilterValue() as string}
-          onChange={(event) => {
-            return table.getColumn("label")?.setFilterValue(event.target.value);
-          }}
+          onChange={(event) =>
+            table.getColumn("label")?.setFilterValue(event.target.value)
+          }
           className="max-w-sm"
         />
+        <Select
+          onValueChange={(value) =>
+            table.getColumn("semester")?.setFilterValue(value)
+          }
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a semester" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="spring">Spring</SelectItem>
+            <SelectItem value="summer">Summer</SelectItem>
+            <SelectItem value="fall">Fall</SelectItem>
+          </SelectContent>
+        </Select>
         <Input
-          placeholder="Filter semester..."
-          value={table.getColumn("semester")?.getFilterValue() as string}
-          onChange={(event) => {
-            return table.getColumn("semester")?.setFilterValue(event.target.value);
-          }}
+          placeholder="Filter years..."
+          value={table.getColumn("year")?.getFilterValue() as string}
+          onChange={(event) =>
+            table.getColumn("year")?.setFilterValue(event.target.value)
+          }
           className="max-w-sm"
         />
+        {/* <Select
+          onValueChange={(value) => {
+            return table.getColumn("year")?.setFilterValue(value);
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a year" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="2024">2024</SelectItem>
+            <SelectItem value="2025">2025</SelectItem>
+          </SelectContent>
+        </Select> */}
       </div>
       <div className="rounded-md border">
         <Table>
