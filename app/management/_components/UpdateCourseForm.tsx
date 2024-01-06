@@ -126,35 +126,35 @@ const courseFormSchema = z.object({
   instructorId: z
     .string()
     .min(1),
-  // isNewInstructor: z.boolean().default(false),
-  // classType: z.enum(["in-person", "online", "hybrid"], {
-  //   required_error: "Please select a class type",
-  // }),
-  // roomNum: z
-  //   .string()
-  //   .regex(/^\d+$/, { message: "Must be a number" })
-  //   .transform(Number)
-  //   .optional(),
-  // hasSecuredRoom: z.boolean().default(false).optional(),
-  // dayAndTime: z.string().min(1, {
-  //   message: "Required"
-  // }),
-  // days: z
-  //   .array(z.string())
-  //   .refine((value) => value.some((day) => day), {
-  //     message: "Must select at least one day",
-  //   }),
-  // time: z.array(z.string().min(1, {
-  //   message: "Please fill out the time"
-  // })),
-  // semester: z.string({
-  //   required_error: "Please select a semester"
-  // }),
-  // year: z
-  //   .string({ required_error: "Please select a year" })
-  //   .transform(Number),
-  // specialInfo: z.string().optional(),
-  // notes: z.string().optional(),
+  isNewInstructor: z.boolean().default(false),
+  classType: z.enum(["in-person", "online", "hybrid"], {
+    required_error: "Please select a class type",
+  }),
+  roomNum: z
+    .string()
+    .regex(/^\d+$/, { message: "Must be a number" })
+    .transform(Number)
+    .optional(),
+  hasSecuredRoom: z.boolean().default(false).optional(),
+  dayAndTime: z.string().min(1, {
+    message: "Required"
+  }),
+  days: z
+    .array(z.string())
+    .refine((value) => value.some((day) => day), {
+      message: "Must select at least one day",
+    }),
+  time: z.array(z.string().min(1, {
+    message: "Please fill out the time"
+  })),
+  semester: z.string({
+    required_error: "Please select a semester"
+  }),
+  year: z
+    .string({ required_error: "Please select a year" })
+    .transform(Number),
+  specialInfo: z.string().optional(),
+  notes: z.string().optional(),
 });
 
 const UpdateCourseForm: React.FC<UpdateCourseFormProps> = ({

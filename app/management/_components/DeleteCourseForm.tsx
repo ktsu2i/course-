@@ -7,10 +7,11 @@ import { useRouter } from "next/navigation";
 import {
   Trash2,
   ArrowUpDown,
-  MoreHorizontal,
+  Pencil,
 } from "lucide-react";
 
 import { Course, User } from "@prisma/client";
+import UpdateAlert from "./UpdateAlert";
 
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 
 interface DeleteCourseFormProps {
@@ -97,46 +99,71 @@ const DeleteCourseForm: React.FC<DeleteCourseFormProps> = ({
       accessorKey: "year",
       accessorFn: (row) => row.year.toString(),
       header: "Year",
-      enableHiding: false,
     },
     {
       accessorKey: "id",
-      header: "Action",
+      header: "Actions",
       cell: ({ row }) => {
         return (
-          // <Button
-          //   size="sm"
-          //   type="button"
-          //   variant="destructive"
-          //   onClick={() => handleDelete(row.getValue("id"))}
-          // >
-          //   <Trash2 className="h-5 w-5" />
-          // </Button>
-          <AlertDialog>
-            <AlertDialogTrigger>
-              <Button size="sm" variant="destructive">
-                <Trash2 className="h-5 w-5" />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Confirmation</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you sure you want to delete &apos;{row.getValue("label")}
-                  &apos;?
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                  onClick={() => handleDelete(row.getValue("id"))}
-                >
-                  Delete
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <div className="flex gap-x-2">
+            {/* <AlertDialog>
+              <AlertDialogTrigger>
+                <Button size="sm" variant="ghost">
+                  <Pencil className="h-5 w-5" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Confirmation</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete &apos;
+                    {row.getValue("label")}
+                    &apos;?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    onClick={() => handleDelete(row.getValue("id"))}
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog> */}
+            <UpdateAlert
+              professors={professors}
+              courses={courses}
+              courseId={row.getValue("id")}
+            />
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button size="sm" variant="destructive">
+                  <Trash2 className="h-5 w-5" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Confirmation</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete &apos;
+                    {row.getValue("label")}
+                    &apos;?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    onClick={() => handleDelete(row.getValue("id"))}
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         );
       },
     },

@@ -111,8 +111,9 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  if (header.id === "id") return;
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="text-left">
                       {header.isPlaceholder
                         ? null
                         : flexRender(

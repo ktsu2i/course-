@@ -181,6 +181,8 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
       title: undefined,
       crn: undefined,
       instructorId: undefined,
+      isNewInstructor: undefined,
+      classType: undefined,
       roomNum: undefined,
       hasSecuredRoom: false,
       dayAndTime: undefined,
@@ -253,7 +255,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                           </CommandItem>
                         ))}
                       </CommandGroup>
-                      <ScrollBar orientation="vertical"/>
+                      <ScrollBar orientation="vertical" />
                     </ScrollArea>
                   </Command>
                 </PopoverContent>
@@ -368,7 +370,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                           </CommandItem>
                         ))}
                       </CommandGroup>
-                      <ScrollBar orientation="vertical"/>
+                      <ScrollBar orientation="vertical" />
                     </ScrollArea>
                   </Command>
                 </PopoverContent>
@@ -631,13 +633,15 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             </FormItem>
           )}
         />
-        <Button
-          className="mt-10 mb-20"
-          disabled={!isValid || isSubmitting}
-          variant="temple"
-        >
-          Request
-        </Button>
+        <div className="flex flex-row-reverse">
+          <Button
+            className="mt-10 mb-20"
+            disabled={!isValid || isSubmitting}
+            variant="temple"
+          >
+            Request
+          </Button>
+        </div>
       </form>
     </Form>
   );
