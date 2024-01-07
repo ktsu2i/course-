@@ -5,7 +5,6 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { User } from "@clerk/nextjs/server";
 import { useRouter } from "next/navigation";
 
 import { RocketIcon } from "lucide-react";

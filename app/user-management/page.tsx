@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import UserForms from "./_components/UserForms";
 
 import getAllUsers from "../actions/getAllUsers";
 import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
@@ -17,6 +16,7 @@ const UserManagementPage = async () => {
           Manage a user
         </div>
         <div className="mt-5">
+          {/* We may not even need <UserForms> */}
           {/* <UserForms users={users} currentUser={currentUser} /> */}
           <UpdateAndDeleteUserForm users={users} currentUser={currentUser} />
         </div>

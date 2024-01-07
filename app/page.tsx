@@ -9,7 +9,6 @@ import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
 
 export default async function Home() {
   const currentUser1 = await getCurrentUserFromDb();
-  let clerkCurrentUser = await currentUser();
   
   const hasRegistered = currentUser1 !== null;
   const isAdmin = currentUser1?.isAdmin;
@@ -69,17 +68,28 @@ export default async function Home() {
         <Button disabled={!hasRegistered || !isAdmin} variant="temple">
           <Link href="/user-management">Manage users - admin</Link>
         </Button>
-        <Button disabled={!hasRegistered || !isAdmin || !isCoordinator} variant="temple">
+        <Button
+          disabled={!hasRegistered || (!isAdmin && !isCoordinator)}
+          variant="temple"
+        >
           <Link href="/management">
             Add/Update/Delete a course - coordinator
           </Link>
         </Button>
-        <Button disabled={!hasRegistered || !isAdmin || !isCoordinator || !isFaculty} variant="temple">
+        <Button
+          disabled={
+            !hasRegistered || (!isAdmin && !isCoordinator && !isFaculty)
+          }
+          variant="temple"
+        >
           <Link href="/cancellation">
             Cancel a class - coordinator & faculty
           </Link>
         </Button>
-        <Button disabled={!hasRegistered || !isAdmin || !isStaff} variant="temple">
+        <Button
+          disabled={!hasRegistered || (!isAdmin && !isStaff)}
+          variant="temple"
+        >
           <Link href="/reports">Check all the courses & users - staff</Link>
         </Button>
 

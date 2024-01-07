@@ -139,14 +139,6 @@ const courseFormSchema = z.object({
   dayAndTime: z.string().min(1, {
     message: "Required"
   }),
-  // days: z
-  //   .array(z.string())
-  //   .refine((value) => value.some((day) => day), {
-  //     message: "Must select at least one day",
-  //   }),
-  // time: z.array(z.string().min(1, {
-  //   message: "Please fill out the time"
-  // })),
   semester: z.string({
     required_error: "Please select a semester",
   }),
