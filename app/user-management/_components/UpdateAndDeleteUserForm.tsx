@@ -36,7 +36,9 @@ const UpdateAndDeleteUserForm: React.FC<UpdateAndDeleteUserFormProps> = ({
 
   const handleDelete = async (userId: string) => {
     try {
-      await axios.delete("/api/users", { data: { userId } });
+      const uniqueUser = users.find((user) => user.id === userId);
+      const clerkUserId = uniqueUser?.clerkUserId;
+      await axios.delete("/api/users", { data: { userId, clerkUserId } });
       toast.success("User deleted!");
       router.refresh();
     } catch {
@@ -119,7 +121,6 @@ const UpdateAndDeleteUserForm: React.FC<UpdateAndDeleteUserFormProps> = ({
           <div className="flex gap-x-2">
             <UpdateUserAlert
               users={users}
-              currentUser={currentUser}
               userId={row.getValue("id")}
             />
             <AlertDialog>

@@ -1,21 +1,21 @@
 import Link from "next/link";
+import { SignedIn, currentUser } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
-
 import TuidAlert from "@/components/TuidAlert";
 import Navbar from "@/components/Navbar";
 
 import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
-import { SignedIn } from "@clerk/nextjs";
 
 export default async function Home() {
-  const currentUser = await getCurrentUserFromDb();
+  const currentUser1 = await getCurrentUserFromDb();
+  let clerkCurrentUser = await currentUser();
   
-  const hasRegistered = currentUser !== null;
-  const isAdmin = currentUser?.isAdmin;
-  const isCoordinator = currentUser?.isCoordinator;
-  const isFaculty = currentUser?.isFaculty;
-  const isStaff = currentUser?.isStaff;
+  const hasRegistered = currentUser1 !== null;
+  const isAdmin = currentUser1?.isAdmin;
+  const isCoordinator = currentUser1?.isCoordinator;
+  const isFaculty = currentUser1?.isFaculty;
+  const isStaff = currentUser1?.isStaff;
   const hasNoRoles = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
 
   let role;
@@ -69,23 +69,23 @@ export default async function Home() {
         <Button disabled={!hasRegistered || !isAdmin} variant="temple">
           <Link href="/user-management">Manage users - admin</Link>
         </Button>
-        <Button disabled={!hasRegistered || !isAdmin} variant="temple">
+        <Button disabled={!hasRegistered || !isAdmin || !isCoordinator} variant="temple">
           <Link href="/management">
             Add/Update/Delete a course - coordinator
           </Link>
         </Button>
-        <Button disabled={!hasRegistered || !isAdmin} variant="temple">
+        <Button disabled={!hasRegistered || !isAdmin || !isCoordinator || !isFaculty} variant="temple">
           <Link href="/cancellation">
             Cancel a class - coordinator & faculty
           </Link>
         </Button>
-        <Button disabled={!hasRegistered || !isAdmin} variant="temple">
+        <Button disabled={!hasRegistered || !isAdmin || !isStaff} variant="temple">
           <Link href="/reports">Check all the courses & users - staff</Link>
         </Button>
 
-        <Link href="/profile/update">
+        {/* <Link href="/profile/update">
           <Button>Update</Button>
-        </Link>
+        </Link> */}
       </div>
     </>
   );

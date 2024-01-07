@@ -35,7 +35,6 @@ import { Switch } from "@/components/ui/switch";
 
 interface UpdateUserAlertProps {
   users: User[];
-  currentUser: User | null;
   userId: string;
 };
 
@@ -59,7 +58,6 @@ const userFormSchema = z.object({
 
 const UpdateUserAlert: React.FC<UpdateUserAlertProps> = ({
   users,
-  currentUser,
   userId,
 }) => {
   const router = useRouter();
@@ -83,7 +81,7 @@ const UpdateUserAlert: React.FC<UpdateUserAlertProps> = ({
 
   const onSubmit = async (values: z.infer<typeof userFormSchema>) => {
     try {
-      await axios.patch("/api/users", { id: userId, ...values });
+      await axios.patch("/api/users", { id: userId, clerkUserId: uniqueUser?.clerkUserId, ...values });
       toast.success("User updated!");
       router.refresh();
     } catch {

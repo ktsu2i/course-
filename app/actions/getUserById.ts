@@ -13,6 +13,7 @@ export default async function getUserById(
     return user;
     
   } catch (error) {
+    console.log("getUserById - Error:", error);
     return null;
   }
 }

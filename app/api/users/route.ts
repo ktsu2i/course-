@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
 export async function POST(
-  request: Request
+  request: Request,
 ) {
   try {
     const user = await currentUser();
@@ -22,6 +22,7 @@ export async function POST(
     const newUser = await db.user.create({
       data: {
         tuid: tuid,
+        clerkUserId: user.id,
         firstName: firstName,
         lastName: lastName,
         fullName: fullName,
@@ -43,36 +44,6 @@ export async function POST(
   }
 }
 
-// export async function PATCH(
-//   request: Request
-// ) {
-//   try {
-//     const user = await currentUser();
-//     const values = await request.json();
-
-//     if (!user) {
-//       return new NextResponse("Unauthorized", { status: 400 });
-//     }
-
-//     const emailAddress = user?.emailAddresses[0].emailAddress;
-
-//     const updatedUser = await db.user.update({
-//       where: {
-//         tuMail: emailAddress
-//       },
-//       data: {
-//         ...values
-//       }
-//     });
-
-//     return NextResponse.json(updatedUser);
-
-//   } catch (error) {
-//     console.log("[USERS] - PATCH", error);
-//     return new NextResponse("Internal Error", { status: 500 });
-//   }
-// }
-
 export async function PATCH(
   request: Request,
 ) {
@@ -80,6 +51,7 @@ export async function PATCH(
     const user = await currentUser();
     const {
       id,
+      clerkUserId,
       tuid,
       firstName,
       lastName,
@@ -118,7 +90,7 @@ export async function PATCH(
       lastName: lastName,
     };
 
-    await clerkClient.users.updateUser(user.id, params);
+    await clerkClient.users.updateUser(clerkUserId, params);
 
     return NextResponse.json({ message: "Success" });
 
@@ -133,7 +105,7 @@ export async function DELETE(
 ) {
   try {
     const user = await currentUser();
-    const { userId } = await request.json();
+    const { userId, clerkUserId } = await request.json();
 
     if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -146,8 +118,7 @@ export async function DELETE(
       },
     });
 
-    // Delete a user from Clerk
-    await clerkClient.users.deleteUser(user.id);
+    await clerkClient.users.deleteUser(clerkUserId);
 
     return NextResponse.json({ message: "Success" });
 
