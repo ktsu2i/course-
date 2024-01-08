@@ -21,13 +21,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -78,7 +71,7 @@ export function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header) => {
                   if (header.id === "id") return;
                   return (
-                    <TableHead key={header.id} className="text-left">
+                    <TableHead key={header.id} className="text-center">
                       {header.isPlaceholder
                         ? null
                         : flexRender(

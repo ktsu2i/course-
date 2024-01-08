@@ -2,8 +2,10 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Course, User } from "@prisma/client";
+import * as xlsx from "xlsx";
 
 import Navbar from "@/components/Navbar";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "./DataTable";
 
 interface DataProps {
@@ -74,11 +76,20 @@ const Data: React.FC<DataProps> = ({
   const columns: ColumnDef<Course>[] = [
     {
       accessorKey: "department",
-      header: "Department",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Department
+          </Button>
+        );
+      },
       cell: ({ row }) => {
         const departmentInShort = row.getValue("department") as string;
         const department = departments.find((department) => department.value === departmentInShort);
-        
+
         return department?.label;
       }
     },
@@ -134,10 +145,26 @@ const Data: React.FC<DataProps> = ({
     },
   ];
 
+  const handleDownload = (courses: Course[]) => {
+    const workbook = xlsx.utils.book_new();
+    const worksheet = xlsx.utils.json_to_sheet(courses);
+
+    xlsx.utils.book_append_sheet(workbook, worksheet, "Courses");
+    xlsx.writeFile(workbook, "courses.xlsx");
+  };
+
   return (
     <>
       <Navbar />
       <DataTable columns={columns} data={courses} />
+      <div className="flex justify-end mt-6">
+        <Button
+          variant="temple"
+          onClick={() => handleDownload(courses)}
+        >
+          Export
+        </Button>
+      </div>
     </>
   );
 };

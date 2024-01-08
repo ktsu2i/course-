@@ -50,7 +50,6 @@ const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="pr-0"
           >
             Course (section)
             <ArrowUpDown className="ml-2 h-4 w-4" />

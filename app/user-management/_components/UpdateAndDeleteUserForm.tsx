@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { BadgeCheck, Trash2 } from "lucide-react";
+import { ArrowUpDown, BadgeCheck, Trash2 } from "lucide-react";
 
 import { DataTable } from "@/app/user-management/_components/DataTable";
 import { Button } from "@/components/ui/button";
@@ -58,9 +58,9 @@ const UpdateAndDeleteUserForm: React.FC<UpdateAndDeleteUserFormProps> = ({
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className=""
           >
             Name
+            <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
