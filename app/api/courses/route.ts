@@ -107,14 +107,14 @@ export async function PATCH(
       hasSecuredRoom,
       specialInfo,
       notes,
-      label,
     } = await request.json();
 
     if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const updatedLabel = `${department.toUpperCase()} ${courseNum} (${section})`;
+    const padCourseNum = String(courseNum).padStart(4, '0');
+    const updatedLabel = `${department.toUpperCase()} ${padCourseNum} (${section})`;
 
     let course;
 
