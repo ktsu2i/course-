@@ -31,7 +31,8 @@ export async function POST(
       notes,
     } = await request.json();
 
-    const label = `${department.toUpperCase()} ${courseNum} (${section})`;
+    const padCourseNum = String(courseNum).padStart(4, "0");
+    const label = `${department.toUpperCase()} ${padCourseNum} (${section})`;
 
     let course;
 
