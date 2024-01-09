@@ -2,8 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Course, User } from "@prisma/client";
-import * as xlsx from "xlsx";
-import { ArrowUpDown, ArrowUpFromLine } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DataTable } from "./DataTable";
@@ -173,28 +172,7 @@ const Data: React.FC<DataProps> = ({
     },
   ];
 
-  const handleDownload = (courses: Course[]) => {
-    const workbook = xlsx.utils.book_new();
-    const worksheet = xlsx.utils.json_to_sheet(courses);
-
-    xlsx.utils.book_append_sheet(workbook, worksheet, "Courses");
-    xlsx.writeFile(workbook, "courses.xlsx");
-  };
-
-  return (
-    <>
-      <DataTable columns={columns} data={courses} />
-      <div className="flex justify-end mt-6">
-        <Button
-          variant="temple"
-          onClick={() => handleDownload(courses)}
-        >
-          <ArrowUpFromLine className="h-5 w-5 mr-1" />
-          Export
-        </Button>
-      </div>
-    </>
-  );
+  return <DataTable columns={columns} data={courses} courses={courses} />;
 };
 
 export default Data;

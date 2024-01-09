@@ -194,7 +194,8 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
     try {
       await axios.post("/api/courses", values);
       toast.success("Course created!");
-      location.reload();
+      location.href = "/";
+      // router.push("/");
     } catch {
       toast.error("Something went wrong");
     }
