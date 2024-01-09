@@ -12,7 +12,6 @@ export default async function getCurrentUserFromDb() {
     }
 
     const emailAddress = user?.emailAddresses[0].emailAddress;
-    console.log(emailAddress);
 
     const uniqueUser = await db.user.findUnique({
       where: {
