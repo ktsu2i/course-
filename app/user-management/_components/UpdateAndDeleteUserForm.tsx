@@ -99,7 +99,11 @@ const UpdateAndDeleteUserForm: React.FC<UpdateAndDeleteUserFormProps> = ({
       cell: ({ row }) => {
         return (
           <div className="flex gap-x-2">
-            <UpdateUserAlert users={users} userId={row.getValue("id")} />
+            <UpdateUserAlert
+              users={users}
+              userId={row.getValue("id")}
+              disabled={currentUser?.id === row.getValue("id")}
+            />
             <AlertDialog>
               <AlertDialogTrigger
                 disabled={currentUser?.id === row.getValue("id")}

@@ -36,6 +36,7 @@ import { Switch } from "@/components/ui/switch";
 interface UpdateUserAlertProps {
   users: User[];
   userId: string;
+  disabled: boolean;
 };
 
 const userFormSchema = z.object({
@@ -59,6 +60,7 @@ const userFormSchema = z.object({
 const UpdateUserAlert: React.FC<UpdateUserAlertProps> = ({
   users,
   userId,
+  disabled,
 }) => {
   const router = useRouter();
   const uniqueUser = users.find((user) => user.id === userId);
@@ -91,8 +93,8 @@ const UpdateUserAlert: React.FC<UpdateUserAlertProps> = ({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <Button size="sm" variant="ghost">
+      <AlertDialogTrigger disabled={disabled}>
+        <Button size="sm" variant="ghost" disabled={disabled}>
           <Pencil className="h-5 w-5" />
         </Button>
       </AlertDialogTrigger>

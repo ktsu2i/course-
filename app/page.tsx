@@ -1,19 +1,24 @@
-import Link from "next/link";
 import { SignedIn } from "@clerk/nextjs";
 
-import { Button } from "@/components/ui/button";
-import TuidAlert from "@/components/TuidAlert";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+
+import WelcomeCard from "@/components/WelcomeCard";
+import UserInfoCard from "@/components/UserInfoCard";
 
 import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
+import getAllCourses from "./actions/getAllCourses";
+import CourseTable from "@/components/CourseTable";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default async function Home() {
-  const currentUser1 = await getCurrentUserFromDb();
+  const currentUser = await getCurrentUserFromDb();
+  const courses = await getAllCourses();
 
-  const hasRegistered = currentUser1 !== null;
-  const isAdmin = currentUser1?.isAdmin;
-  const isCoordinator = currentUser1?.isCoordinator;
-  const isFaculty = currentUser1?.isFaculty;
-  const isStaff = currentUser1?.isStaff;
+  const hasRegistered = currentUser !== null;
+  const isAdmin = currentUser?.isAdmin;
+  const isCoordinator = currentUser?.isCoordinator;
+  const isFaculty = currentUser?.isFaculty;
+  const isStaff = currentUser?.isStaff;
   const hasNoRoles = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
 
   let role;
@@ -50,47 +55,41 @@ export default async function Home() {
   } else {
     alertContent = (
       <SignedIn>
-        <TuidAlert />
+        <WelcomeCard />
       </SignedIn>
     );
   }
 
   return (
     <>
-      <div className="w-1/2 mx-auto pt-[85px]">{alertContent}</div>
-      <div className="mt-10 grid gap-5 justify-center my-auto">
-        <Button disabled={!hasRegistered || !isAdmin} variant="temple">
-          <Link href="/user-management">Manage users - admin</Link>
-        </Button>
-        <Button
-          disabled={!hasRegistered || (!isAdmin && !isCoordinator)}
-          variant="temple"
-        >
-          <Link href="/management">
-            Add/Update/Delete a course - coordinator
-          </Link>
-        </Button>
-        <Button
-          disabled={
-            !hasRegistered || (!isAdmin && !isCoordinator && !isFaculty)
-          }
-          variant="temple"
-        >
-          <Link href="/cancellation">
-            Cancel a class - coordinator & faculty
-          </Link>
-        </Button>
-        <Button
-          disabled={!hasRegistered || (!isAdmin && !isStaff)}
-          variant="temple"
-        >
-          <Link href="/reports">Check all the courses & users - staff</Link>
-        </Button>
-
-        {/* <Link href="/profile/update">
-          <Button>Update</Button>
-        </Link> */}
-      </div>
+      {/* <div className="w-1/2 mx-auto pt-[85px]">{alertContent}</div> */}
+      {/* <div className="pt-[65px]"></div> */}
+      {/* <WelcomeCard /> */}
+      <ResizablePanelGroup direction="horizontal">
+        <ResizablePanel defaultSize={80}>
+          <ResizablePanelGroup direction="vertical" className="pt-[65px]">
+            <ResizablePanel defaultSize={17} minSize={17}>
+              <div className="m-5 max-w-[500px] flex">
+                <UserInfoCard currentUser={currentUser} />
+              </div>
+            </ResizablePanel>
+            <ResizableHandle />
+            <ResizablePanel defaultSize={83}>
+              <div className="m-10">
+                <h1 className="text-2xl font-bold">Your Courses</h1>
+                <CourseTable courses={courses} currentUser={currentUser} />
+              </div>
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={20}>
+          {/* <div className="pt-[65px] m-5">
+            <h1 className="text-2xl font-bold">Your Courses</h1>
+            <CourseTable courses={courses} currentUser={currentUser} />
+          </div> */}
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </>
   );
 }

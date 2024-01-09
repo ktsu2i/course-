@@ -37,7 +37,7 @@ const registerTuidFormSchema = z.object({
     .transform(Number),
 });
 
-const TuidAlert = () => {
+const WelcomeCard = () => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof registerTuidFormSchema>>({
@@ -121,4 +121,4 @@ const TuidAlert = () => {
   );
 }
  
-export default TuidAlert;
+export default WelcomeCard;

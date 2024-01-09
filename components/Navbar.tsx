@@ -10,7 +10,7 @@ const Navbar = () => {
   const isAuthPage = pathname?.startsWith("/sign");
 
   return (
-    <div className={`fixed top-0 left-0 right-0 p-4 border-b flex justify-between bg-white shadow-sm h-[65px] ${isAuthPage && "hidden"}`}>
+    <div className={`fixed top-0 left-0 right-0 p-4 border-b flex justify-between bg-white shadow-sm h-[65px] z-50 ${isAuthPage && "hidden"}`}>
       <div className="font-semibold text-lg">
         <a href="/">
           <Image width={120} height={120} alt="logo" src="/logo.svg" />

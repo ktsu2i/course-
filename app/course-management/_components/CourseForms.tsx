@@ -1,5 +1,3 @@
-"use client";
-
 import { Course, User } from "@prisma/client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddCourseForm from "./AddCourseForm";
 import UpdateAndDeleteCourseForm from "./UpdateAndDeleteCourseForm";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface CourseFormsProps {
   professors: User[],
@@ -41,11 +40,12 @@ const CourseForms: React.FC<CourseFormsProps> = ({
       <div className="hidden 2xl:block">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={25} minSize={20}>
-            <div className="mr-10 max-w-[600px]">
+            <div className="mr-10 pl-1 max-w-[600px]">
+              <h1 className="text-xl font-semibold mb-6">Add a course</h1>
               <AddCourseForm professors={professors} />
             </div>
           </ResizablePanel>
-          <ResizableHandle withHandle />
+          <ResizableHandle />
           <ResizablePanel defaultSize={75} minSize={40}>
             <div className="mx-10">
               <UpdateAndDeleteCourseForm

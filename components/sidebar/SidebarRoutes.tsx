@@ -1,7 +1,12 @@
-import { CalendarX2, GraduationCap, Table, Users } from "lucide-react";
+import { CalendarX2, GraduationCap, LayoutDashboard, Table, Users } from "lucide-react";
 import SidebarItem from "./SidebarItem";
 
 const routes = [
+  {
+    icon: LayoutDashboard,
+    label: "Dashboard",
+    href: "/",
+  },
   {
     icon: Users,
     label: "Users",
@@ -15,16 +20,16 @@ const routes = [
   {
     icon: CalendarX2,
     label: "Cancellation",
-    href: "/cancellation"
+    href: "/cancellation",
   },
   {
     icon: Table,
     label: "Reports",
-    href: "/reports"
+    href: "/reports",
   }
 ];
 
-const SidebarRoutes = () => {
+const SidebarRoutes = async () => {
   return (
     <div className="flex flex-col w-full">
       {routes.map((route) => (
