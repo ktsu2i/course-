@@ -6,7 +6,7 @@ import { Trash2, ArrowUpDown } from "lucide-react";
 
 import { Course, User } from "@prisma/client";
 import UpdateCourseAlert from "./UpdateCourseAlert";
-import { DataTable } from "@/app/management/_components/DataTable";
+import { DataTable } from "@/app/course-management/_components/DataTable";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,7 +24,7 @@ import {
 interface UpdateAndDeleteCourseFormProps {
   professors: User[];
   courses: Course[];
-};
+}
 
 const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
   professors,
@@ -48,6 +48,7 @@ const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
       header: ({ column }) => {
         return (
           <Button
+            className="pl-0"
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
@@ -93,7 +94,7 @@ const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
     },
     {
       accessorKey: "id",
-      header: "Actions",
+      header: "",
       cell: ({ row }) => {
         return (
           <div className="flex gap-x-2">
@@ -112,7 +113,8 @@ const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
                 <AlertDialogHeader>
                   <AlertDialogTitle>Confirmation</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete &apos;{row.getValue("label")}&apos;?
+                    Are you sure you want to delete &apos;
+                    {row.getValue("label")}&apos;?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -133,6 +135,6 @@ const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
   ];
 
   return <DataTable columns={columns} data={courses} />;
-}
+};
 
 export default UpdateAndDeleteCourseForm;

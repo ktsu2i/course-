@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SignedIn, currentUser } from "@clerk/nextjs";
+import { SignedIn } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import TuidAlert from "@/components/TuidAlert";
@@ -9,7 +9,7 @@ import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
 
 export default async function Home() {
   const currentUser1 = await getCurrentUserFromDb();
-  
+
   const hasRegistered = currentUser1 !== null;
   const isAdmin = currentUser1?.isAdmin;
   const isCoordinator = currentUser1?.isCoordinator;
@@ -37,9 +37,7 @@ export default async function Home() {
     if (hasNoRoles) {
       alertContent = (
         <>
-          <div className="text-bold text-center">
-            Your Role: ---
-          </div>
+          <div className="text-bold text-center">Your Role: ---</div>
           <div className="text-slate-600 text-center">
             Please wait until the coordinator adds your role.
           </div>
@@ -47,9 +45,7 @@ export default async function Home() {
       );
     } else {
       alertContent = (
-        <div className="text-bold text-center">
-          Your Role: {role}
-        </div>
+        <div className="text-bold text-center">Your Role: {role}</div>
       );
     }
   } else {
@@ -62,7 +58,6 @@ export default async function Home() {
 
   return (
     <>
-      <Navbar />
       <div className="w-1/2 mx-auto pt-[85px]">{alertContent}</div>
       <div className="mt-10 grid gap-5 justify-center my-auto">
         <Button disabled={!hasRegistered || !isAdmin} variant="temple">

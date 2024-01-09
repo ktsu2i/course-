@@ -1,5 +1,3 @@
-import Navbar from "@/components/Navbar";
-
 import getAllUsers from "../actions/getAllUsers";
 import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
 import UpdateAndDeleteUserForm from "./_components/UpdateAndDeleteUserForm";
@@ -10,11 +8,8 @@ const UserManagementPage = async () => {
 
   return (
     <>
-      <Navbar />
-      <div className="max-w-[900px] mx-auto mt-[85px]">
-        <div className="text-2xl font-bold text-center mt-5">
-          Manage a user
-        </div>
+      <div className="max-w-[1800px] mx-auto mt-[85px] px-10">
+        <div className="text-2xl font-bold text-center mt-5">Manage a user</div>
         <div className="mt-5">
           {/* We may not even need <UserForms> */}
           {/* <UserForms users={users} currentUser={currentUser} /> */}

@@ -1,9 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Course } from "@prisma/client";
 
-import Navbar from "@/components/Navbar";
-import { DataTable } from "./_components/DataTable";
-
 import getAllProfessors from "../actions/getAllProfessors";
 import getAllCourses from "../actions/getAllCourses";
 import Data from "./_components/Data";
@@ -71,10 +68,9 @@ const ReportPage = async () => {
 
   return (
     <div className="max-w-[1800px] mx-auto mt-[85px] px-10">
-      <Navbar />
       <Data professors={professors} courses={courses} />
     </div>
   );
 };
- 
+
 export default ReportPage;
