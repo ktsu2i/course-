@@ -60,7 +60,18 @@ const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
     },
     {
       accessorKey: "title",
-      header: "Title",
+      header: ({ column }) => {
+        return (
+          <Button
+            className="pl-0"
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Title
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
     },
     {
       accessorKey: "userId",

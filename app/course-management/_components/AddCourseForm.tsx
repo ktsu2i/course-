@@ -210,7 +210,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           control={form.control}
           name="department"
           render={({ field }) => (
-            <FormItem className="flex flex-col mt-6">
+            <FormItem className="flex flex-col">
               <FormLabel>Department</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>

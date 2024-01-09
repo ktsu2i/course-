@@ -15,7 +15,7 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-  }) {
+  }) {  
   return (
     <ClerkProvider>
       <html lang="en">
@@ -23,7 +23,7 @@ export default function RootLayout({
           <ToasterProvider />
           <Navbar />
           <Sidebar />
-          <main className="pl-64">
+          <main className="pl-64 h-full">
             {children}
           </main>
         </body>

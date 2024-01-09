@@ -3,7 +3,6 @@ import { SignedIn } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import TuidAlert from "@/components/TuidAlert";
-import Navbar from "@/components/Navbar";
 
 import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
 

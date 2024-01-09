@@ -3,18 +3,18 @@ import CourseForms from "./_components/CourseForms";
 import getAllProfessors from "../actions/getAllProfessors";
 import getAllCourses from "../actions/getAllCourses";
 
-const ManagementPage = async () => {
+const CourseManagementPage = async () => {
   const professors = await getAllProfessors();
   const courses = await getAllCourses();
 
   return (
     <>
-      {/* <div className="max-w-[420px] mx-auto mt-[85px]"> */}
-      <div className="mx-auto mt-[65px]">
-        <div className="text-2xl font-bold text-center mt-5">
-          Manage a course
-        </div>
-        <div className="mt-5 px-10">
+      <div className="mt-[85px] px-10">
+        <h1 className="text-2xl font-bold">Manage Courses</h1>
+        <p className="text-slate-500 mt-1">
+          You can add, update, and delete courses here.
+        </p>
+        <div className="mt-8">
           <CourseForms professors={professors} courses={courses} />
         </div>
       </div>
@@ -22,4 +22,4 @@ const ManagementPage = async () => {
   );
 };
 
-export default ManagementPage;
+export default CourseManagementPage;

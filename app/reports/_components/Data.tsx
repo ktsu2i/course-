@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Course, User } from "@prisma/client";
 import * as xlsx from "xlsx";
-import { ArrowUpFromLine } from "lucide-react";
+import { ArrowUpDown, ArrowUpFromLine } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DataTable } from "./DataTable";
@@ -79,10 +79,12 @@ const Data: React.FC<DataProps> = ({
       header: ({ column }) => {
         return (
           <Button
+            className="pl-0"
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Department
+            <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
@@ -95,11 +97,33 @@ const Data: React.FC<DataProps> = ({
     },
     {
       accessorKey: "label",
-      header: "Course (section)",
+      header: ({ column }) => {
+        return (
+          <Button
+            className="pl-0"
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Course (section)
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
     },
     {
       accessorKey: "title",
-      header: "Title",
+      header: ({ column }) => {
+        return (
+          <Button
+            className="pl-0"
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Title
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
     },
     {
       accessorKey: "dayAndTime",
@@ -126,6 +150,10 @@ const Data: React.FC<DataProps> = ({
     {
       accessorKey: "specialInfo",
       header: "Special Info",
+    },
+    {
+      accessorKey: "notes",
+      header: "Notes",
     },
     {
       accessorKey: "semester",

@@ -12,7 +12,7 @@ const Sidebar = () => {
   return (
     <div
       className={`h-full bg-white w-64 fixed inset-y-0 z-50 border-r shadow-sm ${
-        isAuthPage ? "hidden" : ""
+        isAuthPage && "hidden"
       }`}
     >
       <div className="font-semibold text-lg border-b shadow-sm">

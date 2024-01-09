@@ -8,11 +8,13 @@ const UserManagementPage = async () => {
 
   return (
     <>
-      <div className="max-w-[1800px] mx-auto mt-[65px] px-10">
-        <div className="text-2xl font-bold text-center mt-5">Manage a user</div>
+      <div className="max-w-[1800px] mt-[85px] px-10">
+        <h1 className="text-2xl font-bold">Manage Users</h1>
+        <p className="text-slate-500 mt-1">
+          After users sign up, they will be 'guest' users, who have no roles.
+          Please add their roles to them.
+        </p>
         <div className="mt-5">
-          {/* We may not even need <UserForms> */}
-          {/* <UserForms users={users} currentUser={currentUser} /> */}
           <UpdateAndDeleteUserForm users={users} currentUser={currentUser} />
         </div>
       </div>

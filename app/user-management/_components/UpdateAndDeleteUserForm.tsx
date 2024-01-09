@@ -93,50 +93,6 @@ const UpdateAndDeleteUserForm: React.FC<UpdateAndDeleteUserFormProps> = ({
         }
       },
     },
-    // {
-    //   accessorKey: "isAdmin",
-    //   header: "Admin?",
-    //   cell: ({ row }) => {
-    //     if (row.getValue("isAdmin")) {
-    //       return <BadgeCheck className="h-5 w-5" />;
-    //     } else {
-    //       return <div className="">---</div>;
-    //     }
-    //   },
-    // },
-    // {
-    //   accessorKey: "isCoordinator",
-    //   header: "Coordinator?",
-    //   cell: ({ row }) => {
-    //     if (row.getValue("isCoordinator")) {
-    //       return <BadgeCheck className="h-5 w-5" />;
-    //     } else {
-    //       return <div className="">---</div>;
-    //     }
-    //   },
-    // },
-    // {
-    //   accessorKey: "isFaculty",
-    //   header: "Faculty?",
-    //   cell: ({ row }) => {
-    //     if (row.getValue("isFaculty")) {
-    //       return <BadgeCheck className="h-5 w-5 mx-auto" />;
-    //     } else {
-    //       return <div className="text-center">---</div>;
-    //     }
-    //   },
-    // },
-    // {
-    //   accessorKey: "isStaff",
-    //   header: "Staff?",
-    //   cell: ({ row }) => {
-    //     if (row.getValue("isStaff")) {
-    //       return <BadgeCheck className="h-5 w-5 mx-auto" />;
-    //     } else {
-    //       return <div className="text-center">---</div>;
-    //     }
-    //   },
-    // },
     {
       accessorKey: "id",
       header: "",

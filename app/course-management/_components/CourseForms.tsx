@@ -20,12 +20,12 @@ const CourseForms: React.FC<CourseFormsProps> = ({
   return (
     <>
       <Tabs defaultValue="add" className="2xl:hidden">
-        <TabsList className="grid grid-cols-2 max-w-[720px] mx-auto">
+        <TabsList className="grid grid-cols-2 max-w-[300px]">
           <TabsTrigger value="add">Add</TabsTrigger>
           <TabsTrigger value="update/delete">Update/Delete</TabsTrigger>
         </TabsList>
         <TabsContent value="add">
-          <div className="mx-auto max-w-[720px]">
+          <div className="max-w-[600px] mt-6">
             <AddCourseForm professors={professors} />
           </div>
         </TabsContent>
@@ -41,7 +41,7 @@ const CourseForms: React.FC<CourseFormsProps> = ({
       <div className="hidden 2xl:block">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={25} minSize={20}>
-            <div className="mx-10 max-w-[720px]">
+            <div className="mr-10 max-w-[600px]">
               <AddCourseForm professors={professors} />
             </div>
           </ResizablePanel>
