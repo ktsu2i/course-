@@ -21,9 +21,7 @@ export default function RootLayout({
       <html lang="en">
         <body>
           <ToasterProvider />
-          <div className="hidden">
-            <Navbar />
-          </div>
+          <Navbar />
           <Sidebar />
           <main className="pl-64">
             {children}

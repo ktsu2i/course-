@@ -60,7 +60,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-x-2 py-4">
+      <div className="flex justify-between gap-x-2 py-4">
         <Input
           placeholder="Filter courses..."
           value={table.getColumn("label")?.getFilterValue() as string}
@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-md"
         />
-        <div className="flex">
+        <div className="flex max-w-[500px]">
           <Select
             onValueChange={(value) =>
               table.getColumn("semester")?.setFilterValue(value)

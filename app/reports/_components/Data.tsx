@@ -3,8 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Course, User } from "@prisma/client";
 import * as xlsx from "xlsx";
+import { ArrowUpFromLine } from "lucide-react";
 
-import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "./DataTable";
 
@@ -155,13 +155,13 @@ const Data: React.FC<DataProps> = ({
 
   return (
     <>
-      <Navbar />
       <DataTable columns={columns} data={courses} />
       <div className="flex justify-end mt-6">
         <Button
           variant="temple"
           onClick={() => handleDownload(courses)}
         >
+          <ArrowUpFromLine className="h-5 w-5 mr-1" />
           Export
         </Button>
       </div>

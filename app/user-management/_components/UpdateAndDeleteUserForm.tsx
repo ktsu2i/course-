@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, BadgeCheck, Trash2 } from "lucide-react";
+import { ArrowUpDown, Trash2 } from "lucide-react";
 
 import { DataTable } from "@/app/user-management/_components/DataTable";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
 
 import UpdateUserAlert from "./UpdateUserAlert";
 
@@ -80,13 +81,15 @@ const UpdateAndDeleteUserForm: React.FC<UpdateAndDeleteUserFormProps> = ({
         const isStaff = row.original.isStaff;
 
         if (isAdmin) {
-          return "Admin";
+          return <Badge className="bg-red-400/20 text-red-700">Admin</Badge>;
         } else if (isCoordinator) {
-          return "Coordinator";
+          return <Badge className="bg-blue-400/20 text-blue-700">Coordinator</Badge>;
         } else if (isFaculty) {
-          return "Faculty";
+          return <Badge className="bg-green-400/20 text-green-700">Faculty</Badge>;
         } else if (isStaff) {
-          return "Staff";
+          return <Badge className="bg-orange-400/20 text-orange-700">Staff</Badge>;
+        } else {
+          return <Badge className="bg-gray-400/20 text-gray-700">Guest</Badge>
         }
       },
     },

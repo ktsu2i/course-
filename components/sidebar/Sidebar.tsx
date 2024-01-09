@@ -1,11 +1,7 @@
 "use client";
 
-import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
-import { SignedOut, SignInButton, SignedIn } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
-
-import { Button } from "../ui/button";
 
 import SidebarRoutes from "./SidebarRoutes";
 
@@ -19,23 +15,13 @@ const Sidebar = () => {
         isAuthPage ? "hidden" : ""
       }`}
     >
-      <div className="font-semibold text-lg">
-        <a href="/" className="flex p-6">
+      <div className="font-semibold text-lg border-b shadow-sm">
+        <a href="/" className="flex p-4 ml-2">
           <Image width={120} height={120} alt="logo" src="/logo.svg" />
         </a>
       </div>
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full mt-10">
         <SidebarRoutes />
-      </div>
-      <div className="absolute left-5 bottom-5">
-        <SignedOut>
-          <Button variant="temple">
-            <SignInButton />
-          </Button>
-        </SignedOut>
-        <SignedIn>
-          <UserButton afterSignOutUrl="/" />
-        </SignedIn>
       </div>
     </div>
   );

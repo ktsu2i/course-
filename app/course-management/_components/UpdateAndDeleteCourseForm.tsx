@@ -59,6 +59,10 @@ const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
       },
     },
     {
+      accessorKey: "title",
+      header: "Title",
+    },
+    {
       accessorKey: "userId",
       header: "Instructor",
       cell: ({ row }) => {

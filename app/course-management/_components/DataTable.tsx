@@ -60,37 +60,39 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex gap-x-2 py-4">
+      <div className="flex justify-between gap-x-2 py-4">
         <Input
           placeholder="Filter courses..."
           value={table.getColumn("label")?.getFilterValue() as string}
           onChange={(event) =>
             table.getColumn("label")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-md"
         />
-        <Select
-          onValueChange={(value) =>
-            table.getColumn("semester")?.setFilterValue(value)
-          }
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select a semester" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="spring">Spring</SelectItem>
-            <SelectItem value="summer">Summer</SelectItem>
-            <SelectItem value="fall">Fall</SelectItem>
-          </SelectContent>
-        </Select>
-        <Input
-          placeholder="Filter years..."
-          value={table.getColumn("year")?.getFilterValue() as string}
-          onChange={(event) =>
-            table.getColumn("year")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <div className="flex max-w-[500px]">
+          <Select
+            onValueChange={(value) =>
+              table.getColumn("semester")?.setFilterValue(value)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a semester" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="spring">Spring</SelectItem>
+              <SelectItem value="summer">Summer</SelectItem>
+              <SelectItem value="fall">Fall</SelectItem>
+            </SelectContent>
+          </Select>
+          <Input
+            placeholder="Filter years..."
+            value={table.getColumn("year")?.getFilterValue() as string}
+            onChange={(event) =>
+              table.getColumn("year")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
         {/* <Select
           onValueChange={(value) => {
             return table.getColumn("year")?.setFilterValue(value);

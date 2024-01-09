@@ -67,7 +67,7 @@ const ReportPage = async () => {
   ];
 
   return (
-    <div className="max-w-[1800px] mx-auto mt-[85px] px-10">
+    <div className="max-w-[1800px] mx-auto mt-[65px] px-10">
       <Data professors={professors} courses={courses} />
     </div>
   );

@@ -1,10 +1,8 @@
-import Navbar from "@/components/Navbar";
-
 const CancellationPage = () => {
   return (
-    <>
+    <div className="mt-[65px]">
       <div>cancellation page</div>
-    </>
+    </div>
   );
 };
  
