@@ -23,12 +23,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-interface UpdateAndDeleteCourseFormProps {
+interface CourseTableProps {
   professors: User[];
   courses: Course[];
 }
 
-const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
+const CourseTable: React.FC<CourseTableProps> = ({
   professors,
   courses,
 }) => {
@@ -151,7 +151,7 @@ const UpdateAndDeleteCourseForm: React.FC<UpdateAndDeleteCourseFormProps> = ({
     },
   ];
 
-  return <DataTable columns={columns} data={courses} />;
+  return <DataTable columns={columns} data={courses} professors={professors} />;
 };
 
-export default UpdateAndDeleteCourseForm;
+export default CourseTable;

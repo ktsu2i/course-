@@ -62,19 +62,24 @@ export default async function Home() {
 
   return (
     <>
-      {/* <div className="w-1/2 mx-auto pt-[85px]">{alertContent}</div> */}
-      {/* <div className="pt-[65px]"></div> */}
-      {/* <WelcomeCard /> */}
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel defaultSize={80}>
           <ResizablePanelGroup direction="vertical" className="pt-[65px]">
-            <ResizablePanel defaultSize={17} minSize={17}>
-              <div className="m-5 max-w-[500px] flex">
+            <ResizablePanel defaultSize={35} minSize={35}>
+              <div className="m-10 bg-slate-0">
+                <h1 className="text-3xl font-bold">
+                  Welcome Back, {currentUser?.firstName}!
+                </h1>
+                {/* <p className="text-slate-500 mt-1">
+                  Manage your information and courses
+                </p> */}
+              </div>
+              <div className="mx-10 max-w-[560px]">
                 <UserInfoCard currentUser={currentUser} />
               </div>
             </ResizablePanel>
             <ResizableHandle />
-            <ResizablePanel defaultSize={83}>
+            <ResizablePanel defaultSize={65}>
               <div className="m-10">
                 <h1 className="text-2xl font-bold">Your Courses</h1>
                 <CourseTable courses={courses} currentUser={currentUser} />

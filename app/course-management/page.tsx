@@ -1,4 +1,4 @@
-import CourseForms from "./_components/CourseForms";
+import CourseTable from "./_components/CourseTable";
 
 import getAllProfessors from "../actions/getAllProfessors";
 import getAllCourses from "../actions/getAllCourses";
@@ -24,7 +24,7 @@ const CourseManagementPage = async () => {
           You can add, update, and delete courses here.
         </p>
         <div className="mt-8">
-          <CourseForms professors={professors} courses={courses} />
+          <CourseTable professors={professors} courses={courses} />
         </div>
       </div>
       <div className={`h-full flex items-center justify-center ${(isAdmin || isCoordinator || isFaculty) && "hidden"}`}>
