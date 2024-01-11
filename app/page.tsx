@@ -4,11 +4,10 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 
 import WelcomeCard from "@/components/WelcomeCard";
 import UserInfoCard from "@/components/UserInfoCard";
+import CourseTable from "@/components/CourseTable";
 
 import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
 import getAllCourses from "./actions/getAllCourses";
-import CourseTable from "@/components/CourseTable";
-import { Card, CardContent } from "@/components/ui/card";
 
 export default async function Home() {
   const currentUser = await getCurrentUserFromDb();

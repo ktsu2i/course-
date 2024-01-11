@@ -54,61 +54,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-const departments = [
-  { label: "Accounting", value: "acct" },
-  { label: "Advertising", value: "adv" },
-  { label: "Anthropology", value: "anth" },
-  { label: "Architecture", value: "arch" },
-  { label: "Art", value: "artu" },
-  { label: "Art History", value: "arth" },
-  { label: "Asian Studies", value: "asst" },
-  { label: "Biology", value: "biol" },
-  { label: "Chemistry", value: "chem" },
-  { label: "Chinese", value: "chi" },
-  { label: "Communication Studies", value: "cmst" },
-  { label: "Communication and Social Influence", value: "csi" },
-  { label: "Computer & Information Science", value: "cis" },
-  { label: "Dance", value: "danc" },
-  { label: "Economics", value: "econ" },
-  { label: "Education", value: "educ" },
-  { label: "English", value: "eng" },
-  { label: "Environmental Studies", value: "enst" },
-  { label: "French", value: "fren" },
-  { label: "Gender, Sexuality and Women Studies", value: "gsws" },
-  { label: "Geography and Urban Studies", value: "gus" },
-  { label: "History", value: "hist" },
-  { label: "Human Resource Management", value: "hrm" },
-  { label: "Intellectual Heritage", value: "ih" },
-  { label: "International Bus Studies", value: "jibs" },
-  { label: "Japanese", value: "jpns" },
-  { label: "Journalism", value: "jrn" },
-  { label: "Klein", value: "kln" },
-  { label: "Korean", value: "krn" },
-  { label: "Law (Undergraduate)", value: "lawu" },
-  { label: "LGBT Studies", value: "lgbt" },
-  { label: "Liberal Arts", value: "cla" },
-  { label: "Management Information Systems", value: "mis" },
-  { label: "Marketing", value: "mktg" },
-  { label: "Mathematics", value: "math" },
-  { label: "Media Studies & Production", value: "msp" },
-  { label: "Music Studies", value: "must" },
-  { label: "Philosophy", value: "phil" },
-  { label: "Physical Activity", value: "actv" },
-  { label: "Physics", value: "phys" },
-  { label: "Political Science", value: "pols" },
-  { label: "Psychology", value: "psy" },
-  { label: "Religion", value: "rel" },
-  { label: "Risk Management and Insurance", value: "rmi" },
-  { label: "Sociology", value: "soc" },
-  { label: "Spanish", value: "span" },
-  { label: "Sport Tourism Hospitality management", value: "sthm" },
-  { label: "Sports & Recreation Management", value: "srm" },
-  { label: "Statistics", value: "stat" },
-  { label: "Temple University Japan", value: "tuj" },
-  { label: "Theater", value: "thtr" },
-  { label: "Tourism and Hospitality Management", value: "thm" },
-  { label: "University Seminar", value: "unvs" },
-];
+import { DEPARTMENTS } from "@/lib/constatns";
 
 interface UpdateCourseAlertProps {
   professors: User[];
@@ -270,7 +216,7 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
                       <FormControl>
                         <Button variant="outline" role="combobox">
                           {field.value
-                            ? departments.find(
+                            ? DEPARTMENTS.find(
                                 (department) => department.value === field.value
                               )?.label
                             : "Select a department"}
@@ -286,7 +232,7 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
                         <CommandEmpty>No department found.</CommandEmpty>
                         <ScrollArea className="h-[300px]">
                           <CommandGroup>
-                            {departments.map((department) => (
+                            {DEPARTMENTS.map((department) => (
                               <CommandItem
                                 value={department.label}
                                 key={department.value}

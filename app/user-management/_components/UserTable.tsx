@@ -24,12 +24,12 @@ import { Badge } from "@/components/ui/badge";
 
 import UpdateUserAlert from "./UpdateUserAlert";
 
-interface UpdateAndDeleteUserFormProps {
+interface UserTableProps {
   users: User[];
   currentUser: User | null;
 }
 
-const UpdateAndDeleteUserForm: React.FC<UpdateAndDeleteUserFormProps> = ({
+const UserTable: React.FC<UserTableProps> = ({
   users,
   currentUser,
 }) => {
@@ -144,4 +144,4 @@ const UpdateAndDeleteUserForm: React.FC<UpdateAndDeleteUserFormProps> = ({
   return <DataTable columns={columns} data={users} />;
 };
 
-export default UpdateAndDeleteUserForm;
+export default UserTable;

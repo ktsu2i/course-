@@ -1,6 +1,6 @@
 import getAllProfessors from "../actions/getAllProfessors";
 import getAllCourses from "../actions/getAllCourses";
-import Data from "./_components/Data";
+import Data from "./_components/CourseTable";
 import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
 
 const ReportPage = async () => {
