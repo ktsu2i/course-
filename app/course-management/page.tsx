@@ -18,7 +18,7 @@ const CourseManagementPage = async () => {
 
   return (
     <>
-      <div className={`mt-[85px] px-10 ${(isStaff || isGuest) && "hidden"}`}>
+      <div className={`pt-[85px] px-10 ${(!isAdmin && !isCoordinator && !isFaculty) && "hidden"}`}>
         <h1 className="text-2xl font-bold">Manage Courses</h1>
         <p className="text-slate-500 mt-1">
           You can add, update, and delete courses here.

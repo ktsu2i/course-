@@ -46,25 +46,6 @@ const registerTuidFormSchema = z.object({
 const UserInfoCard: React.FC<UserInfoCardProps> = ({
   currentUser,
 }) => {
-  const isAdmin = currentUser?.isAdmin;
-  const isCoordinator = currentUser?.isCoordinator;
-  const isFaculty = currentUser?.isFaculty;
-  const isStaff = currentUser?.isStaff;
-
-  let roleBadge;
-
-  if (isAdmin) {
-    roleBadge = <Badge className="bg-red-400/20 text-red-700">Admin</Badge>;
-  } else if (isCoordinator) {
-    roleBadge = <Badge className="bg-blue-400/20 text-blue-700">Coordinator</Badge>;
-  } else if (isFaculty) {
-    roleBadge = <Badge className="bg-green-400/20 text-green-700">Faculty</Badge>;
-  } else if (isStaff) {
-    roleBadge = <Badge className="bg-orange-400/20 text-orange-700">Staff</Badge>;
-  } else {
-    roleBadge = <Badge className="bg-gray-400/20 text-gray-700">Guest</Badge>;
-  }
-
   const router = useRouter();
 
   const form = useForm<z.infer<typeof registerTuidFormSchema>>({
@@ -92,7 +73,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({
       <CardHeader>
         <CardTitle>Your Information</CardTitle>
         <CardDescription>
-          Only coordinators can update users' information.
+          Only coordinators can update users&apos; information.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -164,7 +145,28 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({
         </div>
         <div className="flex items-center gap-x-2 mb-2">
           <div className="font-bold">Role:</div>
-          <div>{roleBadge}</div>
+          <div>
+            {currentUser?.isAdmin && (
+              <Badge className="bg-red-400/20 text-red-700">Admin</Badge>
+            )}
+          </div>
+          <div>
+            {currentUser?.isCoordinator && (
+              <Badge className="bg-blue-400/20 text-blue-700">
+                Coordinator
+              </Badge>
+            )}
+          </div>
+          <div>
+            {currentUser?.isFaculty && (
+              <Badge className="bg-green-400/20 text-green-700">Faculty</Badge>
+            )}
+          </div>
+          <div>
+            {currentUser?.isStaff && (
+              <Badge className="bg-orange-400/20 text-orange-700">Staff</Badge>
+            )}
+          </div>
         </div>
         <div className="flex gap-x-2 mb-2">
           <div className="font-bold">TUID:</div>

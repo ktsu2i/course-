@@ -18,8 +18,8 @@ const ReportPage = async () => {
   return (
     <>
       <div
-        className={`mt-[85px] px-10 ${
-          (isCoordinator || isFaculty || isGuest) && "hidden"
+        className={`pt-[85px] px-10 ${
+          (!isAdmin && !isStaff) && "hidden"
         }`}
       >
         <h1 className="text-2xl font-bold">Reports</h1>
