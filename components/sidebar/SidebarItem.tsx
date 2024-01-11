@@ -28,7 +28,9 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       onClick={onClick}
       type="button"
       variant="ghost"
-      className={`font-normal flex justify-start gap-x-4 p-6 mx-3 hover:bg-temple/10 hover:text-temple ${isActive ? "bg-temple/10 text-temple" : ""}`}
+      className={`font-normal flex justify-start gap-x-4 p-6 mx-3 hover:bg-temple/10 hover:text-temple ${
+        isActive ? "bg-temple/10 text-temple" : ""
+      }`}
     >
       <Icon size={20} />
       {label}
