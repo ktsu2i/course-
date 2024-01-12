@@ -200,8 +200,10 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
     {
       accessorKey: "id",
       cell: ({ row }) => {
+        const status = row.getValue("status");
+
         return (
-          <div className="flex gap-x-2">
+          <div className={`flex gap-x-2 ${status !== "new" && "hidden"}`}>
             <AlertDialog>
               <AlertDialogTrigger>
                 <Button size="sm" variant="destructive">
