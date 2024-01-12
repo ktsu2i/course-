@@ -83,39 +83,27 @@ const UserTable: React.FC<UserTableProps> = ({
 
         return (
           <div className="flex items-center">
-            <div>
-              {isAdmin && (
-                <Badge className="bg-red-400/20 text-red-700 mr-2">Admin</Badge>
-              )}
-            </div>
-            <div>
-              {isCoordinator && (
-                <Badge className="bg-blue-400/20 text-blue-700 mr-2">
-                  Coordinator
-                </Badge>
-              )}
-            </div>
-            <div>
-              {isFaculty && (
-                <Badge className="bg-green-400/20 text-green-700 mr-2">
-                  Faculty
-                </Badge>
-              )}
-            </div>
-            <div>
-              {isStaff && (
-                <Badge className="bg-orange-400/20 text-orange-700 mr-2">
-                  Staff
-                </Badge>
-              )}
-            </div>
-            <div>
-              {isGuest && (
-                <Badge className="bg-gray-400/20 text-gray-700">
-                  Guest
-                </Badge>
-              )}
-            </div>
+            {isAdmin && (
+              <Badge className="bg-red-400/20 text-red-700 ml-2">Admin</Badge>
+            )}
+            {isCoordinator && (
+              <Badge className="bg-blue-400/20 text-blue-700 ml-2">
+                Coordinator
+              </Badge>
+            )}
+            {isFaculty && (
+              <Badge className="bg-green-400/20 text-green-700 ml-2">
+                Faculty
+              </Badge>
+            )}
+            {isStaff && (
+              <Badge className="bg-orange-400/20 text-orange-700 ml-2">
+                Staff
+              </Badge>
+            )}
+            {isGuest && (
+              <Badge className="bg-gray-400/20 text-gray-700 ml-2">Guest</Badge>
+            )}
           </div>
         );
       },

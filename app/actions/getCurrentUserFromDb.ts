@@ -5,9 +5,9 @@ import { currentUser } from "@clerk/nextjs";
 export default async function getCurrentUserFromDb() {
   try {
     const user = await currentUser();
-    const hasRegistered = user?.publicMetadata?.hasRegistered;
+    // const hasRegistered = user?.publicMetadata?.hasRegistered;
 
-    if (!user || !hasRegistered) {
+    if (!user) {
       return null;
     }
 

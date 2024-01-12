@@ -12,6 +12,7 @@ model User {
   id String @id @default(uuid())
   clerkUserId String @unique
   tuid Int @unique
+  department String
   firstName String
   lastName String
   fullName String

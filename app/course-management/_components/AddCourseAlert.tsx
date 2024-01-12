@@ -166,7 +166,7 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({
       <AlertDialogTrigger>
         <Button size="sm" variant="temple">
           <Plus className="h-4 w-4 mr-1" />
-          Add
+          Request
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="max-h-[1200px] max-w-[600px] overflow-y-auto">
@@ -529,9 +529,8 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({
                 type="submit"
                 variant="temple"
                 disabled={!isValid || isSubmitting}
-                className="px-6"
               >
-                Add
+                Request
               </Button>
             </AlertDialogFooter>
           </form>

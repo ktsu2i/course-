@@ -13,7 +13,7 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { tuid } = await request.json();
+    const { tuid, department } = await request.json();
     const firstName = user?.firstName as string;
     const lastName = user?.lastName as string;
     const fullName = firstName + " " + lastName;
@@ -23,6 +23,7 @@ export async function POST(
       data: {
         tuid: tuid,
         clerkUserId: user.id,
+        department: department,
         firstName: firstName,
         lastName: lastName,
         fullName: fullName,
@@ -30,11 +31,11 @@ export async function POST(
       }
     });
 
-    await clerkClient.users.updateUserMetadata(user?.id, {
-      publicMetadata: {
-        "hasRegistered": true
-      }
-    });
+    // await clerkClient.users.updateUserMetadata(user?.id, {
+    //   publicMetadata: {
+    //     "hasRegistered": true
+    //   }
+    // });
 
     return NextResponse.json(newUser);
 
