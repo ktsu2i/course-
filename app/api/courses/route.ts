@@ -108,12 +108,14 @@ export async function PATCH(
       hasSecuredRoom,
       specialInfo,
       notes,
+      status,
     } = await request.json();
 
     if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    console.log(status);
     const padCourseNum = String(courseNum).padStart(4, '0');
     const updatedLabel = `${department.toUpperCase()} ${padCourseNum} (${section})`;
 
@@ -141,6 +143,7 @@ export async function PATCH(
           specialInfo: specialInfo,
           notes: notes,
           label: updatedLabel,
+          status: status,
         },
       });
     } else {
@@ -165,6 +168,7 @@ export async function PATCH(
           specialInfo: specialInfo,
           notes: notes,
           label: updatedLabel,
+          status: status,
         },
       });
     }
