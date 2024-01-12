@@ -14,7 +14,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "./ui/card";
 import {
   Sheet,
@@ -36,25 +36,21 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from "./ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem
+  CommandItem,
 } from "./ui/command";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
-import { DEPARTMENTS } from "@/lib/constatns";
+import { DEPARTMENTS } from "@/lib/constants";
 
 interface UserInfoCardProps {
   currentUser: User | null;
-};
+}
 
 const userRegistrationFormSchema = z.object({
   tuid: z
@@ -63,13 +59,11 @@ const userRegistrationFormSchema = z.object({
     .length(9, { message: "Must be a 9-digit number" })
     .transform(Number),
   department: z.string({
-    required_error: "Please select a department"
+    required_error: "Please select a department",
   }),
 });
 
-const UserInfoCard: React.FC<UserInfoCardProps> = ({
-  currentUser,
-}) => {
+const UserInfoCard: React.FC<UserInfoCardProps> = ({ currentUser }) => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof userRegistrationFormSchema>>({
@@ -83,7 +77,9 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({
 
   const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: z.infer<typeof userRegistrationFormSchema>) => {
+  const onSubmit = async (
+    values: z.infer<typeof userRegistrationFormSchema>
+  ) => {
     try {
       await axios.post("/api/users", values);
       toast.success("Completed registration!");
@@ -232,9 +228,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({
           <div className="flex items-center mb-2">
             <div className="font-bold">Role:</div>
             {isAdmin && (
-              <Badge className="bg-red-400/20 text-red-700 ml-2">
-                Admin
-              </Badge>
+              <Badge className="bg-red-400/20 text-red-700 ml-2">Admin</Badge>
             )}
             {isCoordinator && (
               <Badge className="bg-blue-400/20 text-blue-700 ml-2">
@@ -252,9 +246,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({
               </Badge>
             )}
             {isGuest && (
-              <Badge className="bg-gray-400/20 text-gray-700 ml-2">
-                Guest
-              </Badge>
+              <Badge className="bg-gray-400/20 text-gray-700 ml-2">Guest</Badge>
             )}
           </div>
           <div className="flex gap-x-2 mb-2">
@@ -269,6 +261,6 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({
       </CardContent>
     </Card>
   );
-}
- 
+};
+
 export default UserInfoCard;

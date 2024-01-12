@@ -17,7 +17,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
@@ -53,11 +53,11 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-import { DEPARTMENTS } from "@/lib/constatns";
+import { DEPARTMENTS } from "@/lib/constants";
 
 interface AddCourseAlertProps {
   professors: User[];
-};
+}
 
 const courseFormSchema = z
   .object({
@@ -115,9 +115,7 @@ const courseFormSchema = z
     }
   );
 
-const AddCourseAlert: React.FC<AddCourseAlertProps> = ({
-  professors,
-}) => {
+const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof courseFormSchema>>({
@@ -538,6 +536,6 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({
       </AlertDialogContent>
     </AlertDialog>
   );
-}
- 
+};
+
 export default AddCourseAlert;

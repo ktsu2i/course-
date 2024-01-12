@@ -5,20 +5,72 @@ import { Course, User } from "@prisma/client";
 import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { DEPARTMENTS } from "@/lib/constants";
 
 import { DataTable } from "./DataTable";
-import { DEPARTMENTS } from "@/lib/constatns";
 
 interface CourseTableProps {
   professors: User[];
   courses: Course[];
 }
 
-const CourseTable: React.FC<CourseTableProps> = ({
-  professors,
-  courses,
-}) => {
+const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
   const columns: ColumnDef<Course>[] = [
+    {
+      accessorKey: "status",
+      header: ({ column }) => {
+        return (
+          <Select
+            onValueChange={(value) => {
+              column.setFilterValue(value);
+            }}
+          >
+            <SelectTrigger className="border-none bg-transparent mr-1">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="new">
+                <Badge className="bg-gray-500 text-white">New</Badge>
+              </SelectItem>
+              <SelectItem value="approved">
+                <Badge className="bg-green-600 text-white">Approved</Badge>
+              </SelectItem>
+              <SelectItem value="rejected">
+                <Badge className="bg-destructive text-destructive-foreground">
+                  Rejected
+                </Badge>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        );
+      },
+      cell: ({ row }) => {
+        const status = row.getValue("status");
+
+        if (status === "new") {
+          return <Badge className="bg-gray-500 text-white">New</Badge>;
+        } else if (status === "approved") {
+          return <Badge className="bg-green-600 text-white">Approved</Badge>;
+        } else if (status === "rejected") {
+          return (
+            <Badge className="bg-destructive text-destructive-foreground">
+              Rejected
+            </Badge>
+          );
+        } else {
+          return <Badge className="bg-red-600/20 text-red-700">Error</Badge>;
+        }
+      },
+    },
     {
       accessorKey: "department",
       header: ({ column }) => {
@@ -40,7 +92,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
         );
 
         return department?.label;
-      }
+      },
     },
     {
       accessorKey: "label",
@@ -107,7 +159,8 @@ const CourseTable: React.FC<CourseTableProps> = ({
       header: "Semester",
       cell: ({ row }) => {
         const semester = row.getValue("semester") as string;
-        const capitalizedSemester = semester.charAt(0).toUpperCase() + semester.slice(1);
+        const capitalizedSemester =
+          semester.charAt(0).toUpperCase() + semester.slice(1);
 
         return capitalizedSemester;
       },

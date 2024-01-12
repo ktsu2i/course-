@@ -54,58 +54,62 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-import { DEPARTMENTS } from "@/lib/constatns";
+import { DEPARTMENTS } from "@/lib/constants";
 
 interface UpdateCourseAlertProps {
   professors: User[];
   courses: Course[];
   courseId: string;
-};
+}
 
-const courseFormSchema = z.object({
-  department: z.string({
-    required_error: "Please select a department",
-  }),
-  courseNum: z.coerce.number({
-    required_error: "Must be a number",
-  }),
-  section: z.coerce.number({
-    required_error: "Must be a number",
-  }),
-  title: z.string().min(1, { message: "Must be at least 1 character long" }),
-  crn: z
-    .coerce
-    .number()
-    .gte(10000, { message: "Must be a 5-digit number" })
-    .lte(99999, { message: "Must be a 5-digit number" }),
-  instructorId: z.string().min(1),
-  isNewInstructor: z.boolean().default(false),
-  classType: z.enum(["in-person", "online", "hybrid"], {
-    required_error: "Please select a class type",
-  }),
-  roomNum: z.coerce.number().optional(),
-  hasSecuredRoom: z.boolean().default(false).optional(),
-  dayAndTime: z.string().min(1, {
-    message: "Required",
-  }),
-  semester: z.string({
-    required_error: "Please select a semester",
-  }),
-  year: z.coerce.number({
-    required_error: "Must be a number",
-  }),
-  specialInfo: z.string().optional(),
-  notes: z.string().optional(),
-}).refine(({ classType, roomNum }) => {
-  if (classType !== "online" && !roomNum) {
-    return false;
-  } else {
-    return true;
-  }
-}, {
-  message: "Required",
-  path: ["roomNUm"],
-});
+const courseFormSchema = z
+  .object({
+    department: z.string({
+      required_error: "Please select a department",
+    }),
+    courseNum: z.coerce.number({
+      required_error: "Must be a number",
+    }),
+    section: z.coerce.number({
+      required_error: "Must be a number",
+    }),
+    title: z.string().min(1, { message: "Must be at least 1 character long" }),
+    crn: z.coerce
+      .number()
+      .gte(10000, { message: "Must be a 5-digit number" })
+      .lte(99999, { message: "Must be a 5-digit number" }),
+    instructorId: z.string().min(1),
+    isNewInstructor: z.boolean().default(false),
+    classType: z.enum(["in-person", "online", "hybrid"], {
+      required_error: "Please select a class type",
+    }),
+    roomNum: z.coerce.number().optional(),
+    hasSecuredRoom: z.boolean().default(false).optional(),
+    dayAndTime: z.string().min(1, {
+      message: "Required",
+    }),
+    semester: z.string({
+      required_error: "Please select a semester",
+    }),
+    year: z.coerce.number({
+      required_error: "Must be a number",
+    }),
+    specialInfo: z.string().optional(),
+    notes: z.string().optional(),
+  })
+  .refine(
+    ({ classType, roomNum }) => {
+      if (classType !== "online" && !roomNum) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    {
+      message: "Required",
+      path: ["roomNUm"],
+    }
+  );
 
 const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
   professors,
@@ -144,12 +148,20 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
   }
 
   let defaultClassType: "in-person" | "online" | "hybrid" | undefined;
-  if (["in-person", "online", "hybrid", undefined].includes(uniqueCourse?.classType)) {
-    defaultClassType = uniqueCourse?.classType as "in-person" | "online" | "hybrid" | undefined;
+  if (
+    ["in-person", "online", "hybrid", undefined].includes(
+      uniqueCourse?.classType
+    )
+  ) {
+    defaultClassType = uniqueCourse?.classType as
+      | "in-person"
+      | "online"
+      | "hybrid"
+      | undefined;
   } else {
     defaultClassType = undefined;
   }
-    
+
   const form = useForm<z.infer<typeof courseFormSchema>>({
     mode: "onChange",
     resolver: zodResolver(courseFormSchema),

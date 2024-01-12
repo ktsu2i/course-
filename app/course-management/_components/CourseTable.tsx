@@ -5,8 +5,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Trash2, ArrowUpDown } from "lucide-react";
-
 import { Course, User } from "@prisma/client";
+
 import UpdateCourseAlert from "./UpdateCourseAlert";
 import { DataTable } from "@/app/course-management/_components/DataTable";
 
@@ -22,6 +22,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
 interface CourseTableProps {
   professors: User[];
@@ -45,6 +53,46 @@ const CourseTable: React.FC<CourseTableProps> = ({
   };
 
   const columns: ColumnDef<Course>[] = [
+    {
+      accessorKey: "status",
+      header: ({ column }) => {
+        return (
+          <Select
+            onValueChange={(value) => {
+              column.setFilterValue(value);
+            }}
+          >
+            <SelectTrigger className="border-none bg-transparent mr-1">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="new">
+                <Badge className="bg-gray-500 text-white">Pending</Badge>
+              </SelectItem>
+              <SelectItem value="approved">
+                <Badge className="bg-green-600 text-white">Approved</Badge>
+              </SelectItem>
+              <SelectItem value="rejected">
+                <Badge className="bg-destructive text-destructive-foreground">Rejected</Badge>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        );
+      },
+      cell: ({ row }) => {
+        const status = row.getValue("status");
+
+        if (status === "new") {
+          return <Badge className="bg-gray-500 text-white">Pending</Badge>;
+        } else if (status === "approved") {
+          return <Badge className="bg-green-600 text-white">Approved</Badge>;
+        } else if (status === "rejected") {
+          return <Badge className="bg-destructive text-destructive-foreground">Rejected</Badge>;
+        } else {
+          return <Badge className="bg-red-600/20 text-red-700">Error</Badge>;
+        }
+      }
+    },
     {
       accessorKey: "label",
       header: ({ column }) => {

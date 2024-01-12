@@ -41,6 +41,8 @@ model Course {
   credits Int?
   label String
 
+  status String @default("new")
+
   userId String
   instructor User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
