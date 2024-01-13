@@ -78,6 +78,7 @@ const courseFormSchema = z
       .number()
       .gte(10000, { message: "Must be a 5-digit number" })
       .lte(99999, { message: "Must be a 5-digit number" }),
+    credits: z.string(),
     instructorId: z.string().min(1),
     isNewInstructor: z.boolean().default(false),
     classType: z.enum(["in-person", "online", "hybrid"], {
@@ -171,6 +172,7 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
       section: uniqueCourse?.section,
       title: uniqueCourse?.title,
       crn: uniqueCourse?.crn,
+      credits: uniqueCourse?.credits.toString(),
       instructorId: uniqueCourse?.userId,
       isNewInstructor: uniqueCourse?.isNewInstructor,
       classType: defaultClassType,
@@ -329,6 +331,29 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
                     />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="credits"
+              render={({ field }) => (
+                <FormItem className="mt-6 flex-1">
+                  <FormLabel>Credits</FormLabel>
+                  <Select onValueChange={field.onChange} {...field}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select credits" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">1</SelectItem>
+                      <SelectItem value="2">2</SelectItem>
+                      <SelectItem value="3">3</SelectItem>
+                      <SelectItem value="4">4</SelectItem>
+                      <SelectItem value="5">5</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormItem>
               )}
             />

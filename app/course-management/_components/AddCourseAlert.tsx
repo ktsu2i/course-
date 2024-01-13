@@ -78,6 +78,9 @@ const courseFormSchema = z
       .regex(/^\d+$/, { message: "Must be a number" })
       .length(5, { message: "Must be a 5-digit number" })
       .transform(Number),
+    credits: z
+      .string()
+      .transform(Number),
     instructorId: z.string().min(1),
     isNewInstructor: z.boolean().default(false),
     classType: z.enum(["in-person", "online", "hybrid"], {
@@ -127,6 +130,7 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
       section: undefined,
       title: undefined,
       crn: undefined,
+      credits: undefined,
       instructorId: undefined,
       isNewInstructor: undefined,
       classType: undefined,
@@ -288,6 +292,29 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                     />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="credits"
+              render={({ field }) => (
+                <FormItem className="mt-6 flex-1">
+                  <FormLabel>Credits</FormLabel>
+                  <Select onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select credits" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">1</SelectItem>
+                      <SelectItem value="2">2</SelectItem>
+                      <SelectItem value="3">3</SelectItem>
+                      <SelectItem value="4">4</SelectItem>
+                      <SelectItem value="5">5</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormItem>
               )}
             />

@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Course, User } from "@prisma/client";
-import { ArrowUpDown, BadgeX, Check, CheckCircle2, X, XCircle } from "lucide-react";
+import { ArrowUpDown, Check, X } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -39,7 +39,7 @@ interface CourseTableProps {
 
 const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
   const router = useRouter();
-  
+
   const handleAction = async (courseId: string, status: string) => {
     try {
       const course = courses.find((course) => course.id === courseId);
@@ -150,6 +150,10 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
           </Button>
         );
       },
+    },
+    {
+      accessorKey: "credits",
+      header: "Credits",
     },
     {
       accessorKey: "dayAndTime",

@@ -38,7 +38,7 @@ model Course {
   dayAndTime String
   semester String
   year Int
-  credits Int?
+  credits Int
   label String
 
   status String @default("new")
