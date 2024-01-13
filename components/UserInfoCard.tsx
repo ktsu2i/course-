@@ -95,6 +95,8 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({ currentUser }) => {
   const isStaff = currentUser?.isStaff;
   const isGuest = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
 
+  const department = DEPARTMENTS.find((department) => department.value === currentUser?.department);
+
   return (
     <Card>
       <CardHeader>
@@ -248,6 +250,12 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({ currentUser }) => {
             {isGuest && (
               <Badge className="bg-gray-400/20 text-gray-700 ml-2">Guest</Badge>
             )}
+          </div>
+          <div className="flex gap-x-2 mb-2">
+            <div className="font-bold">Department:</div>
+            <div className="text-slate-600">
+              {department?.label} ({department?.value.toUpperCase()})
+            </div>
           </div>
           <div className="flex gap-x-2 mb-2">
             <div className="font-bold">TUID:</div>
