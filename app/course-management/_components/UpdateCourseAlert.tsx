@@ -57,6 +57,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { DEPARTMENTS } from "@/lib/constants";
 
 interface UpdateCourseAlertProps {
+  disabled: boolean;
   professors: User[];
   courses: Course[];
   courseId: string;
@@ -113,6 +114,7 @@ const courseFormSchema = z
   );
 
 const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
+  disabled,
   professors,
   courses,
   courseId,
@@ -203,8 +205,8 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <Button size="sm" variant="ghost">
+      <AlertDialogTrigger disabled={disabled}>
+        <Button size="sm" variant="ghost" disabled={disabled}>
           <Pencil className="h-5 w-5" />
         </Button>
       </AlertDialogTrigger>

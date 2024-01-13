@@ -161,9 +161,13 @@ const CourseTable: React.FC<CourseTableProps> = ({
       accessorKey: "id",
       header: "",
       cell: ({ row }) => {
+        const isNewCourse = row.getValue("status") === "new";
+        const isRejectedCourse = row.getValue("status") === "rejected";
+
         return (
-          <div className="flex gap-x-2">
+          <div className={`flex gap-x-2 ${isNewCourse && "hidden"}`}>
             <UpdateCourseAlert
+              disabled={isRejectedCourse}
               professors={professors}
               courses={courses}
               courseId={row.getValue("id")}
