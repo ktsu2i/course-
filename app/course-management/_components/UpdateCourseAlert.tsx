@@ -93,25 +93,37 @@ const courseFormSchema = z
     semester: z.string({
       required_error: "Please select a semester",
     }),
-    year: z.coerce.number({
-      required_error: "Must be a number",
-    }),
+    // year: z.coerce.number({
+    //   required_error: "Must be a number",
+    // }),
+    year: z.string(),
+    customYear: z
+      .coerce
+      .number({ required_error: "Must be a number" })
+      .optional(),
     specialInfo: z.string().optional(),
     notes: z.string().optional(),
   })
-  .refine(
-    ({ classType, roomNum }) => {
+  .refine(({ classType, roomNum }) => {
       if (classType !== "online" && !roomNum) {
         return false;
       } else {
         return true;
       }
-    },
-    {
+    }, {
       message: "Required",
       path: ["roomNUm"],
+  })
+  .refine(({ year, customYear }) => {
+    if (year === "other" && !customYear) {
+      return false;
+    } else {
+      return true;
     }
-  );
+  }, {
+    message: "Required",
+    path: ["year"],
+  });
 
 const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
   disabled,
@@ -121,6 +133,9 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
 }) => {
   const router = useRouter();
   const uniqueCourse = courses.find((course) => course.id === courseId);
+
+  const currentYear = new Date().getFullYear();
+  const nextYear = currentYear + 1;
 
   let defaultRoomNum: number | undefined;
   if (uniqueCourse?.roomNum) {
@@ -134,6 +149,22 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
     defaultHasSecuredRoom = uniqueCourse.hasSecuredRoom;
   } else {
     defaultHasSecuredRoom = false;
+  }
+
+  let defaultYear: string | undefined;
+  if (uniqueCourse?.year === currentYear) {
+    defaultYear = currentYear.toString();
+  } else if (uniqueCourse?.year === nextYear) {
+    defaultYear = nextYear.toString();
+  } else {
+    defaultYear = "other";
+  }
+
+  let defaultCustomYear: number | undefined;
+  if (defaultYear === "other") {
+    defaultCustomYear = uniqueCourse?.year;
+  } else {
+    defaultCustomYear = undefined;
   }
 
   let defaultSpecialInfo: string | undefined;
@@ -182,7 +213,8 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
       hasSecuredRoom: defaultHasSecuredRoom,
       dayAndTime: uniqueCourse?.dayAndTime,
       semester: uniqueCourse?.semester,
-      year: uniqueCourse?.year,
+      year: defaultYear,
+      customYear: defaultCustomYear,
       specialInfo: defaultSpecialInfo,
       notes: defaultNotes,
     },
@@ -190,6 +222,7 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
 
   const { isSubmitting, isValid } = form.formState;
 
+  const yearValue = form.watch("year").toString();
   const classTypeValue = form.watch("classType");
   const hasSecuredRoomValue = form.watch("hasSecuredRoom");
 
@@ -449,7 +482,10 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
                 render={({ field }) => (
                   <FormItem className="mt-6 flex-1">
                     <FormLabel>Semester</FormLabel>
-                    <Select onValueChange={field.onChange} {...field}>
+                    <Select
+                      onValueChange={field.onChange}
+                      {...field}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a semester" />
@@ -464,7 +500,7 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="year"
                 render={({ field }) => (
@@ -474,6 +510,50 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
                       <Input
                         disabled={isSubmitting}
                         placeholder="e.g. 20XX"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              /> */}
+              <FormField
+                control={form.control}
+                name="year"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <Select
+                      onValueChange={field.onChange}
+                      {...field}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a year" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value={currentYear.toString()}>
+                          {currentYear}
+                        </SelectItem>
+                        <SelectItem value={nextYear.toString()}>
+                          {nextYear}
+                        </SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="customYear"
+                render={({ field }) => (
+                  <FormItem
+                    className={`flex-1 ${yearValue !== "other" && "hidden"}`}
+                  >
+                    <FormControl>
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="e.g. 2040"
                         {...field}
                       />
                     </FormControl>

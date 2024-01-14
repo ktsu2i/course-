@@ -107,6 +107,7 @@ export async function PATCH(
       dayAndTime,
       semester,
       year,
+      customYear,
       classType,
       roomNum,
       hasSecuredRoom,
@@ -122,6 +123,13 @@ export async function PATCH(
     console.log(status);
     const padCourseNum = String(courseNum).padStart(4, '0');
     const updatedLabel = `${department.toUpperCase()} ${padCourseNum} (${section})`;
+
+    let yearValue: number;
+    if (year === "other") {
+      yearValue = customYear;
+    } else {
+      yearValue = Number(year);
+    }
 
     let course;
 
@@ -141,7 +149,7 @@ export async function PATCH(
           isNewInstructor: isNewInstructor,
           dayAndTime: dayAndTime,
           semester: semester,
-          year: year,
+          year: yearValue,
           classType: classType,
           roomNum: undefined,
           hasSecuredRoom: undefined,
@@ -167,7 +175,7 @@ export async function PATCH(
           isNewInstructor: isNewInstructor,
           dayAndTime: dayAndTime,
           semester: semester,
-          year: year,
+          year: yearValue,
           classType: classType,
           roomNum: roomNum,
           hasSecuredRoom: hasSecuredRoom,
