@@ -13,7 +13,6 @@ const ReportPage = async () => {
   const isCoordinator = currentUser?.isCoordinator;
   const isFaculty = currentUser?.isFaculty;
   const isStaff = currentUser?.isStaff;
-  const isGuest = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
 
   return (
     <>

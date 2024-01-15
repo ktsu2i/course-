@@ -8,6 +8,28 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// model DayAndTime {
+//   id String @id @default(uuid())
+//   day DAY
+//   time DateTime
+
+//   courseId String
+//   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+// }
+
+// enum DAY {
+//   MONDAY
+//   TUESDAY
+//   WEDNESDAY
+//   THURSDAY
+//   FRIDAY
+// }
+
+// model Course {
+//   id String @id @default(uuid())
+//   dayAndTime DayAndTime[]
+// }
+
 model User {
   id String @id @default(uuid())
   clerkUserId String @unique

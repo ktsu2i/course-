@@ -203,7 +203,7 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
       department: uniqueCourse?.department,
       courseNum: uniqueCourse?.courseNum,
       section: uniqueCourse?.section,
-      title: uniqueCourse?.title,
+      title: uniqueCourse?.title, 
       crn: uniqueCourse?.crn,
       credits: uniqueCourse?.credits.toString(),
       instructorId: uniqueCourse?.userId,
