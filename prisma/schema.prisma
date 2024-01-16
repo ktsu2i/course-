@@ -58,6 +58,7 @@ model Course {
   roomNum Int?
   hasSecuredRoom Boolean?
   dayAndTime String
+  schedule Json?
   semester String
   year Int
   credits Int

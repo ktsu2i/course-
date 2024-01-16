@@ -53,7 +53,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-import { DEPARTMENTS } from "@/lib/constants";
+import { DAYS, DEPARTMENTS } from "@/lib/constants";
+import { Label } from "@/components/ui/label";
 
 interface AddCourseAlertProps {
   professors: User[];
@@ -95,6 +96,16 @@ const courseFormSchema = z
     dayAndTime: z.string().min(1, {
       message: "Required",
     }),
+    // schedules: z
+    //   .object({
+    //     days: z.array(z.string()),
+    //     startHour: z.string(),
+    //     startMin: z.string(),
+    //     endHour: z.string(),
+    //     endMin: z.string(),
+    //     amOrPm: z.string(),
+    //   })
+    //   .array(),
     semester: z.string({
       required_error: "Please select a semester",
     }),
@@ -137,6 +148,13 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
       roomNum: undefined,
       hasSecuredRoom: false,
       dayAndTime: undefined,
+      // schedules: {
+      //   days: [],
+      //   startHour: undefined,
+      //   startMin: undefined,
+      //   endHour: undefined,
+      //   endMin: undefined,
+      // },
       semester: undefined,
       year: undefined,
       specialInfo: undefined,
@@ -386,7 +404,7 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
               control={form.control}
               name="dayAndTime"
               render={({ field }) => (
-                <FormItem className="mt-6">
+                <FormItem className="my-6">
                   <FormLabel>Day & Time</FormLabel>
                   <FormControl>
                     <Input
@@ -401,6 +419,183 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                 </FormItem>
               )}
             />
+            {/* <Label>Schedules</Label>
+            <div className="mt-2 flex items-center justify-between border p-3 rounded-md">
+              <FormField
+                control={form.control}
+                name="schedules"
+                render={() => (
+                  <FormItem>
+                    {DAYS.map((day) => (
+                      <FormField
+                        key={day.value}
+                        control={form.control}
+                        name="days"
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={day.value}
+                              className="flex flex-row items-center space-x-3 space-y-0"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(day.value)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([
+                                          ...field.value,
+                                          day.value,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== day.value
+                                          )
+                                        );
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel>{day.label}</FormLabel>
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    ))}
+                  </FormItem>
+                )}
+              />
+              <div className="flex flex-col items-end gap-y-2">
+                <div className="flex items-center">
+                  <Label className="mr-2">Start</Label>
+                  <FormField
+                    control={form.control}
+                    name="days"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Select onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="hour" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="01">1</SelectItem>
+                            <SelectItem value="02">2</SelectItem>
+                            <SelectItem value="03">3</SelectItem>
+                            <SelectItem value="04">4</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                  <div className="px-2 flex">:</div>
+                  <FormField
+                    control={form.control}
+                    name="days"
+                    render={({ field }) => (
+                      <FormItem className="mr-2">
+                        <Select onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="min" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="00">00</SelectItem>
+                            <SelectItem value="10">10</SelectItem>
+                            <SelectItem value="20">20</SelectItem>
+                            <SelectItem value="30">30</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="days"
+                    render={({ field }) => (
+                      <FormItem className="mr-2">
+                        <Select onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="am">AM</SelectItem>
+                            <SelectItem value="pm">PM</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex items-center">
+                  <Label className="mr-2">End</Label>
+                  <FormField
+                    control={form.control}
+                    name="days"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Select onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="hour" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="01">1</SelectItem>
+                            <SelectItem value="02">2</SelectItem>
+                            <SelectItem value="03">3</SelectItem>
+                            <SelectItem value="04">4</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                  <div className="px-2 flex">:</div>
+                  <FormField
+                    control={form.control}
+                    name="days"
+                    render={({ field }) => (
+                      <FormItem className="mr-2">
+                        <Select onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="min" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="00">00</SelectItem>
+                            <SelectItem value="10">10</SelectItem>
+                            <SelectItem value="20">20</SelectItem>
+                            <SelectItem value="30">30</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="days"
+                    render={({ field }) => (
+                      <FormItem className="mr-2">
+                        <Select onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="am">AM</SelectItem>
+                            <SelectItem value="pm">PM</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </div> */}
             <div className="flex items-end">
               <FormField
                 control={form.control}

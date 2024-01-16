@@ -53,3 +53,26 @@ export const DEPARTMENTS = [
   { label: "Tourism and Hospitality Management", value: "thm" },
   { label: "University Seminar", value: "unvs" },
 ];
+
+export const DAYS = [
+  {
+    value: "monday",
+    label: "Monday",
+  },
+  {
+    value: "tuesday",
+    label: "Tuesday",
+  },
+  {
+    value: "wednesday",
+    label: "Wednesday",
+  },
+  {
+    value: "thursday",
+    label: "Thursday",
+  },
+  {
+    value: "friday",
+    label: "Friday",
+  },
+];

@@ -1,6 +1,6 @@
 "use client";
 
-import { Course, User } from "@prisma/client";
+import { Course, Prisma, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
@@ -157,11 +157,32 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
     },
   ];
 
-  const myCourses = courses.filter(
-    (course) => course.userId === currentUser?.id
-  );
+  // const myCourses = courses.filter(
+  //   (course) => course.userId === currentUser?.id
+  // );
 
-  return <DataTable columns={columns} data={myCourses} />;
+  type ScheduleType = {
+    monday?: {
+      start: Date,
+      end: Date,
+    }
+  };
+
+  const mondayCourses = courses.filter((course) => {
+    if (!course.schedule) return false;
+
+    const schedule = course.schedule as ScheduleType;
+
+    const mondaySchedule = schedule?.monday;
+    const start = mondaySchedule?.start;
+
+    console.log(start);
+
+    return course;
+  });
+
+  // return <DataTable columns={columns} data={myCourses} />;
+  return <DataTable columns={columns} data={mondayCourses} />
 };
 
 export default CourseTable;
