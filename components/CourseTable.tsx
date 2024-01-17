@@ -1,8 +1,9 @@
 "use client";
 
-import { Course, Prisma, User } from "@prisma/client";
+import { Course, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+// import { parseISO } from "date-fns";
 
 import { Button } from "./ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -163,7 +164,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
 
   type ScheduleType = {
     monday?: {
-      start: Date,
+      start: string,
       end: Date,
     }
   };
@@ -177,12 +178,18 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
     const start = mondaySchedule?.start;
 
     console.log(start);
+    // if (!start) return false;
+
+    // const utcDate = new Date(start);
+    // if (utcDate.getHours() === 10) {
+    //   console.log("Yes");
+    // }
 
     return course;
   });
 
   // return <DataTable columns={columns} data={myCourses} />;
-  return <DataTable columns={columns} data={mondayCourses} />
+  return <DataTable columns={columns} data={mondayCourses} />;
 };
 
 export default CourseTable;
