@@ -3,7 +3,7 @@
 import { Course, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-// import { parseISO } from "date-fns";
+import { parse, parseISO, format } from "date-fns";
 
 import { Button } from "./ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +22,29 @@ interface CourseTableProps {
   courses: Course[];
   currentUser: User | null;
 }
+
+type ScheduleType = {
+  monday?: {
+    start: string;
+    end: string;
+  };
+  tuesday?: {
+    start: string;
+    end: string;
+  };
+  wednesday?: {
+    start: string;
+    end: string;
+  };
+  thursday?: {
+    start: string;
+    end: string;
+  };
+  friday?: {
+    start: string;
+    end: string;
+  };
+};
 
 const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
   const columns: ColumnDef<Course>[] = [
@@ -129,6 +152,25 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
       header: "Day & Time",
     },
     {
+      accessorKey: "schedule",
+      header: "Schedule",
+      cell: ({ row }) => {
+        const schedule = row.getValue("schedule") as ScheduleType;
+        const start = schedule?.monday?.start;
+        const end = schedule?.monday?.end;
+        let startTime = "n/a";
+        let endTime = "n/a";
+        if (start !== undefined) {
+          startTime = format(parseISO(start), "HH:mm a");
+        }
+        if (end !== undefined) {
+          endTime = format(parseISO(end), "HH:mm a");
+        }
+
+        return `${startTime} - ${endTime}`;
+      }
+    },
+    {
       accessorKey: "crn",
       header: "CRN",
     },
@@ -158,38 +200,25 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
     },
   ];
 
-  // const myCourses = courses.filter(
-  //   (course) => course.userId === currentUser?.id
-  // );
-
-  type ScheduleType = {
-    monday?: {
-      start: string,
-      end: Date,
-    }
-  };
+  const myCourses = courses.filter(
+    (course) => course.userId === currentUser?.id
+  );
 
   const mondayCourses = courses.filter((course) => {
     if (!course.schedule) return false;
 
     const schedule = course.schedule as ScheduleType;
 
-    const mondaySchedule = schedule?.monday;
-    const start = mondaySchedule?.start;
-
-    console.log(start);
-    // if (!start) return false;
-
-    // const utcDate = new Date(start);
-    // if (utcDate.getHours() === 10) {
-    //   console.log("Yes");
-    // }
-
-    return course;
+    for (const day in schedule) {
+      if (day === "monday") {
+        console.log(schedule.monday?.start);
+        return course;
+      }
+    }
   });
 
-  // return <DataTable columns={columns} data={myCourses} />;
-  return <DataTable columns={columns} data={mondayCourses} />;
+  return <DataTable columns={columns} data={myCourses} />;
+  // return <DataTable columns={columns} data={mondayCourses} />;
 };
 
 export default CourseTable;

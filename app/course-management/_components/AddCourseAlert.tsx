@@ -79,9 +79,7 @@ const courseFormSchema = z
       .regex(/^\d+$/, { message: "Must be a number" })
       .length(5, { message: "Must be a 5-digit number" })
       .transform(Number),
-    credits: z
-      .string()
-      .transform(Number),
+    credits: z.string().transform(Number),
     instructorId: z.string().min(1),
     isNewInstructor: z.boolean().default(false),
     classType: z.enum(["in-person", "online", "hybrid"], {
@@ -104,8 +102,14 @@ const courseFormSchema = z
     //     endHour: z.string(),
     //     endMin: z.string(),
     //     amOrPm: z.string(),
-    //   })
-    //   .array(),
+    //   }),
+    days: z.array(z.string()),
+    startHour: z.string(),
+    startMin: z.string(),
+    startAmOrPm: z.string(),
+    endHour: z.string(),
+    endMin: z.string(),
+    endAmOrPm: z.string(),
     semester: z.string({
       required_error: "Please select a semester",
     }),
@@ -148,13 +152,13 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
       roomNum: undefined,
       hasSecuredRoom: false,
       dayAndTime: undefined,
-      // schedules: {
-      //   days: [],
-      //   startHour: undefined,
-      //   startMin: undefined,
-      //   endHour: undefined,
-      //   endMin: undefined,
-      // },
+      days: [],
+      startHour: undefined,
+      startMin: undefined,
+      startAmOrPm: "am",
+      endHour: undefined,
+      endMin: undefined,
+      endAmOrPm: "am",
       semester: undefined,
       year: undefined,
       specialInfo: undefined,
@@ -419,11 +423,11 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                 </FormItem>
               )}
             />
-            {/* <Label>Schedules</Label>
+            <Label>Schedules</Label>
             <div className="mt-2 flex items-center justify-between border p-3 rounded-md">
               <FormField
                 control={form.control}
-                name="schedules"
+                name="days"
                 render={() => (
                   <FormItem>
                     {DAYS.map((day) => (
@@ -442,10 +446,7 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                                   checked={field.value?.includes(day.value)}
                                   onCheckedChange={(checked) => {
                                     return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          day.value,
-                                        ])
+                                      ? field.onChange([...field.value, day.value])
                                       : field.onChange(
                                           field.value?.filter(
                                             (value) => value !== day.value
@@ -468,7 +469,7 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                   <Label className="mr-2">Start</Label>
                   <FormField
                     control={form.control}
-                    name="days"
+                    name="startHour"
                     render={({ field }) => (
                       <FormItem>
                         <Select onValueChange={field.onChange}>
@@ -490,7 +491,7 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                   <div className="px-2 flex">:</div>
                   <FormField
                     control={form.control}
-                    name="days"
+                    name="startMin"
                     render={({ field }) => (
                       <FormItem className="mr-2">
                         <Select onValueChange={field.onChange}>
@@ -511,10 +512,10 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                   />
                   <FormField
                     control={form.control}
-                    name="days"
+                    name="startAmOrPm"
                     render={({ field }) => (
                       <FormItem className="mr-2">
-                        <Select onValueChange={field.onChange}>
+                        <Select onValueChange={field.onChange} {...field}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="" />
@@ -533,7 +534,7 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                   <Label className="mr-2">End</Label>
                   <FormField
                     control={form.control}
-                    name="days"
+                    name="endHour"
                     render={({ field }) => (
                       <FormItem>
                         <Select onValueChange={field.onChange}>
@@ -555,7 +556,7 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                   <div className="px-2 flex">:</div>
                   <FormField
                     control={form.control}
-                    name="days"
+                    name="endMin"
                     render={({ field }) => (
                       <FormItem className="mr-2">
                         <Select onValueChange={field.onChange}>
@@ -576,10 +577,10 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                   />
                   <FormField
                     control={form.control}
-                    name="days"
+                    name="endAmOrPm"
                     render={({ field }) => (
                       <FormItem className="mr-2">
-                        <Select onValueChange={field.onChange}>
+                        <Select onValueChange={field.onChange} {...field}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="" />
@@ -595,7 +596,7 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                   />
                 </div>
               </div>
-            </div> */}
+            </div>
             <div className="flex items-end">
               <FormField
                 control={form.control}
