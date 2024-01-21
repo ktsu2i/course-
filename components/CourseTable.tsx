@@ -161,10 +161,10 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
         let startTime = "n/a";
         let endTime = "n/a";
         if (start !== undefined) {
-          startTime = format(parseISO(start), "HH:mm a");
+          startTime = format(parseISO(start), "h:mm a");
         }
         if (end !== undefined) {
-          endTime = format(parseISO(end), "HH:mm a");
+          endTime = format(parseISO(end), "h:mm a");
         }
 
         return `${startTime} - ${endTime}`;

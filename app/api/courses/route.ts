@@ -47,20 +47,20 @@ export async function POST(
       notes,
     } = await request.json();
 
-    const startDate = new Date(2000, 1, 1, Number(startHour), Number(startMin));
+    const startDate = new Date(2000, 0, 1, Number(startHour), Number(startMin));
     if (startAmOrPm === "am" && startHour === "12") {
-      setHours(startDate, 0);
+      startDate.setHours(0);
     }
     if (startAmOrPm === "pm") {
-      addHours(startDate, 12);
+      startDate.setHours(startDate.getHours() + 12);
     }
 
-    const endDate = new Date(2000, 1, 1, Number(endHour), Number(endMin));
+    const endDate = new Date(2000, 0, 1, Number(endHour), Number(endMin));
     if (endAmOrPm === "am" && endHour === "12") {
-      setHours(endDate, 0);
+      endDate.setHours(0);
     }
     if (endAmOrPm === "pm") {
-      addHours(endDate, 12);
+      endDate.setHours(endDate.getHours() + 12);
     }
 
     const startUTC = startDate.toISOString();
