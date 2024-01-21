@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Trash2, ArrowUpDown } from "lucide-react";
+import { parseISO, format } from "date-fns";
 import { Course, User } from "@prisma/client";
 
 import UpdateCourseAlert from "./UpdateCourseAlert";
@@ -30,6 +31,8 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+
+import { ScheduleType } from "@/lib/types";
 
 interface CourseTableProps {
   professors: User[];
@@ -73,7 +76,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
                 <Badge className="bg-green-600 text-white">Approved</Badge>
               </SelectItem>
               <SelectItem value="rejected">
-                <Badge className="bg-destructive text-destructive-foreground">Rejected</Badge>
+                <Badge className="bg-destructive text-destructive-foreground">
+                  Rejected
+                </Badge>
               </SelectItem>
             </SelectContent>
           </Select>
@@ -87,11 +92,15 @@ const CourseTable: React.FC<CourseTableProps> = ({
         } else if (status === "approved") {
           return <Badge className="bg-green-600 text-white">Approved</Badge>;
         } else if (status === "rejected") {
-          return <Badge className="bg-destructive text-destructive-foreground">Rejected</Badge>;
+          return (
+            <Badge className="bg-destructive text-destructive-foreground">
+              Rejected
+            </Badge>
+          );
         } else {
           return <Badge className="bg-red-600/20 text-red-700">Error</Badge>;
         }
-      }
+      },
     },
     {
       accessorKey: "label",
@@ -139,6 +148,57 @@ const CourseTable: React.FC<CourseTableProps> = ({
         const lastName = instructor?.lastName;
 
         return `${lastName}, ${firstName?.charAt(0).toUpperCase()}.`;
+      },
+    },
+    {
+      accessorKey: "schedule",
+      header: "Schedule",
+      cell: ({ row }) => {
+        const schedule = row.getValue("schedule") as ScheduleType;
+        let start: string | undefined = undefined;
+        let end: string | undefined = undefined;
+        let days: string = "";
+
+        if (schedule?.monday) {
+          start = schedule?.monday?.start;
+          end = schedule?.monday?.end;
+          days += "M";
+        }
+
+        if (schedule?.tuesday) {
+          start = schedule?.tuesday?.start;
+          end = schedule?.tuesday?.end;
+          days += "T";
+        }
+
+        if (schedule?.wednesday) {
+          start = schedule?.wednesday?.start;
+          end = schedule?.wednesday?.end;
+          days += "W";
+        }
+
+        if (schedule?.thursday) {
+          start = schedule?.thursday?.start;
+          end = schedule?.thursday?.end;
+          days += "Th";
+        }
+
+        if (schedule?.friday) {
+          start = schedule?.friday?.start;
+          end = schedule?.friday?.end;
+          days += "F";
+        }
+
+        let startTime = "n/a";
+        let endTime = "n/a";
+        if (start !== undefined) {
+          startTime = format(parseISO(start), "h:mm a");
+        }
+        if (end !== undefined) {
+          endTime = format(parseISO(end), "h:mm a");
+        }
+
+        return `${days} ${startTime} - ${endTime}`;
       },
     },
     {

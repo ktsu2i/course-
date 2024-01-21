@@ -6,6 +6,7 @@ import { ArrowUpDown, Check, X } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { parseISO, format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +30,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { DEPARTMENTS } from "@/lib/constants";
+import { ScheduleType } from "@/lib/types";
 
 import { DataTable } from "./DataTable";
 
@@ -170,6 +172,57 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
       },
     },
     {
+      accessorKey: "schedule",
+      header: "Schedule",
+      cell: ({ row }) => {
+        const schedule = row.getValue("schedule") as ScheduleType;
+        let start: string | undefined = undefined;
+        let end: string | undefined = undefined;
+        let days: string = "";
+
+        if (schedule?.monday) {
+          start = schedule?.monday?.start;
+          end = schedule?.monday?.end;
+          days += "M";
+        }
+
+        if (schedule?.tuesday) {
+          start = schedule?.tuesday?.start;
+          end = schedule?.tuesday?.end;
+          days += "T";
+        }
+
+        if (schedule?.wednesday) {
+          start = schedule?.wednesday?.start;
+          end = schedule?.wednesday?.end;
+          days += "W";
+        }
+
+        if (schedule?.thursday) {
+          start = schedule?.thursday?.start;
+          end = schedule?.thursday?.end;
+          days += "Th";
+        }
+
+        if (schedule?.friday) {
+          start = schedule?.friday?.start;
+          end = schedule?.friday?.end;
+          days += "F";
+        }
+
+        let startTime = "n/a";
+        let endTime = "n/a";
+        if (start !== undefined) {
+          startTime = format(parseISO(start), "h:mm a");
+        }
+        if (end !== undefined) {
+          endTime = format(parseISO(end), "h:mm a");
+        }
+
+        return `${days} ${startTime} - ${endTime}`;
+      },
+    },
+    {
       accessorKey: "crn",
       header: "CRN",
     },
@@ -233,7 +286,10 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
             </AlertDialog>
             <AlertDialog>
               <AlertDialogTrigger>
-                <Button size="sm" className="bg-green-600 text-white hover:bg-green-600/90">
+                <Button
+                  size="sm"
+                  className="bg-green-600 text-white hover:bg-green-600/90"
+                >
                   <Check className="h-5 w-5 mr-1" />
                   Approve
                 </Button>
@@ -261,7 +317,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
           </div>
         );
       },
-    }
+    },
   ];
 
   return <DataTable columns={columns} data={courses} courses={courses} />;
