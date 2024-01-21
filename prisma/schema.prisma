@@ -57,8 +57,7 @@ model Course {
   classType String
   roomNum Int?
   hasSecuredRoom Boolean?
-  dayAndTime String
-  schedule Json?
+  schedule Json
   semester String
   year Int
   credits Int

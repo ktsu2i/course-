@@ -3,7 +3,7 @@
 import { Course, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { parse, parseISO, format } from "date-fns";
+import { parseISO, format } from "date-fns";
 
 import { Button } from "./ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,34 +17,12 @@ import {
 
 import { DataTable } from "./DataTable";
 import { DEPARTMENTS } from "@/lib/constants";
+import { ScheduleType } from "@/lib/types";
 
 interface CourseTableProps {
   courses: Course[];
   currentUser: User | null;
 }
-
-type ScheduleType = {
-  monday?: {
-    start: string;
-    end: string;
-  };
-  tuesday?: {
-    start: string;
-    end: string;
-  };
-  wednesday?: {
-    start: string;
-    end: string;
-  };
-  thursday?: {
-    start: string;
-    end: string;
-  };
-  friday?: {
-    start: string;
-    end: string;
-  };
-};
 
 const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
   const columns: ColumnDef<Course>[] = [
@@ -148,16 +126,44 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
       },
     },
     {
-      accessorKey: "dayAndTime",
-      header: "Day & Time",
-    },
-    {
       accessorKey: "schedule",
       header: "Schedule",
       cell: ({ row }) => {
         const schedule = row.getValue("schedule") as ScheduleType;
-        const start = schedule?.monday?.start;
-        const end = schedule?.monday?.end;
+        let start: string | undefined = undefined;
+        let end: string | undefined = undefined;
+        let days: string = "";
+
+        if (schedule?.monday) {
+          start = schedule?.monday?.start;
+          end = schedule?.monday?.end;
+          days += "M";
+        }
+        
+        if (schedule?.tuesday) {
+          start = schedule?.tuesday?.start;
+          end = schedule?.tuesday?.end;
+          days += "T";
+        }
+        
+        if (schedule?.wednesday) {
+          start = schedule?.wednesday?.start;
+          end = schedule?.wednesday?.end;
+          days += "W";
+        }
+        
+        if (schedule?.thursday) {
+          start = schedule?.thursday?.start;
+          end = schedule?.thursday?.end;
+          days += "Th";
+        }
+        
+        if (schedule?.friday) {
+          start = schedule?.friday?.start;
+          end = schedule?.friday?.end;
+          days += "F";
+        }
+
         let startTime = "n/a";
         let endTime = "n/a";
         if (start !== undefined) {
@@ -167,7 +173,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
           endTime = format(parseISO(end), "h:mm a");
         }
 
-        return `${startTime} - ${endTime}`;
+        return `${days} ${startTime} - ${endTime}`;
       }
     },
     {

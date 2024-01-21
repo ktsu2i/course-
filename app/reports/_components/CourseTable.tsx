@@ -156,10 +156,6 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
       header: "Credits",
     },
     {
-      accessorKey: "dayAndTime",
-      header: "Day & Time",
-    },
-    {
       accessorKey: "userId",
       header: "Instructor",
       cell: ({ row }) => {

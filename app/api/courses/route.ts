@@ -1,7 +1,6 @@
 import { db } from "@/lib/db";
 
 import { currentUser } from "@clerk/nextjs";
-import { addHours, setHours } from "date-fns";
 import { NextResponse } from "next/server";
 
 interface ISchedule {
@@ -30,7 +29,6 @@ export async function POST(
       credits,
       instructorId,
       isNewInstructor,
-      dayAndTime,
       days,
       startHour,
       startMin,
@@ -87,7 +85,6 @@ export async function POST(
           credits: Number(credits),
           userId: instructorId,
           isNewInstructor: isNewInstructor,
-          dayAndTime: dayAndTime,
           schedule: schedule,
           semester: semester,
           year: year,
@@ -108,7 +105,6 @@ export async function POST(
           credits: Number(credits),
           userId: instructorId,
           isNewInstructor: isNewInstructor,
-          dayAndTime: dayAndTime,
           schedule: schedule,
           semester: semester,
           year: year,
@@ -145,7 +141,7 @@ export async function PATCH(
       credits,
       instructorId,
       isNewInstructor,
-      dayAndTime,
+      schedule,
       semester,
       year,
       customYear,
@@ -188,7 +184,6 @@ export async function PATCH(
           credits: Number(credits),
           userId: instructorId,
           isNewInstructor: isNewInstructor,
-          dayAndTime: dayAndTime,
           semester: semester,
           year: yearValue,
           classType: classType,
@@ -214,7 +209,6 @@ export async function PATCH(
           credits: Number(credits),
           userId: instructorId,
           isNewInstructor: isNewInstructor,
-          dayAndTime: dayAndTime,
           semester: semester,
           year: yearValue,
           classType: classType,

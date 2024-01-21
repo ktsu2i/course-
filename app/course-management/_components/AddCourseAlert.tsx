@@ -91,18 +91,6 @@ const courseFormSchema = z
       .transform(Number)
       .optional(),
     hasSecuredRoom: z.boolean().default(false).optional(),
-    dayAndTime: z.string().min(1, {
-      message: "Required",
-    }),
-    // schedules: z
-    //   .object({
-    //     days: z.array(z.string()),
-    //     startHour: z.string(),
-    //     startMin: z.string(),
-    //     endHour: z.string(),
-    //     endMin: z.string(),
-    //     amOrPm: z.string(),
-    //   }),
     days: z.array(z.string()),
     startHour: z.string(),
     startMin: z.string(),
@@ -151,7 +139,6 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
       classType: undefined,
       roomNum: undefined,
       hasSecuredRoom: false,
-      dayAndTime: undefined,
       days: [],
       startHour: undefined,
       startMin: undefined,
@@ -404,26 +391,9 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="dayAndTime"
-              render={({ field }) => (
-                <FormItem className="my-6">
-                  <FormLabel>Day & Time</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="e.g. TTh 12:00-13:30"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter &apos;Asynchronous&apos; if provided asynchronously
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
-            <Label>Schedules</Label>
+            <div className="mt-6">
+              <Label>Schedules</Label>
+            </div>
             <div className="mt-2 flex items-center justify-between border p-3 rounded-md">
               <FormField
                 control={form.control}
@@ -446,7 +416,10 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                                   checked={field.value?.includes(day.value)}
                                   onCheckedChange={(checked) => {
                                     return checked
-                                      ? field.onChange([...field.value, day.value])
+                                      ? field.onChange([
+                                          ...field.value,
+                                          day.value,
+                                        ])
                                       : field.onChange(
                                           field.value?.filter(
                                             (value) => value !== day.value
@@ -479,10 +452,19 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="01">1</SelectItem>
-                            <SelectItem value="02">2</SelectItem>
-                            <SelectItem value="03">3</SelectItem>
-                            <SelectItem value="04">4</SelectItem>
+                            <SelectItem value="0">0</SelectItem>
+                            <SelectItem value="1">1</SelectItem>
+                            <SelectItem value="2">2</SelectItem>
+                            <SelectItem value="3">3</SelectItem>
+                            <SelectItem value="4">4</SelectItem>
+                            <SelectItem value="5">5</SelectItem>
+                            <SelectItem value="6">6</SelectItem>
+                            <SelectItem value="7">7</SelectItem>
+                            <SelectItem value="8">8</SelectItem>
+                            <SelectItem value="9">9</SelectItem>
+                            <SelectItem value="10">10</SelectItem>
+                            <SelectItem value="11">11</SelectItem>
+                            <SelectItem value="12">12</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormItem>
@@ -505,6 +487,8 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                             <SelectItem value="10">10</SelectItem>
                             <SelectItem value="20">20</SelectItem>
                             <SelectItem value="30">30</SelectItem>
+                            <SelectItem value="40">40</SelectItem>
+                            <SelectItem value="50">50</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormItem>
@@ -544,10 +528,19 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="01">1</SelectItem>
-                            <SelectItem value="02">2</SelectItem>
-                            <SelectItem value="03">3</SelectItem>
-                            <SelectItem value="04">4</SelectItem>
+                            <SelectItem value="0">0</SelectItem>
+                            <SelectItem value="1">1</SelectItem>
+                            <SelectItem value="2">2</SelectItem>
+                            <SelectItem value="3">3</SelectItem>
+                            <SelectItem value="4">4</SelectItem>
+                            <SelectItem value="5">5</SelectItem>
+                            <SelectItem value="6">6</SelectItem>
+                            <SelectItem value="7">7</SelectItem>
+                            <SelectItem value="8">8</SelectItem>
+                            <SelectItem value="9">9</SelectItem>
+                            <SelectItem value="10">10</SelectItem>
+                            <SelectItem value="11">11</SelectItem>
+                            <SelectItem value="12">12</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormItem>
@@ -570,6 +563,8 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                             <SelectItem value="10">10</SelectItem>
                             <SelectItem value="20">20</SelectItem>
                             <SelectItem value="30">30</SelectItem>
+                            <SelectItem value="40">40</SelectItem>
+                            <SelectItem value="50">50</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormItem>
