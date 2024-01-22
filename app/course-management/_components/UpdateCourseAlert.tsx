@@ -139,7 +139,9 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
   courseId,
 }) => {
   const router = useRouter();
+
   const uniqueCourse = courses.find((course) => course.id === courseId);
+  const recordKey = uniqueCourse?.recordKey;
 
   const currentYear = new Date().getFullYear();
   const nextYear = currentYear + 1;
@@ -306,8 +308,12 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
 
   const onSubmit = async (values: z.infer<typeof courseFormSchema>) => {
     try {
-      await axios.patch("/api/courses", { id: courseId, ...values });
-      toast.success("Course updated!");
+      await axios.post("/api/courses", {
+        id: courseId,
+        recordKey: recordKey,
+        ...values
+      });
+      toast.success("Requested an update!");
       router.refresh();
     } catch {
       toast.error("Something went wrong");

@@ -8,28 +8,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// model DayAndTime {
-//   id String @id @default(uuid())
-//   day DAY
-//   time DateTime
-
-//   courseId String
-//   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-// }
-
-// enum DAY {
-//   MONDAY
-//   TUESDAY
-//   WEDNESDAY
-//   THURSDAY
-//   FRIDAY
-// }
-
-// model Course {
-//   id String @id @default(uuid())
-//   dayAndTime DayAndTime[]
-// }
-
 model User {
   id String @id @default(uuid())
   clerkUserId String @unique
@@ -49,6 +27,7 @@ model User {
 
 model Course {
   id String @id @default(uuid())
+  recordKey String @default(uuid()) // used for tracking course data
   department String
   courseNum Int
   section Int
@@ -63,7 +42,7 @@ model Course {
   credits Int
   label String
 
-  status String @default("new")
+  status String @default("new") // new, approved, rejected
 
   userId String
   instructor User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -76,6 +55,4 @@ model Course {
   updatedAt DateTime @updatedAt
 
   @@index([userId])
-
-  @@unique(fields: [department, courseNum, section, semester, year], name: "course_identifier")
 }

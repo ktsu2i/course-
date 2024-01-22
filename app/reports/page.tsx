@@ -10,8 +10,6 @@ const ReportPage = async () => {
   const currentUser = await getCurrentUserFromDb();
 
   const isAdmin = currentUser?.isAdmin;
-  const isCoordinator = currentUser?.isCoordinator;
-  const isFaculty = currentUser?.isFaculty;
   const isStaff = currentUser?.isStaff;
 
   return (

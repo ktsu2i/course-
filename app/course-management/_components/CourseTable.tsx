@@ -267,7 +267,21 @@ const CourseTable: React.FC<CourseTableProps> = ({
     },
   ];
 
-  return <DataTable columns={columns} data={courses} professors={professors} />;
+  const latestCourseObjects = courses.reduce<{ [key: string]: Course }>(
+    (acc, course) => {
+      const existingCourse = acc[course.recordKey];
+
+      if (!existingCourse || existingCourse.updatedAt < course.updatedAt) {
+        acc[course.recordKey] = course;
+      }
+
+      return acc;
+    }, {}
+  );
+
+  const latestCourses = Object.values(latestCourseObjects);
+
+  return <DataTable columns={columns} data={latestCourses} professors={professors} />;
 };
 
 export default CourseTable;

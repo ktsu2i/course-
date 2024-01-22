@@ -206,22 +206,34 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
     },
   ];
 
-  const myCourses = courses.filter(
+  const latestCourseObjects = courses.reduce<{ [key: string]: Course }>((acc, course) => {
+    const existingCourse = acc[course.recordKey];
+
+    if (!existingCourse || existingCourse.updatedAt < course.updatedAt) {
+      acc[course.recordKey] = course;
+    }
+
+    return acc;
+  },{});
+
+  const latestCourses = Object.values(latestCourseObjects);
+
+  const myCourses = latestCourses.filter(
     (course) => course.userId === currentUser?.id
   );
 
-  const mondayCourses = courses.filter((course) => {
-    if (!course.schedule) return false;
+  // const mondayCourses = courses.filter((course) => {
+  //   if (!course.schedule) return false;
 
-    const schedule = course.schedule as ScheduleType;
+  //   const schedule = course.schedule as ScheduleType;
 
-    for (const day in schedule) {
-      if (day === "monday") {
-        console.log(schedule.monday?.start);
-        return course;
-      }
-    }
-  });
+  //   for (const day in schedule) {
+  //     if (day === "monday") {
+  //       console.log(schedule.monday?.start);
+  //       return course;
+  //     }
+  //   }
+  // });
 
   return <DataTable columns={columns} data={myCourses} />;
   // return <DataTable columns={columns} data={mondayCourses} />;

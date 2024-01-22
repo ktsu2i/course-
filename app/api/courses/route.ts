@@ -21,6 +21,8 @@ export async function POST(
     }
 
     const {
+      id,
+      recordKey,
       department,
       courseNum,
       section,
@@ -38,6 +40,7 @@ export async function POST(
       endAmOrPm,
       semester,
       year,
+      customYear,
       classType,
       roomNum,
       hasSecuredRoom,
@@ -72,50 +75,107 @@ export async function POST(
     const padCourseNum = String(courseNum).padStart(4, "0");
     const label = `${department.toUpperCase()} ${padCourseNum} (${section})`;
 
+    let yearValue: number;
+    if (year === "other") {
+      yearValue = customYear;
+    } else {
+      yearValue = Number(year);
+    }
+
     let course;
 
-    if (classType === "online") {
-      course = await db.course.create({
-        data: {
-          department: department,
-          courseNum: courseNum,
-          section: section,
-          title: title,
-          crn: crn,
-          credits: Number(credits),
-          userId: instructorId,
-          isNewInstructor: isNewInstructor,
-          schedule: schedule,
-          semester: semester,
-          year: year,
-          classType: classType,
-          specialInfo: specialInfo,
-          notes: notes,
-          label: label,
-        },
-      });
+    if (id) {
+      // add an updated course
+      if (classType === "online") {
+        course = await db.course.create({
+          data: {
+            recordKey: recordKey,
+            department: department,
+            courseNum: courseNum,
+            section: section,
+            title: title,
+            crn: crn,
+            credits: Number(credits),
+            userId: instructorId,
+            isNewInstructor: isNewInstructor,
+            schedule: schedule,
+            semester: semester,
+            year: yearValue,
+            classType: classType,
+            specialInfo: specialInfo,
+            notes: notes,
+            label: label,
+          },
+        });
+      } else {
+        course = await db.course.create({
+          data: {
+            recordKey: recordKey,
+            department: department,
+            courseNum: courseNum,
+            section: section,
+            title: title,
+            crn: crn,
+            credits: Number(credits),
+            userId: instructorId,
+            isNewInstructor: isNewInstructor,
+            schedule: schedule,
+            semester: semester,
+            year: yearValue,
+            classType: classType,
+            roomNum: roomNum,
+            hasSecuredRoom: hasSecuredRoom,
+            specialInfo: specialInfo,
+            notes: notes,
+            label: label,
+          },
+        });
+      }
     } else {
-      course = await db.course.create({
-        data: {
-          department: department,
-          courseNum: courseNum,
-          section: section,
-          title: title,
-          crn: crn,
-          credits: Number(credits),
-          userId: instructorId,
-          isNewInstructor: isNewInstructor,
-          schedule: schedule,
-          semester: semester,
-          year: year,
-          classType: classType,
-          roomNum: roomNum,
-          hasSecuredRoom: hasSecuredRoom,
-          specialInfo: specialInfo,
-          notes: notes,
-          label: label,
-        },
-      });
+      // add a new course
+      if (classType === "online") {
+        course = await db.course.create({
+          data: {
+            department: department,
+            courseNum: courseNum,
+            section: section,
+            title: title,
+            crn: crn,
+            credits: Number(credits),
+            userId: instructorId,
+            isNewInstructor: isNewInstructor,
+            schedule: schedule,
+            semester: semester,
+            year: year,
+            classType: classType,
+            specialInfo: specialInfo,
+            notes: notes,
+            label: label,
+          },
+        });
+      } else {
+        course = await db.course.create({
+          data: {
+            department: department,
+            courseNum: courseNum,
+            section: section,
+            title: title,
+            crn: crn,
+            credits: Number(credits),
+            userId: instructorId,
+            isNewInstructor: isNewInstructor,
+            schedule: schedule,
+            semester: semester,
+            year: year,
+            classType: classType,
+            roomNum: roomNum,
+            hasSecuredRoom: hasSecuredRoom,
+            specialInfo: specialInfo,
+            notes: notes,
+            label: label,
+          },
+        });
+      }
     }
 
     return NextResponse.json(course);
@@ -157,7 +217,6 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    console.log(status);
     const padCourseNum = String(courseNum).padStart(4, '0');
     const updatedLabel = `${department.toUpperCase()} ${padCourseNum} (${section})`;
 
