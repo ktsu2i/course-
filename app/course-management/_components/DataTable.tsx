@@ -37,12 +37,14 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   professors: User[];
+  hidden?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   professors,
+  hidden,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -100,19 +102,6 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        {/* <Select
-          onValueChange={(value) => {
-            return table.getColumn("year")?.setFilterValue(value);
-          }}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select a year" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="2024">2024</SelectItem>
-            <SelectItem value="2025">2025</SelectItem>
-          </SelectContent>
-        </Select> */}
       </div>
       <div>
         <div className="rounded-md border">
@@ -165,8 +154,10 @@ export function DataTable<TData, TValue>({
             </TableBody>
           </Table>
         </div>
-        <div className="flex justify-between py-4">
-          <AddCourseAlert professors={professors} />
+        <div className={`flex ${hidden ? "justify-end" : "justify-between"} py-4`}>
+          <div className={`${hidden && "hidden"}`}>
+            <AddCourseAlert professors={professors} />
+          </div>
           <div className="flex items-center justify-end space-x-2">
             <Button
               variant="outline"

@@ -1,12 +1,12 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Course, User } from "@prisma/client";
-import { ArrowUpDown, Check, X } from "lucide-react";
-import toast from "react-hot-toast";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import { ArrowUpDown } from "lucide-react";
 import { parseISO, format } from "date-fns";
+import { Course, User } from "@prisma/client";
+
+import { DataTable } from "@/app/course-management/_components/DataTable";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,42 +17,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from "@/components/ui/alert-dialog";
 
-import { DEPARTMENTS } from "@/lib/constants";
 import { ScheduleType } from "@/lib/types";
 
-import { DataTable } from "./DataTable";
-
-interface CourseTableProps {
+interface CourseRecordTableProps {
   professors: User[];
   courses: Course[];
 }
 
-const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
-  const router = useRouter();
-
-  const handleAction = async (courseId: string, status: string) => {
-    try {
-      const course = courses.find((course) => course.id === courseId);
-      await axios.patch("/api/courses", { ...course, status: status });
-      toast.success("Status changed!");
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong");
-    }
-  }
-
+const CourseRecordTable: React.FC<CourseRecordTableProps> = ({ professors, courses }) => {
   const columns: ColumnDef<Course>[] = [
     {
       accessorKey: "status",
@@ -68,7 +41,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="new">
-                <Badge className="bg-gray-500 text-white">New</Badge>
+                <Badge className="bg-gray-500 text-white">Pending</Badge>
               </SelectItem>
               <SelectItem value="approved">
                 <Badge className="bg-green-600 text-white">Approved</Badge>
@@ -86,7 +59,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
         const status = row.getValue("status");
 
         if (status === "new") {
-          return <Badge className="bg-gray-500 text-white">New</Badge>;
+          return <Badge className="bg-gray-500 text-white">Pending</Badge>;
         } else if (status === "approved") {
           return <Badge className="bg-green-600 text-white">Approved</Badge>;
         } else if (status === "rejected") {
@@ -98,29 +71,6 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
         } else {
           return <Badge className="bg-red-600/20 text-red-700">Error</Badge>;
         }
-      },
-    },
-    {
-      accessorKey: "department",
-      header: ({ column }) => {
-        return (
-          <Button
-            className="pl-0"
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Department
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => {
-        const departmentInShort = row.getValue("department") as string;
-        const department = DEPARTMENTS.find(
-          (department) => department.value === departmentInShort
-        );
-
-        return department?.label;
       },
     },
     {
@@ -227,14 +177,6 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
       header: "CRN",
     },
     {
-      accessorKey: "specialInfo",
-      header: "Special Info",
-    },
-    {
-      accessorKey: "notes",
-      header: "Notes",
-    },
-    {
       accessorKey: "semester",
       header: "Semester",
       cell: ({ row }) => {
@@ -251,88 +193,20 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
       header: "Year",
     },
     {
-      accessorKey: "id",
+      accessorKey: "createdAt",
+      header: "Updated At",
       cell: ({ row }) => {
-        const status = row.getValue("status");
+        const createdAt = row.getValue("createdAt") as Date;
+        const time = format(createdAt, "h:mm a, MMM d, yyyy");
 
-        return (
-          <div className={`flex gap-x-2 ${status !== "new" && "hidden"}`}>
-            <AlertDialog>
-              <AlertDialogTrigger>
-                <Button size="sm" variant="destructive">
-                  <X className="h-5 w-5 mr-1" />
-                  Reject
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Confirmation</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to reject &apos;
-                    {row.getValue("label")}
-                    &apos;?
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                    onClick={() => handleAction(row.getValue("id"), "rejected")}
-                  >
-                    Reject
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            <AlertDialog>
-              <AlertDialogTrigger>
-                <Button
-                  size="sm"
-                  className="bg-green-600 text-white hover:bg-green-600/90"
-                >
-                  <Check className="h-5 w-5 mr-1" />
-                  Approve
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Confirmation</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to approve &apos;
-                    {row.getValue("label")}
-                    &apos;?
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    className="bg-green-600 text-white hover:bg-green-600/90"
-                    onClick={() => handleAction(row.getValue("id"), "approved")}
-                  >
-                    Approve
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
-        );
-      },
-    },
+        return time;
+      }
+    }
   ];
 
-  const latestCourseObject = courses.reduce<{ [key: string]: Course }>((acc, course) => {
-    const existingCourse = acc[course.recordKey];
-
-    if (!existingCourse || existingCourse.updatedAt < course.updatedAt) {
-      acc[course.recordKey] = course;
-    }
-
-    return acc;
-  },{});
-
-  const latestCourses = Object.values(latestCourseObject);
-
-  return <DataTable columns={columns} data={latestCourses} courses={courses} />;
+  return (
+    <DataTable columns={columns} data={courses} professors={professors} hidden />
+  );
 };
 
-export default CourseTable;
+export default CourseRecordTable;

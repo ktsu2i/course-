@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Trash2, ArrowUpDown } from "lucide-react";
+import { Trash2, ArrowUpDown, History, AlertTriangle } from "lucide-react";
 import { parseISO, format } from "date-fns";
 import { Course, User } from "@prisma/client";
 
@@ -31,6 +31,11 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 import { ScheduleType } from "@/lib/types";
 
@@ -202,6 +207,55 @@ const CourseTable: React.FC<CourseTableProps> = ({
       },
     },
     {
+      accessorKey: "classType",
+      header: "Class Type",
+      cell: ({ row }) => {
+        const classType = row.getValue("classType") as string;
+        return classType.charAt(0).toUpperCase() + classType.slice(1);
+      }
+    },
+    {
+      accessorKey: "roomNum",
+      header: "Room Number",
+      cell: ({ row }) => {
+        const roomNum = row.getValue("roomNum") as number;
+        const classType = row.getValue("classType") as string;
+        const hasSecuredRoom = row.original.hasSecuredRoom as boolean;
+
+        if (classType !== "online" && !hasSecuredRoom) {
+          return (
+            <div className="flex items-center">
+              <div>{roomNum}</div>
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <Button variant="ghost" className="hover:bg-transparent">
+                    <AlertTriangle className="h-5 w-5 text-destructive" />
+                  </Button>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-100">
+                  <div className="flex justify-between space-x-4">
+                    <div>
+                      <AlertTriangle className="text-destructive" />
+                    </div>
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-semibold text-destructive">
+                        Warning: You have not secured the room yet.
+                      </h4>
+                      <p className="text-sm">
+                        Please talk to Facilities Office ASAP to secure the
+                        room.
+                      </p>
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+          );
+        }
+        return roomNum ? roomNum : "N/A";
+      }
+    },
+    {
       accessorKey: "crn",
       header: "CRN",
     },
@@ -210,16 +264,29 @@ const CourseTable: React.FC<CourseTableProps> = ({
       header: "Semester",
       cell: ({ row }) => {
         const semester = row.getValue("semester") as string;
-        const capitalizedSemester =
-          semester.charAt(0).toUpperCase() + semester.slice(1);
-
-        return capitalizedSemester;
+        return semester.charAt(0).toUpperCase() + semester.slice(1);
       },
     },
     {
       accessorKey: "year",
       accessorFn: (row) => row.year.toString(),
       header: "Year",
+    },
+    {
+      accessorKey: "recordKey",
+      header: "History",
+      cell: ({ row }) => {
+        const recordKey = row.getValue("recordKey");
+        return (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => router.push(`/course-management/${recordKey}`)}
+          >
+            <History className="h-5 w-5" />
+          </Button>
+        );
+      },
     },
     {
       accessorKey: "id",
@@ -267,7 +334,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
     },
   ];
 
-  const latestCourseObjects = courses.reduce<{ [key: string]: Course }>(
+  const latestCourseObject = courses.reduce<{ [key: string]: Course }>(
     (acc, course) => {
       const existingCourse = acc[course.recordKey];
 
@@ -279,7 +346,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
     }, {}
   );
 
-  const latestCourses = Object.values(latestCourseObjects);
+  const latestCourses = Object.values(latestCourseObject);
 
   return <DataTable columns={columns} data={latestCourses} professors={professors} />;
 };

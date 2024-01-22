@@ -2,10 +2,13 @@
 
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+
 import { Button } from "./ui/button";
-import { usePathname } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
 
 const Navbar = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const isAuthPage = pathname?.startsWith("/sign");
 

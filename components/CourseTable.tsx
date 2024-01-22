@@ -206,7 +206,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
     },
   ];
 
-  const latestCourseObjects = courses.reduce<{ [key: string]: Course }>((acc, course) => {
+  const latestCourseObject = courses.reduce<{ [key: string]: Course }>((acc, course) => {
     const existingCourse = acc[course.recordKey];
 
     if (!existingCourse || existingCourse.updatedAt < course.updatedAt) {
@@ -216,7 +216,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
     return acc;
   },{});
 
-  const latestCourses = Object.values(latestCourseObjects);
+  const latestCourses = Object.values(latestCourseObject);
 
   const myCourses = latestCourses.filter(
     (course) => course.userId === currentUser?.id
