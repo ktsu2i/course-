@@ -7,17 +7,17 @@ interface SidebarItemProps {
   icon: LucideIcon;
   label: string;
   href: string;
+  active: boolean;
 };
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
   icon: Icon,
   label,
   href,
+  active,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-
-  const isActive = pathname === href;
   
   const onClick = () => {
     router.push(href);
@@ -29,7 +29,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       type="button"
       variant="ghost"
       className={`font-normal flex justify-start gap-x-4 p-6 mx-3 hover:bg-temple/10 hover:text-temple ${
-        isActive ? "bg-temple/10 text-temple" : ""
+        active ? "bg-temple/10 text-temple" : ""
       }`}
     >
       <Icon size={20} />

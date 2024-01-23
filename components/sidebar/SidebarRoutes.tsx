@@ -1,35 +1,44 @@
 import { CalendarX2, GraduationCap, LayoutDashboard, Table, Users } from "lucide-react";
+import { usePathname } from "next/navigation";
+
 import SidebarItem from "./SidebarItem";
 
-const routes = [
-  {
-    icon: LayoutDashboard,
-    label: "Dashboard",
-    href: "/",
-  },
-  {
-    icon: Users,
-    label: "Users",
-    href: "/user-management",
-  },
-  {
-    icon: GraduationCap,
-    label: "Courses",
-    href: "/course-management",
-  },
-  {
-    icon: CalendarX2,
-    label: "Cancellation",
-    href: "/cancellation",
-  },
-  {
-    icon: Table,
-    label: "Reports",
-    href: "/reports",
-  }
-];
-
 const SidebarRoutes = () => {
+  const pathname = usePathname();
+
+  const routes = [
+    {
+      icon: LayoutDashboard,
+      label: "Dashboard",
+      href: "/",
+      active: pathname === "/",
+    },
+    {
+      icon: Users,
+      label: "Users",
+      href: "/user-management",
+      active: pathname === "/user-management",
+    },
+    {
+      icon: GraduationCap,
+      label: "Courses",
+      href: "/course-management",
+      active: pathname.startsWith("/course-management")
+    },
+    {
+      icon: CalendarX2,
+      label: "Cancellation",
+      href: "/cancellation",
+      active: pathname === "/cancellation"
+    },
+    {
+      icon: Table,
+      label: "Reports",
+      href: "/reports",
+      active: pathname === "/reports"
+    },
+  ];
+
   return (
     <div className="flex flex-col w-full">
       {routes.map((route) => (
@@ -38,6 +47,7 @@ const SidebarRoutes = () => {
           icon={route.icon}
           label={route.label}
           href={route.href}
+          active={route.active}
         />
       ))}
     </div>
