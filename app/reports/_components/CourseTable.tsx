@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Course, User } from "@prisma/client";
-import { ArrowUpDown, Check, X } from "lucide-react";
+import { ArrowUpDown, Check, X, AlertTriangle, History } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -28,6 +28,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 import { DEPARTMENTS } from "@/lib/constants";
 import { ScheduleType } from "@/lib/types";
@@ -223,6 +228,54 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
       },
     },
     {
+      accessorKey: "classType",
+      header: "Class Type",
+      cell: ({ row }) => {
+        const classType = row.getValue("classType") as string;
+        return classType.charAt(0).toUpperCase() + classType.slice(1);
+      },
+    },
+    {
+      accessorKey: "roomNum",
+      header: "Room Number",
+      cell: ({ row }) => {
+        const roomNum = row.getValue("roomNum") as number;
+        const classType = row.getValue("classType") as string;
+        const hasSecuredRoom = row.original.hasSecuredRoom as boolean;
+
+        if (classType !== "online" && !hasSecuredRoom) {
+          return (
+            <div className="flex items-center">
+              <div>{roomNum}</div>
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <Button variant="ghost" className="hover:bg-transparent">
+                    <AlertTriangle className="h-5 w-5 text-destructive" />
+                  </Button>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-100">
+                  <div className="flex justify-between space-x-4">
+                    <div>
+                      <AlertTriangle className="text-destructive" />
+                    </div>
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-semibold text-destructive">
+                        Warning
+                      </h4>
+                      <p className="text-sm">
+                        The professor has not secured the room yet.
+                      </p>
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+          );
+        }
+        return roomNum ? roomNum : "N/A";
+      },
+    },
+    {
       accessorKey: "crn",
       header: "CRN",
     },
@@ -249,6 +302,22 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
       accessorKey: "year",
       accessorFn: (row) => row.year.toString(),
       header: "Year",
+    },
+    {
+      accessorKey: "recordKey",
+      header: "History",
+      cell: ({ row }) => {
+        const recordKey = row.getValue("recordKey");
+        return (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => router.push(`/reports/${recordKey}`)}
+          >
+            <History className="h-5 w-5" />
+          </Button>
+        );
+      },
     },
     {
       accessorKey: "id",

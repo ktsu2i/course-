@@ -76,3 +76,13 @@ export const DAYS = [
     label: "Friday",
   },
 ];
+
+export const DAY_NAMES = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+];

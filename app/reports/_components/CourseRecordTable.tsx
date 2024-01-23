@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { parseISO, format } from "date-fns";
+import { parseISO, format, formatDistanceToNowStrict } from "date-fns";
 import { Course, User } from "@prisma/client";
 
 import { DataTable } from "@/app/course-management/_components/DataTable";
@@ -24,7 +24,10 @@ interface CourseRecordTableProps {
   courses: Course[];
 }
 
-const CourseRecordTable: React.FC<CourseRecordTableProps> = ({ professors, courses }) => {
+const CourseRecordTable: React.FC<CourseRecordTableProps> = ({
+  professors,
+  courses,
+}) => {
   const columns: ColumnDef<Course>[] = [
     {
       accessorKey: "status",
@@ -196,15 +199,20 @@ const CourseRecordTable: React.FC<CourseRecordTableProps> = ({ professors, cours
       header: "Updated At",
       cell: ({ row }) => {
         const createdAt = row.getValue("createdAt") as Date;
-        const time = format(createdAt, "h:mm a, MMM d, yyyy");
+        const time = formatDistanceToNowStrict(createdAt);
 
-        return time;
-      }
-    }
+        return <div className="text-slate-600">{time} ago</div>;
+      },
+    },
   ];
 
   return (
-    <DataTable columns={columns} data={courses} professors={professors} hidden />
+    <DataTable
+      columns={columns}
+      data={courses}
+      professors={professors}
+      hidden
+    />
   );
 };
 

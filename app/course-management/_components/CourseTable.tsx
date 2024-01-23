@@ -239,11 +239,13 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     </div>
                     <div className="space-y-1">
                       <h4 className="text-sm font-semibold text-destructive">
-                        Warning: You have not secured the room yet.
+                        Warning
                       </h4>
                       <p className="text-sm">
-                        Please talk to Facilities Office ASAP to secure the
-                        room.
+                        You have not secured the room yet.
+                      </p>
+                      <p className="text-sm">
+                        Please talk to Facilities Office ASAP to secure the room.
                       </p>
                     </div>
                   </div>

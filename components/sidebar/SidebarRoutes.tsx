@@ -23,19 +23,19 @@ const SidebarRoutes = () => {
       icon: GraduationCap,
       label: "Courses",
       href: "/course-management",
-      active: pathname.startsWith("/course-management")
+      active: pathname.startsWith("/course-management"),
     },
     {
       icon: CalendarX2,
       label: "Cancellation",
       href: "/cancellation",
-      active: pathname === "/cancellation"
+      active: pathname === "/cancellation",
     },
     {
       icon: Table,
       label: "Reports",
       href: "/reports",
-      active: pathname === "/reports"
+      active: pathname.startsWith("/reports"),
     },
   ];
 

@@ -4,7 +4,7 @@ import CourseRecordTable from "../_components/CourseRecordTable";
 
 interface IParams {
   recordKey: string;
-};
+}
 
 const RecordPage = async ({ params }: { params: IParams }) => {
   const professors = await getAllProfessors();

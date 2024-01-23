@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Button } from "../ui/button";
 
@@ -17,7 +17,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   active,
 }) => {
   const router = useRouter();
-  const pathname = usePathname();
   
   const onClick = () => {
     router.push(href);
