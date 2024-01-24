@@ -185,6 +185,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
         );
       },
       cell: ({ row }) => {
+        const status = row.getValue("status") as string;
         const title = row.getValue("title") as string;
         const recordKey = row.getValue("recordKey") as string;
         let hasChanged: boolean = false;
@@ -198,7 +199,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
         }
 
         return (
-          <div className={`${hasChanged && "bg-yellow-300"}`}>
+          <div className={`${hasChanged && status === "new" && "bg-yellow-300"}`}>
             {title}
           </div>
         );
