@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { parseISO, format, formatDistanceToNowStrict } from "date-fns";
+import { parseISO, format, formatDistanceToNowStrict, isBefore } from "date-fns";
 import { Course, User } from "@prisma/client";
 
 import { DataTable } from "@/app/course-management/_components/DataTable";

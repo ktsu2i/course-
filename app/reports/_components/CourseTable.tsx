@@ -6,7 +6,7 @@ import { ArrowUpDown, Check, X, AlertTriangle, History } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { parseISO, format } from "date-fns";
+import { parseISO, format, isBefore } from "date-fns";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -56,7 +56,34 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
     } catch {
       toast.error("Something went wrong");
     }
+  };
+
+  const getSecondLatestCourses = (courses: Course[]) => {
+    const groupedCourseObject = courses.reduce<{ [key: string]: Course }>((acc, course) => {
+      acc[course.recordKey] = acc[course.recordKey] || [];
+      acc[course.recordKey] = course;
+      return acc;
+    }, {});
+    const groupedCourses = Object.values(groupedCourseObject);
+
+    const secondLatestCourses = [];
+
+    for (const key in groupedCourses) {
+      const sortedCourses = groupedCourses
+        .sort((a, b) => {
+          const aDate = a.createdAt;
+          const bDate = b.createdAt;
+          return Number(isBefore(bDate, aDate));
+        });
+      
+      if (sortedCourses.length > 1) {
+        secondLatestCourses.push(sortedCourses[1]);
+      }
+    }
+
+    return secondLatestCourses;
   }
+  
 
   const columns: ColumnDef<Course>[] = [
     {
@@ -155,6 +182,25 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
             Title
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const title = row.getValue("title") as string;
+        const recordKey = row.getValue("recordKey") as string;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const secondLatestCourses = getSecondLatestCourses(courses);
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey == recordKey
+          );
+          hasChanged = title !== prevCourse?.title;
+        }
+
+        return (
+          <div className={`${hasChanged && "bg-yellow-300"}`}>
+            {title}
+          </div>
         );
       },
     },

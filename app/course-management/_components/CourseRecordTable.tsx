@@ -24,7 +24,10 @@ interface CourseRecordTableProps {
   courses: Course[];
 }
 
-const CourseRecordTable: React.FC<CourseRecordTableProps> = ({ professors, courses }) => {
+const CourseRecordTable: React.FC<CourseRecordTableProps> = ({
+  professors,
+  courses
+}) => {
   const columns: ColumnDef<Course>[] = [
     {
       accessorKey: "status",
