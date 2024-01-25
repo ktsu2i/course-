@@ -83,6 +83,8 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
     return secondLatestCourses;
   }
+
+  const secondLatestCourses = getSecondLatestCourses(courses);
   
 
   const columns: ColumnDef<Course>[] = [
@@ -119,6 +121,8 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (status === "new") {
           return <Badge className="bg-gray-500 text-white">New</Badge>;
+        } else if (status === "updated") {
+          return <Badge className="bg-gray-500 text-white">Updated</Badge>;
         } else if (status === "approved") {
           return <Badge className="bg-green-600 text-white">Approved</Badge>;
         } else if (status === "rejected") {
@@ -152,7 +156,24 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
           (department) => department.value === departmentInShort
         );
 
-        return department?.label;
+        const status = row.getValue("status") as string;
+        const recordKey = row.getValue("recordKey") as string;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged = department?.value !== prevCourse?.department;
+        }
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {department?.label}
+          </div>
+        );
       },
     },
     {
@@ -167,6 +188,27 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
             Course (section)
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const label = row.getValue("label") as string;
+        const recordKey = row.getValue("recordKey") as string;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged = label !== prevCourse?.label;
+        }
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {label}
+          </div>
         );
       },
     },
@@ -191,15 +233,16 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
         let hasChanged: boolean = false;
 
         if (recordKey) {
-          const secondLatestCourses = getSecondLatestCourses(courses);
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey == recordKey
+            (course) => course.recordKey === recordKey
           );
           hasChanged = title !== prevCourse?.title;
         }
 
         return (
-          <div className={`${hasChanged && status === "new" && "bg-yellow-300"}`}>
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
             {title}
           </div>
         );
@@ -208,25 +251,67 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
     {
       accessorKey: "credits",
       header: "Credits",
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const credits = row.getValue("credits") as number;
+        const recordKey = row.getValue("recordKey") as string;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged = credits !== prevCourse?.credits;
+        }
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {credits}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "userId",
       header: "Instructor",
       cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const userId = row.getValue("userId") as string;
+        const recordKey = row.getValue("recordKey") as string;
         const instructor = professors.find((professor) => {
-          return professor.id === row.getValue("userId");
+          return professor.id === userId;
         });
+
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged = userId !== prevCourse?.userId;
+        }
 
         const firstName = instructor?.firstName;
         const lastName = instructor?.lastName;
 
-        return `${lastName}, ${firstName?.charAt(0).toUpperCase()}.`;
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {lastName}, {firstName?.charAt(0).toUpperCase()}.
+          </div>
+        );
       },
     },
     {
       accessorKey: "schedule",
       header: "Schedule",
       cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const recordKey = row.getValue("recordKey") as string;
+        let hasChanged: boolean = false;
         const schedule = row.getValue("schedule") as ScheduleType;
         let start: string | undefined = undefined;
         let end: string | undefined = undefined;
@@ -271,29 +356,76 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
           endTime = format(parseISO(end), "h:mm a");
         }
 
-        return `${days} ${startTime} - ${endTime}`;
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged =
+            JSON.stringify(schedule) !== JSON.stringify(prevCourse?.schedule);
+        }
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {days} {startTime} - {endTime}
+          </div>
+        );
       },
     },
     {
       accessorKey: "classType",
       header: "Class Type",
       cell: ({ row }) => {
+        const status = row.getValue("status") as string;
         const classType = row.getValue("classType") as string;
-        return classType.charAt(0).toUpperCase() + classType.slice(1);
+        const recordKey = row.getValue("recordKey") as string;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged = classType !== prevCourse?.classType;
+        }
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {classType.charAt(0).toUpperCase() + classType.slice(1)}
+          </div>
+        );
       },
     },
     {
       accessorKey: "roomNum",
       header: "Room Number",
       cell: ({ row }) => {
+        const status = row.getValue("status") as string;
         const roomNum = row.getValue("roomNum") as number;
         const classType = row.getValue("classType") as string;
         const hasSecuredRoom = row.original.hasSecuredRoom as boolean;
+        const recordKey = row.getValue("recordKey") as string;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged = roomNum !== prevCourse?.roomNum;
+        }
 
         if (classType !== "online" && !hasSecuredRoom) {
           return (
             <div className="flex items-center">
-              <div>{roomNum}</div>
+              <div
+                className={`${
+                  hasChanged && status === "updated" && "font-bold"
+                }`}
+              >
+                {roomNum}
+              </div>
               <HoverCard>
                 <HoverCardTrigger asChild>
                   <Button variant="ghost" className="hover:bg-transparent">
@@ -319,36 +451,136 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
             </div>
           );
         }
-        return roomNum ? roomNum : "N/A";
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {roomNum ? roomNum : "N/A"}
+          </div>
+        );
       },
     },
     {
       accessorKey: "crn",
       header: "CRN",
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const recordKey = row.getValue("recordKey") as string;
+        const crn = row.getValue("crn") as number;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged = crn !== prevCourse?.crn;
+        }
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {crn}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "specialInfo",
       header: "Special Info",
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const recordKey = row.getValue("recordKey") as string;
+        const specialInfo = row.getValue("specialInfo") as string;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged = specialInfo !== prevCourse?.specialInfo;
+        }
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {specialInfo}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "notes",
       header: "Notes",
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const recordKey = row.getValue("recordKey") as string;
+        const notes = row.getValue("notes") as string;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged = notes !== prevCourse?.notes;
+        }
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {notes}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "semester",
       header: "Semester",
       cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const recordKey = row.getValue("recordKey") as string;
         const semester = row.getValue("semester") as string;
-        const capitalizedSemester =
-          semester.charAt(0).toUpperCase() + semester.slice(1);
+        const capitalizedSemester = semester.charAt(0).toUpperCase() + semester.slice(1);
+        let hasChanged: boolean = false;
 
-        return capitalizedSemester;
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find((course) => course.recordKey === recordKey);
+          hasChanged = semester !== prevCourse?.semester;
+        }
+
+        return (
+          <div className={`${hasChanged && status === "updated" && "font-bold"}`}>
+            {capitalizedSemester}
+          </div>
+        );
       },
     },
     {
       accessorKey: "year",
-      accessorFn: (row) => row.year.toString(),
+      // accessorFn: (row) => row.year.toString(),
       header: "Year",
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const recordKey = row.getValue("recordKey") as string;
+        const year = row.getValue("year") as number;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course.recordKey === recordKey
+          );
+          hasChanged = year !== prevCourse?.year;
+        }
+
+        return (
+          <div className={`${hasChanged && status === "updated" && "font-bold"}`}>
+            {year.toString()}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "recordKey",
@@ -372,7 +604,11 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
         const status = row.getValue("status");
 
         return (
-          <div className={`flex gap-x-2 ${status !== "new" && "hidden"}`}>
+          <div
+            className={`flex gap-x-2 ${
+              (status === "approved" || status === "rejected") && "hidden"
+            }`}
+          >
             <AlertDialog>
               <AlertDialogTrigger>
                 <Button size="sm" variant="destructive">

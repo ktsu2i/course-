@@ -92,7 +92,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
       cell: ({ row }) => {
         const status = row.getValue("status");
 
-        if (status === "new") {
+        if (status === "new" || status === "updated") {
           return <Badge className="bg-gray-500 text-white">Pending</Badge>;
         } else if (status === "approved") {
           return <Badge className="bg-green-600 text-white">Approved</Badge>;

@@ -61,7 +61,9 @@ const CourseRecordTable: React.FC<CourseRecordTableProps> = ({
         const status = row.getValue("status");
 
         if (status === "new") {
-          return <Badge className="bg-gray-500 text-white">Pending</Badge>;
+          return <Badge className="bg-gray-500 text-white">New</Badge>;
+        } else if (status === "updated") {
+          return <Badge className="bg-gray-500 text-white">Updated</Badge>;
         } else if (status === "approved") {
           return <Badge className="bg-green-600 text-white">Approved</Badge>;
         } else if (status === "rejected") {

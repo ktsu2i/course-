@@ -105,6 +105,7 @@ export async function POST(
             specialInfo: specialInfo,
             notes: notes,
             label: label,
+            status: "updated"
           },
         });
       } else {
@@ -128,6 +129,7 @@ export async function POST(
             specialInfo: specialInfo,
             notes: notes,
             label: label,
+            status: "updated"
           },
         });
       }
