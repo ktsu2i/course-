@@ -45,6 +45,9 @@ const CourseRecordTable: React.FC<CourseRecordTableProps> = ({
               <SelectItem value="new">
                 <Badge className="bg-gray-500 text-white">Pending</Badge>
               </SelectItem>
+              <SelectItem value="updated">
+                <Badge className="bg-blue-500 text-white">Updated</Badge>
+              </SelectItem>
               <SelectItem value="approved">
                 <Badge className="bg-green-600 text-white">Approved</Badge>
               </SelectItem>
@@ -62,6 +65,8 @@ const CourseRecordTable: React.FC<CourseRecordTableProps> = ({
 
         if (status === "new") {
           return <Badge className="bg-gray-500 text-white">Pending</Badge>;
+        } else if (status === "updated") {
+          return <Badge className="bg-blue-500 text-white">Updated</Badge>;
         } else if (status === "approved") {
           return <Badge className="bg-green-600 text-white">Approved</Badge>;
         } else if (status === "rejected") {
@@ -196,7 +201,7 @@ const CourseRecordTable: React.FC<CourseRecordTableProps> = ({
     },
     {
       accessorKey: "createdAt",
-      header: "Updated At",
+      header: "",
       cell: ({ row }) => {
         const createdAt = row.getValue("createdAt") as Date;
         const time = format(createdAt, "h:mm a, MMM d, yyyy");

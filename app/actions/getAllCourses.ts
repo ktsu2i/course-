@@ -9,7 +9,6 @@ export default async function getAllCourses() {
     }
 
     return courses;
-    
   } catch (error) {
     return [];
   }

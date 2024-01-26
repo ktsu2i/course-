@@ -85,8 +85,8 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
   }
 
   const secondLatestCourses = getSecondLatestCourses(courses);
+  console.log(secondLatestCourses);
   
-
   const columns: ColumnDef<Course>[] = [
     {
       accessorKey: "status",
@@ -103,6 +103,9 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
             <SelectContent>
               <SelectItem value="new">
                 <Badge className="bg-gray-500 text-white">New</Badge>
+              </SelectItem>
+              <SelectItem value="updated">
+                <Badge className="bg-blue-500 text-white">Updated</Badge>
               </SelectItem>
               <SelectItem value="approved">
                 <Badge className="bg-green-600 text-white">Approved</Badge>
@@ -122,7 +125,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
         if (status === "new") {
           return <Badge className="bg-gray-500 text-white">New</Badge>;
         } else if (status === "updated") {
-          return <Badge className="bg-gray-500 text-white">Updated</Badge>;
+          return <Badge className="bg-blue-500 text-white">Updated</Badge>;
         } else if (status === "approved") {
           return <Badge className="bg-green-600 text-white">Approved</Badge>;
         } else if (status === "rejected") {
@@ -241,7 +244,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         return (
           <div
-            className={`${hasChanged && status === "updated" && "font-bold"}`}
+            className={`${(hasChanged && status === "updated") ? "font-bold" : ""}`}
           >
             {title}
           </div>

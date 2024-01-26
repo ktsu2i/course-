@@ -20,7 +20,6 @@ export default async function getCurrentUserFromDb() {
     });
 
     return uniqueUser;
-
   } catch (error) {
     return null;
   }

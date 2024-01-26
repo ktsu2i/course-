@@ -60,7 +60,6 @@ import { DAYS, DEPARTMENTS } from "@/lib/constants";
 import { ScheduleType } from "@/lib/types";
 
 interface UpdateCourseAlertProps {
-  disabled: boolean;
   professors: User[];
   courses: Course[];
   courseId: string;
@@ -133,7 +132,6 @@ const courseFormSchema = z
   });
 
 const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
-  disabled,
   professors,
   courses,
   courseId,
@@ -322,8 +320,8 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger disabled={disabled}>
-        <Button size="sm" variant="ghost" disabled={disabled}>
+      <AlertDialogTrigger>
+        <Button size="sm" variant="ghost">
           <Pencil className="h-5 w-5" />
         </Button>
       </AlertDialogTrigger>

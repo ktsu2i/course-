@@ -29,7 +29,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@/components/ui/select";
 import {
   HoverCard,
@@ -44,10 +44,7 @@ interface CourseTableProps {
   courses: Course[];
 }
 
-const CourseTable: React.FC<CourseTableProps> = ({
-  professors,
-  courses,
-}) => {
+const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
   const router = useRouter();
 
   const handleDelete = async (courseId: string) => {
@@ -77,6 +74,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
               <SelectItem value="new">
                 <Badge className="bg-gray-500 text-white">Pending</Badge>
               </SelectItem>
+              <SelectItem value="updated">
+                <Badge className="bg-blue-500 text-white">Updated</Badge>
+              </SelectItem>
               <SelectItem value="approved">
                 <Badge className="bg-green-600 text-white">Approved</Badge>
               </SelectItem>
@@ -92,8 +92,10 @@ const CourseTable: React.FC<CourseTableProps> = ({
       cell: ({ row }) => {
         const status = row.getValue("status");
 
-        if (status === "new" || status === "updated") {
+        if (status === "new") {
           return <Badge className="bg-gray-500 text-white">Pending</Badge>;
+        } else if (status === "updated") {
+          return <Badge className="bg-blue-500 text-white">Updated</Badge>;
         } else if (status === "approved") {
           return <Badge className="bg-green-600 text-white">Approved</Badge>;
         } else if (status === "rejected") {
@@ -212,7 +214,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
       cell: ({ row }) => {
         const classType = row.getValue("classType") as string;
         return classType.charAt(0).toUpperCase() + classType.slice(1);
-      }
+      },
     },
     {
       accessorKey: "roomNum",
@@ -245,7 +247,8 @@ const CourseTable: React.FC<CourseTableProps> = ({
                         You have not secured the room yet.
                       </p>
                       <p className="text-sm">
-                        Please talk to Facilities Office ASAP to secure the room.
+                        Please talk to Facilities Office ASAP to secure the
+                        room.
                       </p>
                     </div>
                   </div>
@@ -255,7 +258,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
           );
         }
         return roomNum ? roomNum : "N/A";
-      }
+      },
     },
     {
       accessorKey: "crn",
@@ -294,13 +297,11 @@ const CourseTable: React.FC<CourseTableProps> = ({
       accessorKey: "id",
       header: "",
       cell: ({ row }) => {
-        const isNewCourse = row.getValue("status") === "new";
-        const isRejectedCourse = row.getValue("status") === "rejected";
+        const isPending = row.getValue("status") === "new" || row.getValue("status") === "updated";
 
         return (
-          <div className={`flex gap-x-2 ${isNewCourse && "hidden"}`}>
+          <div className={`flex gap-x-2 ${isPending && "hidden"}`}>
             <UpdateCourseAlert
-              disabled={isRejectedCourse}
               professors={professors}
               courses={courses}
               courseId={row.getValue("id")}
@@ -345,12 +346,15 @@ const CourseTable: React.FC<CourseTableProps> = ({
       }
 
       return acc;
-    }, {}
+    },
+    {}
   );
 
   const latestCourses = Object.values(latestCourseObject);
 
-  return <DataTable columns={columns} data={latestCourses} professors={professors} />;
+  return (
+    <DataTable columns={columns} data={latestCourses} professors={professors} />
+  );
 };
 
 export default CourseTable;

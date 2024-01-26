@@ -1,4 +1,4 @@
-import { db } from "@/lib/db"
+import { db } from "@/lib/db";
 
 export default async function getAllProfessors() {
   try {
@@ -12,7 +12,7 @@ export default async function getAllProfessors() {
     });
 
     return professors;
-    
+
   } catch (error) {
     return [];
   }

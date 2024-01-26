@@ -42,7 +42,7 @@ model Course {
   credits Int
   label String
 
-  status String @default("new") // new, approved, rejected
+  status String @default("new") // new, updated, approved, rejected
 
   userId String
   instructor User @relation(fields: [userId], references: [id], onDelete: Cascade)

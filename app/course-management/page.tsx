@@ -23,7 +23,7 @@ const CourseManagementPage = async () => {
       >
         <h1 className="text-2xl font-bold">Manage Courses</h1>
         <p className="text-slate-500 mt-1">
-          You can add, update, and delete courses here.
+          You can request for adding, updating, and deleting courses.
         </p>
         <div className="mt-8">
           <CourseTable professors={professors} courses={courses} />
