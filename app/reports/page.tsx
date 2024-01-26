@@ -1,11 +1,13 @@
 import getAllProfessors from "../actions/getAllProfessors";
 import getAllCourses from "../actions/getAllCourses";
-import Data from "./_components/CourseTable";
+import CourseTable from "./_components/CourseTable";
 import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
+import getAllUniqueRecordKeys from "../actions/getAllUniqueRecordKeys";
 
 const ReportPage = async () => {
   const professors = await getAllProfessors();
   const courses = await getAllCourses();
+  const recordKeys = await getAllUniqueRecordKeys();
 
   const currentUser = await getCurrentUserFromDb();
 
@@ -25,7 +27,7 @@ const ReportPage = async () => {
           as an Excel file.
         </p>
         <div className="mt-8">
-          <Data professors={professors} courses={courses} />
+          <CourseTable professors={professors} courses={courses} recordKeys={recordKeys} />
         </div>
       </div>
       <div className={`h-full flex items-center justify-center ${(isAdmin || isStaff) && "hidden"}`}>

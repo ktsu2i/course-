@@ -6,7 +6,7 @@ import { ArrowUpDown, Check, X, AlertTriangle, History } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { parseISO, format, isBefore } from "date-fns";
+import { parseISO, format, isBefore, isAfter } from "date-fns";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -42,9 +42,10 @@ import { DataTable } from "./DataTable";
 interface CourseTableProps {
   professors: User[];
   courses: Course[];
+  recordKeys: string[];
 }
 
-const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
+const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKeys }) => {
   const router = useRouter();
 
   const handleAction = async (courseId: string, status: string) => {
@@ -58,34 +59,21 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
     }
   };
 
-  const getSecondLatestCourses = (courses: Course[]) => {
-    const groupedCourseObject = courses.reduce<{ [key: string]: Course }>((acc, course) => {
-      acc[course.recordKey] = acc[course.recordKey] || [];
-      acc[course.recordKey] = course;
-      return acc;
-    }, {});
-    const groupedCourses = Object.values(groupedCourseObject);
+  const getSecondLatestCourses = (courses: Course[], recordKeys: string[]) => {
+    let secondLatestCourses: Course[] = [];
 
-    const secondLatestCourses = [];
-
-    for (const key in groupedCourses) {
-      const sortedCourses = groupedCourses
-        .sort((a, b) => {
-          const aDate = a.createdAt;
-          const bDate = b.createdAt;
-          return Number(isBefore(bDate, aDate));
-        });
-      
-      if (sortedCourses.length > 1) {
-        secondLatestCourses.push(sortedCourses[1]);
-      }
+    for (const recordKey of recordKeys) {
+      const groupedCourses = courses
+        .filter((course) => course?.recordKey === recordKey)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      console.log(groupedCourses);
+      secondLatestCourses.push(groupedCourses[1]);
     }
 
     return secondLatestCourses;
   }
 
-  const secondLatestCourses = getSecondLatestCourses(courses);
-  console.log(secondLatestCourses);
+  const secondLatestCourses = getSecondLatestCourses(courses, recordKeys);
   
   const columns: ColumnDef<Course>[] = [
     {
@@ -165,7 +153,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = department?.value !== prevCourse?.department;
         }
@@ -201,7 +189,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = label !== prevCourse?.label;
         }
@@ -237,7 +225,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = title !== prevCourse?.title;
         }
@@ -262,7 +250,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = credits !== prevCourse?.credits;
         }
@@ -291,7 +279,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = userId !== prevCourse?.userId;
         }
@@ -361,7 +349,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged =
             JSON.stringify(schedule) !== JSON.stringify(prevCourse?.schedule);
@@ -387,7 +375,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = classType !== prevCourse?.classType;
         }
@@ -414,7 +402,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = roomNum !== prevCourse?.roomNum;
         }
@@ -459,7 +447,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
           <div
             className={`${hasChanged && status === "updated" && "font-bold"}`}
           >
-            {roomNum ? roomNum : "N/A"}
+            {roomNum ? roomNum : ""}
           </div>
         );
       },
@@ -475,7 +463,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = crn !== prevCourse?.crn;
         }
@@ -500,7 +488,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = specialInfo !== prevCourse?.specialInfo;
         }
@@ -525,7 +513,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = notes !== prevCourse?.notes;
         }
@@ -550,7 +538,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
         let hasChanged: boolean = false;
 
         if (recordKey) {
-          const prevCourse = secondLatestCourses.find((course) => course.recordKey === recordKey);
+          const prevCourse = secondLatestCourses.find((course) => course?.recordKey === recordKey);
           hasChanged = semester !== prevCourse?.semester;
         }
 
@@ -573,7 +561,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses }) => {
 
         if (recordKey) {
           const prevCourse = secondLatestCourses.find(
-            (course) => course.recordKey === recordKey
+            (course) => course?.recordKey === recordKey
           );
           hasChanged = year !== prevCourse?.year;
         }
