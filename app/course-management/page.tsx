@@ -3,10 +3,12 @@ import CourseTable from "./_components/CourseTable";
 import getAllProfessors from "../actions/getAllProfessors";
 import getAllCourses from "../actions/getAllCourses";
 import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
+import getAllUniqueRecordKeys from "../actions/getAllUniqueRecordKeys";
 
 const CourseManagementPage = async () => {
   const professors = await getAllProfessors();
   const courses = await getAllCourses();
+  const recordKeys = await getAllUniqueRecordKeys();
 
   const currentUser = await getCurrentUserFromDb();
 
@@ -26,7 +28,7 @@ const CourseManagementPage = async () => {
           You can request for adding, updating, and deleting courses.
         </p>
         <div className="mt-8">
-          <CourseTable professors={professors} courses={courses} />
+          <CourseTable professors={professors} courses={courses} recordKeys={recordKeys} />
         </div>
       </div>
       <div

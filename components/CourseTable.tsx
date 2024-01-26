@@ -42,6 +42,9 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
               <SelectItem value="new">
                 <Badge className="bg-gray-500 text-white">New</Badge>
               </SelectItem>
+              <SelectItem value="updated">
+                <Badge className="bg-blue-500 text-white">Updated</Badge>
+              </SelectItem>
               <SelectItem value="approved">
                 <Badge className="bg-green-600 text-white">Approved</Badge>
               </SelectItem>
@@ -57,8 +60,10 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
       cell: ({ row }) => {
         const status = row.getValue("status");
 
-        if (status === "new" || status === "updated") {
+        if (status === "new") {
           return <Badge className="bg-gray-500 text-white">Pending</Badge>;
+        } else if (status === "updated") {
+          return <Badge className="bg-blue-500 text-white">Updated</Badge>;
         } else if (status === "approved") {
           return <Badge className="bg-green-600 text-white">Approved</Badge>;
         } else if (status === "rejected") {

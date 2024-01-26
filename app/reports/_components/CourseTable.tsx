@@ -6,7 +6,7 @@ import { ArrowUpDown, Check, X, AlertTriangle, History } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { parseISO, format, isBefore, isAfter } from "date-fns";
+import { parseISO, format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -551,7 +551,6 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKe
     },
     {
       accessorKey: "year",
-      // accessorFn: (row) => row.year.toString(),
       header: "Year",
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
