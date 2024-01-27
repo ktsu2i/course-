@@ -77,29 +77,29 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
         }
       },
     },
-    {
-      accessorKey: "department",
-      header: ({ column }) => {
-        return (
-          <Button
-            className="pl-0"
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Department
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => {
-        const departmentInShort = row.getValue("department") as string;
-        const department = DEPARTMENTS.find(
-          (department) => department.value === departmentInShort
-        );
+    // {
+    //   accessorKey: "department",
+    //   header: ({ column }) => {
+    //     return (
+    //       <Button
+    //         className="pl-0"
+    //         variant="ghost"
+    //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //       >
+    //         Department
+    //         <ArrowUpDown className="ml-2 h-4 w-4" />
+    //       </Button>
+    //     );
+    //   },
+    //   cell: ({ row }) => {
+    //     const departmentInShort = row.getValue("department") as string;
+    //     const department = DEPARTMENTS.find(
+    //       (department) => department.value === departmentInShort
+    //     );
 
-        return department?.label;
-      },
-    },
+    //     return department?.label;
+    //   },
+    // },
     {
       accessorKey: "label",
       header: ({ column }) => {

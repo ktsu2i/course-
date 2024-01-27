@@ -49,9 +49,9 @@ interface CourseTableProps {
 const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKeys }) => {
   const router = useRouter();
 
-  const handleDelete = async (courseId: string) => {
+  const handleDelete = async (recordKey: string) => {
     try {
-      await axios.delete("/api/courses", { data: { courseId } });
+      await axios.delete("/api/courses", { data: { recordKey } });
       toast.success("Course deleted!");
       router.refresh();
     } catch {
@@ -440,6 +440,56 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKe
       },
     },
     {
+      accessorKey: "specialInfo",
+      header: "Special Info",
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const recordKey = row.getValue("recordKey") as string;
+        const specialInfo = row.getValue("specialInfo") as string;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course?.recordKey === recordKey
+          );
+          hasChanged = specialInfo !== prevCourse?.specialInfo;
+        }
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {specialInfo}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "notes",
+      header: "Notes",
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const recordKey = row.getValue("recordKey") as string;
+        const notes = row.getValue("notes") as string;
+        let hasChanged: boolean = false;
+
+        if (recordKey) {
+          const prevCourse = secondLatestCourses.find(
+            (course) => course?.recordKey === recordKey
+          );
+          hasChanged = notes !== prevCourse?.notes;
+        }
+
+        return (
+          <div
+            className={`${hasChanged && status === "updated" && "font-bold"}`}
+          >
+            {notes}
+          </div>
+        );
+      },
+    },
+    {
       accessorKey: "semester",
       header: "Semester",
       cell: ({ row }) => {
@@ -532,15 +582,14 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKe
                 <AlertDialogHeader>
                   <AlertDialogTitle>Confirmation</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete &apos;
-                    {row.getValue("label")}&apos;?
+                    Are you sure you want to delete &apos;{row.getValue("label")}&apos;?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                    onClick={() => handleDelete(row.getValue("id"))}
+                    onClick={() => handleDelete(row.getValue("recordKey"))}
                   >
                     Delete
                   </AlertDialogAction>

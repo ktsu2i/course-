@@ -296,15 +296,15 @@ export async function DELETE(
 ) {
   try {
     const user = await currentUser();
-    const { courseId } = await request.json();
+    const { recordKey } = await request.json();
 
     if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    await db.course.delete({
+    await db.course.deleteMany({
       where: {
-        id: courseId,
+        recordKey: recordKey,
       },
     });
 
