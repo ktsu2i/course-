@@ -8,7 +8,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { parseISO } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 import {
   AlertDialog,
@@ -160,11 +160,11 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
     const startHour: number = start.getHours() % 12;
     defaultStartHour = startHour.toString();
     defaultStartMin = start.getMinutes().toString();
-    defaultStartAmOrPm = startHour < 12 ? "am" : "pm";
+    defaultStartAmOrPm = format(start, "aaa");
     const endHour: number = end.getHours() % 12;
     defaultEndHour = endHour.toString();
     defaultEndMin = end.getMinutes().toString();
-    defaultEndAmOrPm = endHour < 12 ? "am" : "pm";
+    defaultEndAmOrPm = format(end, "aaa");
   }
   
   if (schedule?.tuesday) {
@@ -174,11 +174,11 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
     const startHour: number = start.getHours() % 12;
     defaultStartHour = startHour.toString();
     defaultStartMin = start.getMinutes().toString();
-    defaultStartAmOrPm = startHour < 12 ? "am" : "pm";
+    defaultStartAmOrPm = format(start, "aaa");
     const endHour: number = end.getHours() % 12;
     defaultEndHour = endHour.toString();
     defaultEndMin = end.getMinutes().toString();
-    defaultEndAmOrPm = endHour < 12 ? "am" : "pm";
+    defaultEndAmOrPm = format(end, "aaa");
   }
   
   if (schedule?.wednesday) {
@@ -188,11 +188,11 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
     const startHour: number = start.getHours() % 12;
     defaultStartHour = startHour.toString();
     defaultStartMin = start.getMinutes().toString();
-    defaultStartAmOrPm = startHour < 12 ? "am" : "pm";
+    defaultStartAmOrPm = format(start, "aaa");
     const endHour: number = end.getHours() % 12;
     defaultEndHour = endHour.toString();
     defaultEndMin = end.getMinutes().toString();
-    defaultEndAmOrPm = endHour < 12 ? "am" : "pm";
+    defaultEndAmOrPm = format(end, "aaa");
   }
   
   if (schedule?.thursday) {
@@ -202,11 +202,11 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
     const startHour: number = start.getHours() % 12;
     defaultStartHour = startHour.toString();
     defaultStartMin = start.getMinutes().toString();
-    defaultStartAmOrPm = startHour < 12 ? "am" : "pm";
+    defaultStartAmOrPm = format(start, "aaa");
     const endHour: number = end.getHours() % 12;
     defaultEndHour = endHour.toString();
     defaultEndMin = end.getMinutes().toString();
-    defaultEndAmOrPm = endHour < 12 ? "am" : "pm";
+    defaultEndAmOrPm = format(end, "aaa");
   }
   
   if (schedule?.friday) {
@@ -216,11 +216,11 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
     const startHour: number = start.getHours() % 12;
     defaultStartHour = startHour.toString();
     defaultStartMin = start.getMinutes().toString();
-    defaultStartAmOrPm = startHour < 12 ? "am" : "pm";
+    defaultStartAmOrPm = format(start, "aaa");
     const endHour: number = end.getHours() % 12;
     defaultEndHour = endHour.toString();
     defaultEndMin = end.getMinutes().toString();
-    defaultEndAmOrPm = endHour < 12 ? "am" : "pm";
+    defaultEndAmOrPm = format(end, "aaa");
   }
 
   let defaultRoomNum: number | undefined = undefined;
@@ -538,7 +538,9 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
                 </FormItem>
               )}
             />
-            <Label>Schedules</Label>
+            <div className="mt-6">
+              <Label>Schedules</Label>
+            </div>
             <div className="mt-2 flex items-center justify-between border p-3 rounded-md">
               <FormField
                 control={form.control}
