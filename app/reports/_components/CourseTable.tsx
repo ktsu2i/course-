@@ -66,7 +66,6 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKe
       const groupedCourses = courses
         .filter((course) => course?.recordKey === recordKey)
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-      console.log(groupedCourses);
       secondLatestCourses.push(groupedCourses[1]);
     }
 

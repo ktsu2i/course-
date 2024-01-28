@@ -8,7 +8,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { format, parseISO } from "date-fns";
+import { format, isBefore, parseISO } from "date-fns";
 
 import {
   AlertDialog,
@@ -116,19 +116,43 @@ const courseFormSchema = z
       } else {
         return true;
       }
-    }, {
-      message: "Required",
-      path: ["roomNUm"],
-  })
+    })
   .refine(({ year, customYear }) => {
     if (year === "other" && !customYear) {
       return false;
     } else {
       return true;
     }
-  }, {
-    message: "Required",
-    path: ["year"],
+  })
+    .refine(({
+    startHour,
+    startMin,
+    startAmOrPm,
+    endHour,
+    endMin,
+    endAmOrPm,
+  }) => {
+    const startDate = new Date(2000, 0, 1, Number(startHour), Number(startMin));
+    if (startAmOrPm === "am" && startHour === "12") {
+      startDate.setHours(0);
+    }
+    if (startAmOrPm === "pm") {
+      startDate.setHours(startDate.getHours() + 12);
+    }
+
+    const endDate = new Date(2000, 0, 1, Number(endHour), Number(endMin));
+    if (endAmOrPm === "am" && endHour === "12") {
+      endDate.setHours(0);
+    }
+    if (endAmOrPm === "pm") {
+      endDate.setHours(endDate.getHours() + 12);
+    }
+
+    if (isBefore(startDate, endDate)) {
+      return true;
+    } else {
+      return false;
+    }
   });
 
 const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
