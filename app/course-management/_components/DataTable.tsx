@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+
 import AddCourseAlert from "./AddCourseAlert";
 
 interface DataTableProps<TData, TValue> {
