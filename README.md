@@ -4,9 +4,9 @@
 I am working on this project to solve the problems below for faculty and staff at Temple University, Japan Campus.
 
 ### Problems
-- Currently, professors must fill out a Google form which contains a lot of unnecessary inputs every time they request to offer a course in upcoming semester.
-- Staffs approve the offered courses and manually add them on Excel sheet.
-- There is another Google form for professors to request to cancel a class due to sickness. This also contains a lot of unnecessary inputs.
+- Professors must fill out a Google form which contains a lot of unnecessary inputs every time they request to offer a course in upcoming semester.
+- Staff approve the offered courses and manually add them on Excel sheet.
+- There is another Google form for professors to request to cancel a class due to sickness and so on. This also contains a lot of unnecessary inputs.
 
 ## Features
 - User authentication with roles
@@ -15,6 +15,8 @@ I am working on this project to solve the problems below for faculty and staff a
   - Faculty: has access to add/update/delete courses and requesting to cancel a class
   - Staff: has access to reports
 - User management
+  - Add/Update/Delete users
+  - Manage user roles
 - Course management
   - Request to add courses
   - Update/Delete courses once they are approved or rejected by staff
