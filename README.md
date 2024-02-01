@@ -1,37 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Course Manager (in progress)
 
-## Getting Started
+## Purpose of This Project
+I am working on this project to solve the problems below for faculty and staff at Temple University, Japan Campus.
 
-First, run the development server:
+### Problems
+- Currently, professors must fill out a Google form which contains a lot of unnecessary inputs every time they request to offer a course in upcoming semester.
+- Staffs approve the offered courses and manually add them on Excel sheet.
+- There is another Google form for professors to request to cancel a class due to sickness. This also contains a lot of unnecessary inputs.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
+- User authentication with roles
+  - Admin: has access to all the features
+  - Coordinator: has access to managing users, add/update/delete courses, and requesting to cancel a class
+  - Faculty: has access to add/update/delete courses and requesting to cancel a class
+  - Staff: has access to reports
+- User management
+- Course management
+  - Request to add courses
+  - Update/Delete courses once they are approved or rejected by staff
+  - Check the update records of each course
+  - Filter courses by course name, semester, and year
+- Class cancellation
+  - Select a date to display user's courses on the day
+  - Request to cancel a class
+- Reports
+  - Approve/Reject courses requested by professors
+  - Check the update records of each course
+  - Filter courses by course name, semester, and year
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# course-
+## Tech Stack
+- TypeScript
+- React
+- Next.js
+- Node.js
+- Tailwind CSS
+- MySQL
+- shadcn/ui

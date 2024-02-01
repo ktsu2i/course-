@@ -2,21 +2,13 @@
 
 import { Course, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, CalendarIcon, CurlyBraces } from "lucide-react";
+import { ArrowUpDown, CalendarIcon } from "lucide-react";
 import { parseISO, format, add } from "date-fns";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Popover,
   PopoverContent,
@@ -181,7 +173,6 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
     },
     {}
   );
-
   const latestCourses = Object.values(latestCourseObject);
 
   // filter only user's approved courses
