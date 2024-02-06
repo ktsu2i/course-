@@ -5,7 +5,7 @@ I am working on this project to solve the problems below for faculty and staff a
 
 ### Problems
 - Professors must fill out a Google form which contains a lot of unnecessary inputs every time they request to offer a course in upcoming semester.
-- Staff approve the offered courses and manually add them on Excel sheet.
+- Staff approve the offered courses and manually add them on Excel sheets.
 - There is another Google form for professors to request to cancel a class due to sickness and so on. This also contains a lot of unnecessary inputs.
 
 ## Features
@@ -29,6 +29,11 @@ I am working on this project to solve the problems below for faculty and staff a
   - Approve/Reject courses requested by professors
   - Check the update records of each course
   - Filter courses by course name, semester, and year
+
+## Challenges while developing the app
+- Find the best solution for user authentication
+  - I needed to manage the user table in local, so professors involved in this project suggested me to search open-source IAM and consider pros and cons to decide what we use.
+  - Eventually, those who will work on projects for TUJ in the future can also access the user table and easily implement user authentication systems.
 
 ## Tech Stack
 - TypeScript
