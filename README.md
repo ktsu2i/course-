@@ -34,6 +34,7 @@ I am working on this project to solve the problems below for faculty and staff a
 - Find the best solution for user authentication
   - I needed to manage the user table in local, so professors involved in this project suggested me to search open-source IAM and consider pros and cons to decide what we use.
   - Eventually, those who will work on projects for TUJ in the future can also access the user table and easily implement user authentication systems.
+  - I implemented a user authentication system with Clerk, but we decided to use Keycloak.
 
 ## Tech Stack
 - TypeScript
@@ -43,3 +44,5 @@ I am working on this project to solve the problems below for faculty and staff a
 - Tailwind CSS
 - MySQL
 - shadcn/ui
+- (Keycloak)
+- (Docker)
