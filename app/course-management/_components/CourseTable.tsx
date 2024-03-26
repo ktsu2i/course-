@@ -38,7 +38,6 @@ import {
 } from "@/components/ui/hover-card";
 
 import { ScheduleType } from "@/lib/types";
-import { DEPARTMENTS } from "@/lib/constants";
 
 interface CourseTableProps {
   professors: User[];
