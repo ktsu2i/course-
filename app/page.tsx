@@ -86,13 +86,6 @@ export default async function Home() {
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>
-        <ResizableHandle />
-        <ResizablePanel defaultSize={20}>
-          {/* <div className="pt-[65px] m-5">
-            <h1 className="text-2xl font-bold">Your Courses</h1>
-            <CourseTable courses={courses} currentUser={currentUser} />
-          </div> */}
-        </ResizablePanel>
       </ResizablePanelGroup>
     </>
   );

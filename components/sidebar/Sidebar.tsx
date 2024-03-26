@@ -15,7 +15,7 @@ const Sidebar = () => {
         isAuthPage && "hidden"
       }`}
     >
-      <div className="font-semibold text-lg border-b shadow-sm">
+      <div className="font-semibold text-lg">
         <a href="/" className="flex p-4 ml-2">
           <Image width={120} height={120} alt="logo" src="/logo.svg" />
         </a>
@@ -26,5 +26,5 @@ const Sidebar = () => {
     </div>
   );
 };
- 
+
 export default Sidebar;
