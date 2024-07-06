@@ -8,6 +8,7 @@ import CourseTable from "@/components/CourseTable";
 
 import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
 import getAllCourses from "./actions/getAllCourses";
+import { auth } from "@/auth";
 
 export default async function Home() {
   const currentUser = await getCurrentUserFromDb();
