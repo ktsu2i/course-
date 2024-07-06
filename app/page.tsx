@@ -1,6 +1,10 @@
 import { SignedIn } from "@clerk/nextjs";
 
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 import WelcomeCard from "@/components/WelcomeCard";
 import UserInfoCard from "@/components/UserInfoCard";
@@ -8,31 +12,21 @@ import CourseTable from "@/components/CourseTable";
 
 import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
 import getAllCourses from "./actions/getAllCourses";
+import { auth } from "@/auth";
 
 export default async function Home() {
   const currentUser = await getCurrentUserFromDb();
   const courses = await getAllCourses();
 
-  const hasRegistered = currentUser !== null;
-  const isAdmin = currentUser?.isAdmin;
-  const isCoordinator = currentUser?.isCoordinator;
-  const isFaculty = currentUser?.isFaculty;
-  const isStaff = currentUser?.isStaff;
+  const session = await auth();
+
+  const hasRegistered = true;
+  // const hasRegistered = currentUser !== null;
+  const isAdmin = session?.user.roles.includes("admin");
+  const isCoordinator = session?.user.roles.includes("coordinator");
+  const isFaculty = session?.user.roles.includes("faculty");
+  const isStaff = session?.user.roles.includes("staff");
   const hasNoRoles = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
-
-  let role;
-
-  if (isAdmin) {
-    role = "Admin";
-  } else if (isCoordinator) {
-    role = "Coordinator";
-  } else if (isFaculty) {
-    role = "Faculty";
-  } else if (isStaff) {
-    role = "Staff";
-  } else {
-    role = "Guest";
-  }
 
   let alertContent;
 
@@ -48,7 +42,9 @@ export default async function Home() {
       );
     } else {
       alertContent = (
-        <div className="text-bold text-center">Your Role: {role}</div>
+        <div className="text-bold text-center">
+          Your Role: {session?.user.roles[0]}
+        </div>
       );
     }
   } else {
@@ -67,7 +63,7 @@ export default async function Home() {
             <ResizablePanel defaultSize={35} minSize={35}>
               <div className="m-10 bg-slate-0">
                 <h1 className="text-3xl font-bold">
-                  Welcome Back, {currentUser?.firstName}!
+                  Welcome Back, {session?.user.first_name}!
                 </h1>
                 {/* <p className="text-slate-500 mt-1">
                   Manage your information and courses

@@ -4,17 +4,18 @@ import getAllProfessors from "../actions/getAllProfessors";
 import getAllCourses from "../actions/getAllCourses";
 import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
 import getAllUniqueRecordKeys from "../actions/getAllUniqueRecordKeys";
+import { auth } from "@/auth";
 
 const CourseManagementPage = async () => {
   const professors = await getAllProfessors();
   const courses = await getAllCourses();
   const recordKeys = await getAllUniqueRecordKeys();
 
-  const currentUser = await getCurrentUserFromDb();
+  const session = await auth();
 
-  const isAdmin = currentUser?.isAdmin;
-  const isCoordinator = currentUser?.isCoordinator;
-  const isFaculty = currentUser?.isFaculty;
+  const isAdmin = session?.user.roles.includes("admin");
+  const isCoordinator = session?.user.roles.includes("coordinator");
+  const isFaculty = session?.user.roles.includes("faculty");
 
   return (
     <>
@@ -28,7 +29,11 @@ const CourseManagementPage = async () => {
           You can request for adding, updating, and deleting courses.
         </p>
         <div className="mt-8">
-          <CourseTable professors={professors} courses={courses} recordKeys={recordKeys} />
+          <CourseTable
+            professors={professors}
+            courses={courses}
+            recordKeys={recordKeys}
+          />
         </div>
       </div>
       <div
