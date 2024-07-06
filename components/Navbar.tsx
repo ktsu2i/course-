@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { auth } from "@/auth";
 import { SignIn } from "./auth/SignIn";
+import { SignOut } from "./auth/SignOut";
 
 const Navbar = async () => {
   // const pathname = usePathname();
@@ -24,7 +25,7 @@ const Navbar = async () => {
         <SignIn />
       </div>
       <div className={`${!session?.user && "hidden"}`}>
-        {session?.user?.name}
+        <SignOut />
       </div>
     </div>
   );
