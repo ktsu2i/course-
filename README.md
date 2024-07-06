@@ -1,14 +1,17 @@
 # Course Manager (in progress)
 
 ## Purpose of This Project
+
 I am working on this project to solve the problems below for faculty and staff at Temple University, Japan Campus.
 
 ### Problems
+
 - Professors must fill out a Google form which contains a lot of unnecessary inputs every time they request to offer a course in upcoming semester.
 - Staff approve the offered courses and manually add them on Excel sheets.
 - There is another Google form for professors to request to cancel a class due to sickness and so on. This also contains a lot of unnecessary inputs.
 
 ## Features
+
 - User authentication with roles
   - Admin: has access to all the features
   - Coordinator: has access to managing users, add/update/delete courses, and requesting to cancel a class
@@ -31,12 +34,14 @@ I am working on this project to solve the problems below for faculty and staff a
   - Filter courses by course name, semester, and year
 
 ## Challenges while developing the app
+
 - Find the best solution for user authentication
   - I needed to manage the user table in local, so professors involved in this project suggested me to search open-source IAM and consider pros and cons to decide what we use.
   - Eventually, those who will work on projects for TUJ in the future can also access the user table and easily implement user authentication systems.
   - I implemented a user authentication system with Clerk at first, but we decided to use Keycloak.
 
 ## Tech Stack
+
 - TypeScript
 - React
 - Next.js
@@ -44,5 +49,5 @@ I am working on this project to solve the problems below for faculty and staff a
 - Tailwind CSS
 - MySQL
 - shadcn/ui
-- (Keycloak)
-- (Docker)
+- Keycloak
+- Docker
