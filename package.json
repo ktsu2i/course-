@@ -45,6 +45,7 @@
     "react-resizable-panels": "^1.0.8",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
+    "undici": "^6.19.2",
     "vaul": "^0.8.0",
     "zod": "^3.22.4"
   },
