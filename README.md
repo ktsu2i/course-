@@ -51,3 +51,11 @@ I am working on this project to solve the problems below for faculty and staff a
 - shadcn/ui
 - Keycloak
 - Docker
+
+## How to Run
+
+Run this command to run docker
+
+```
+docker-compose --env-file .env up
+```
