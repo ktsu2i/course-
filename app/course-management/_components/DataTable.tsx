@@ -155,7 +155,9 @@ export function DataTable<TData, TValue>({
             </TableBody>
           </Table>
         </div>
-        <div className={`flex ${hidden ? "justify-end" : "justify-between"} py-4`}>
+        <div
+          className={`flex ${hidden ? "justify-end" : "justify-between"} py-4`}
+        >
           <div className={`${hidden && "hidden"}`}>
             <AddCourseAlert professors={professors} />
           </div>
