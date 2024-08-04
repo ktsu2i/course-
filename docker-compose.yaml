@@ -7,8 +7,12 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       HOST_IP: ${HOST_IP}
+      WATCHPACK_POLLING: true
     depends_on:
       - mysql
+    volumes:
+      - .:/app
+      - /app/node_modules
     networks:
       - app-network
       - keycloak-network
