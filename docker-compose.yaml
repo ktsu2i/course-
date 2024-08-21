@@ -14,7 +14,7 @@ services:
       - .:/app
       - /app/node_modules
     networks:
-      - app-network
+      - course-manager-network
       - keycloak-network
 
   mysql:
@@ -28,12 +28,12 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
-      - app-network
+      - course-manager-network
 
 volumes:
   mysql-data:
 networks:
-  app-network:
-    driver: bridge
+  course-manager-network:
+    external: true
   keycloak-network:
     external: true
