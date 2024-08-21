@@ -1,4 +1,19 @@
 services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    command:
+      - "start-dev"
+    volumes:
+      - ./config:/opt/keycloak/data
+    networks:
+      - course-manager-network
+
   app:
     build: .
     container_name: app
@@ -6,16 +21,20 @@ services:
       - "3000:3000"
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      HOST_IP: ${HOST_IP}
-      WATCHPACK_POLLING: true
+      WATCHPACK_POLLING: true # enable Next.js hot reloading
+    env_file:
+      - .env
+      - .env.local
     depends_on:
+      - keycloak
       - mysql
     volumes:
       - .:/app
       - /app/node_modules
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
-      - app-network
-      - keycloak-network
+      - course-manager-network
 
   mysql:
     image: mysql:8.0
@@ -28,12 +47,11 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
-      - app-network
+      - course-manager-network
 
 volumes:
+  keycloak-data:
   mysql-data:
 networks:
-  app-network:
-    driver: bridge
-  keycloak-network:
+  course-manager-network:
     external: true
