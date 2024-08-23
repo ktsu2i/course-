@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import SignOutButton from "./SignOutButton";
+
 const Navbar = async () => {
   // const pathname = usePathname();
   // const isAuthPage = pathname?.startsWith("/sign");
@@ -15,12 +17,7 @@ const Navbar = async () => {
           <Image width={120} height={120} alt="logo" src="/logo.svg" />
         </a>
       </div>
-      {/* <div className={`${session?.user && "hidden"}`}>
-        <SignIn />
-      </div>
-      <div className={`${!session?.user && "hidden"}`}>
-        <SignOut />
-      </div> */}
+      <SignOutButton />
     </div>
   );
 };
