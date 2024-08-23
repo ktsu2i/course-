@@ -6,7 +6,6 @@ services:
       - "3000:3000"
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      HOST_IP: ${HOST_IP}
       WATCHPACK_POLLING: true
     depends_on:
       - mysql

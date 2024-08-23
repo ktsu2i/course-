@@ -17,5 +17,5 @@ const CancellationPage = async () => {
     </div>
   );
 };
- 
+
 export default CancellationPage;

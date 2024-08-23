@@ -1,33 +1,23 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { ClerkProvider, currentUser } from '@clerk/nextjs';
+import "./globals.css";
 
-import ToasterProvider from '@/components/providers/ToasterProvider';
-import Sidebar from '@/components/sidebar/Sidebar';
-import Navbar from '@/components/Navbar';
-
-export const metadata: Metadata = {
-  title: 'Course Manager',
-  description: 'Created by Kaito Tsutsui',
-};
+import ToasterProvider from "@/components/providers/ToasterProvider";
+import Sidebar from "@/components/sidebar/Sidebar";
+import Navbar from "@/components/Navbar";
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
-  }) {  
+  children: React.ReactNode;
+}) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>
-          <ToasterProvider />
-          <Navbar />
-          <Sidebar />
-          <main className="pl-64 h-full">
-            {children}
-          </main>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body>
+        {/* <ToasterProvider />
+        <Navbar />
+        <Sidebar />
+        <main className="pl-64 h-full">{children}</main> */}
+        {children}
+      </body>
+    </html>
   );
 }

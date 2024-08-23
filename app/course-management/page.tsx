@@ -4,18 +4,18 @@ import getAllProfessors from "../actions/getAllProfessors";
 import getAllCourses from "../actions/getAllCourses";
 import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
 import getAllUniqueRecordKeys from "../actions/getAllUniqueRecordKeys";
-import { auth } from "@/auth";
 
 const CourseManagementPage = async () => {
   const professors = await getAllProfessors();
   const courses = await getAllCourses();
   const recordKeys = await getAllUniqueRecordKeys();
 
-  const session = await auth();
-
-  const isAdmin = session?.user.roles.includes("admin");
-  const isCoordinator = session?.user.roles.includes("coordinator");
-  const isFaculty = session?.user.roles.includes("faculty");
+  // const isAdmin = session?.user.roles.includes("admin");
+  // const isCoordinator = session?.user.roles.includes("coordinator");
+  // const isFaculty = session?.user.roles.includes("faculty");
+  const isAdmin = true;
+  const isCoordinator = false;
+  const isFaculty = false;
 
   return (
     <>
