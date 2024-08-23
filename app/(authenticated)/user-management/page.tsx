@@ -1,17 +1,16 @@
 import UserTable from "./_components/UserTable";
 
-import getAllUsers from "../actions/getAllUsers";
-import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
-import { auth } from "@/auth";
+import getAllUsers from "../../actions/getAllUsers";
+import getCurrentUserFromDb from "../../actions/getCurrentUserFromDb";
 
 const UserManagementPage = async () => {
   const users = await getAllUsers();
   const currentUser = await getCurrentUserFromDb();
 
-  const session = await auth();
-
-  const isAdmin = session?.user.roles.includes("admin");
-  const isCoordinator = session?.user.roles.includes("coordinator");
+  // const isAdmin = session?.user.roles.includes("admin");
+  // const isCoordinator = session?.user.roles.includes("coordinator");
+  const isAdmin = true;
+  const isCoordinator = false;
 
   return (
     <>

@@ -6,7 +6,6 @@ services:
       - "3000:3000"
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      HOST_IP: ${HOST_IP}
       WATCHPACK_POLLING: true
     depends_on:
       - mysql
@@ -15,7 +14,6 @@ services:
       - /app/node_modules
     networks:
       - course-manager-network
-      - keycloak-network
 
   mysql:
     image: mysql:8.0
@@ -34,6 +32,4 @@ volumes:
   mysql-data:
 networks:
   course-manager-network:
-    external: true
-  keycloak-network:
     external: true

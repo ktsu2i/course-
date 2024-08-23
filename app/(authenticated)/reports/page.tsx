@@ -1,9 +1,8 @@
-import getAllProfessors from "../actions/getAllProfessors";
-import getAllCourses from "../actions/getAllCourses";
+import getAllProfessors from "../../actions/getAllProfessors";
+import getAllCourses from "../../actions/getAllCourses";
 import CourseTable from "./_components/CourseTable";
-import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
-import getAllUniqueRecordKeys from "../actions/getAllUniqueRecordKeys";
-import { auth } from "@/auth";
+import getCurrentUserFromDb from "../../actions/getCurrentUserFromDb";
+import getAllUniqueRecordKeys from "../../actions/getAllUniqueRecordKeys";
 
 const ReportPage = async () => {
   const professors = await getAllProfessors();
@@ -12,10 +11,10 @@ const ReportPage = async () => {
 
   const currentUser = await getCurrentUserFromDb();
 
-  const session = await auth();
-
-  const isAdmin = session?.user.roles.includes("admin");
-  const isStaff = session?.user.roles.includes("staff");
+  // const isAdmin = session?.user.roles.includes("admin");
+  // const isStaff = session?.user.roles.includes("staff");
+  const isAdmin = true;
+  const isStaff = false;
 
   return (
     <>

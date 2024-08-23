@@ -10,23 +10,22 @@ import WelcomeCard from "@/components/WelcomeCard";
 import UserInfoCard from "@/components/UserInfoCard";
 import CourseTable from "@/components/CourseTable";
 
-import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
-import getAllCourses from "./actions/getAllCourses";
-import { auth } from "@/auth";
+import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
+import getAllCourses from "../actions/getAllCourses";
 
 export default async function Home() {
   const currentUser = await getCurrentUserFromDb();
   const courses = await getAllCourses();
 
-  const session = await auth();
-
   const hasRegistered = true;
   // const hasRegistered = currentUser !== null;
-  const isAdmin = session?.user.roles.includes("admin");
-  const isCoordinator = session?.user.roles.includes("coordinator");
-  const isFaculty = session?.user.roles.includes("faculty");
-  const isStaff = session?.user.roles.includes("staff");
-  const hasNoRoles = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
+  // const isAdmin = session?.user.roles.includes("admin");
+  // const isCoordinator = session?.user.roles.includes("coordinator");
+  // const isFaculty = session?.user.roles.includes("faculty");
+  // const isStaff = session?.user.roles.includes("staff");
+  // const hasNoRoles = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
+
+  const hasNoRoles = false;
 
   let alertContent;
 
@@ -43,7 +42,8 @@ export default async function Home() {
     } else {
       alertContent = (
         <div className="text-bold text-center">
-          Your Role: {session?.user.roles[0]}
+          {/* Your Role: {session?.user.roles[0]} */}
+          Your Role: Test
         </div>
       );
     }
@@ -63,7 +63,8 @@ export default async function Home() {
             <ResizablePanel defaultSize={35} minSize={35}>
               <div className="m-10 bg-slate-0">
                 <h1 className="text-3xl font-bold">
-                  Welcome Back, {session?.user.first_name}!
+                  {/* Welcome Back, {session?.user.first_name}! */}
+                  Welcome Back, Test!
                 </h1>
                 {/* <p className="text-slate-500 mt-1">
                   Manage your information and courses
