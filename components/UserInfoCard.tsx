@@ -95,7 +95,9 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({ currentUser }) => {
   const isStaff = currentUser?.isStaff;
   const isGuest = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
 
-  const department = DEPARTMENTS.find((department) => department.value === currentUser?.department);
+  const department = DEPARTMENTS.find(
+    (department) => department.value === currentUser?.department
+  );
 
   return (
     <Card>
