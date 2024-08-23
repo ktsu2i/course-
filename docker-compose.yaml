@@ -15,7 +15,6 @@ services:
       - /app/node_modules
     networks:
       - course-manager-network
-      - keycloak-network
 
   mysql:
     image: mysql:8.0
@@ -34,6 +33,4 @@ volumes:
   mysql-data:
 networks:
   course-manager-network:
-    external: true
-  keycloak-network:
     external: true
