@@ -7,7 +7,7 @@ import { User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Trash2 } from "lucide-react";
 
-import { DataTable } from "@/app/user-management/_components/DataTable";
+import { DataTable } from "@/app/(authenticated)/user-management/_components/DataTable";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -29,10 +29,7 @@ interface UserTableProps {
   currentUser: User | null;
 }
 
-const UserTable: React.FC<UserTableProps> = ({
-  users,
-  currentUser,
-}) => {
+const UserTable: React.FC<UserTableProps> = ({ users, currentUser }) => {
   const router = useRouter();
 
   const handleDelete = async (userId: string) => {

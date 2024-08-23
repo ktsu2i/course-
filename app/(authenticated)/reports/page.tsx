@@ -1,8 +1,8 @@
-import getAllProfessors from "../actions/getAllProfessors";
-import getAllCourses from "../actions/getAllCourses";
+import getAllProfessors from "../../actions/getAllProfessors";
+import getAllCourses from "../../actions/getAllCourses";
 import CourseTable from "./_components/CourseTable";
-import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
-import getAllUniqueRecordKeys from "../actions/getAllUniqueRecordKeys";
+import getCurrentUserFromDb from "../../actions/getCurrentUserFromDb";
+import getAllUniqueRecordKeys from "../../actions/getAllUniqueRecordKeys";
 
 const ReportPage = async () => {
   const professors = await getAllProfessors();

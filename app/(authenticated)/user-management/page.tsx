@@ -1,7 +1,7 @@
 import UserTable from "./_components/UserTable";
 
-import getAllUsers from "../actions/getAllUsers";
-import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
+import getAllUsers from "../../actions/getAllUsers";
+import getCurrentUserFromDb from "../../actions/getCurrentUserFromDb";
 
 const UserManagementPage = async () => {
   const users = await getAllUsers();

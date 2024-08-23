@@ -9,7 +9,7 @@ import { parseISO, format } from "date-fns";
 import { Course, User } from "@prisma/client";
 
 import UpdateCourseAlert from "./UpdateCourseAlert";
-import { DataTable } from "@/app/course-management/_components/DataTable";
+import { DataTable } from "../_components/DataTable";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -45,7 +45,11 @@ interface CourseTableProps {
   recordKeys: string[];
 }
 
-const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKeys }) => {
+const CourseTable: React.FC<CourseTableProps> = ({
+  professors,
+  courses,
+  recordKeys,
+}) => {
   const router = useRouter();
 
   const handleDelete = async (recordKey: string) => {
@@ -69,7 +73,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKe
     }
 
     return secondLatestCourses;
-  }
+  };
 
   const secondLatestCourses = getSecondLatestCourses(courses, recordKeys);
 
@@ -580,7 +584,8 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKe
                 <AlertDialogHeader>
                   <AlertDialogTitle>Confirmation</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete &apos;{row.getValue("label")}&apos;?
+                    Are you sure you want to delete &apos;
+                    {row.getValue("label")}&apos;?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

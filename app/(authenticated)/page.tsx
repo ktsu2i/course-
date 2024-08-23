@@ -10,8 +10,8 @@ import WelcomeCard from "@/components/WelcomeCard";
 import UserInfoCard from "@/components/UserInfoCard";
 import CourseTable from "@/components/CourseTable";
 
-import getCurrentUserFromDb from "./actions/getCurrentUserFromDb";
-import getAllCourses from "./actions/getAllCourses";
+import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
+import getAllCourses from "../actions/getAllCourses";
 
 export default async function Home() {
   const currentUser = await getCurrentUserFromDb();

@@ -1,9 +1,9 @@
 import CourseTable from "./_components/CourseTable";
 
-import getAllProfessors from "../actions/getAllProfessors";
-import getAllCourses from "../actions/getAllCourses";
-import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
-import getAllUniqueRecordKeys from "../actions/getAllUniqueRecordKeys";
+import getAllProfessors from "../../actions/getAllProfessors";
+import getAllCourses from "../../actions/getAllCourses";
+import getCurrentUserFromDb from "../../actions/getCurrentUserFromDb";
+import getAllUniqueRecordKeys from "../../actions/getAllUniqueRecordKeys";
 
 const CourseManagementPage = async () => {
   const professors = await getAllProfessors();

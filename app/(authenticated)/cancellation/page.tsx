@@ -1,7 +1,7 @@
 import CourseTable from "./_components/CourseTable";
 
-import getAllCourses from "../actions/getAllCourses";
-import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
+import getAllCourses from "../../actions/getAllCourses";
+import getCurrentUserFromDb from "../../actions/getCurrentUserFromDb";
 
 const CancellationPage = async () => {
   const courses = await getAllCourses();
