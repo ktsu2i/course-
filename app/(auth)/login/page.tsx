@@ -1,4 +1,4 @@
-import { login } from "../actions/login";
+import { login } from "../../actions/login";
 
 export default function LoginPage() {
   return (
