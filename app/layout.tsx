@@ -12,10 +12,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* <ToasterProvider />
+        <ToasterProvider />
         <Navbar />
         <Sidebar />
-        <main className="pl-64 h-full">{children}</main> */}
+        <main className="pl-64 h-full">{children}</main>
         {children}
       </body>
     </html>
