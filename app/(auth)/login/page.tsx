@@ -97,12 +97,12 @@ export default function LoginPage() {
                 )}
               />
             </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button variant="outline">Cancel</Button>
+            <CardFooter>
               <Button
                 disabled={!isValid || isSubmitting}
                 type="submit"
                 variant="temple"
+                className="w-full"
               >
                 Login
               </Button>
