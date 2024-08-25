@@ -1,4 +1,5 @@
 import UserTable from "./_components/UserTable";
+import AddUserDialog from "./_components/AddUserDialog";
 
 import getAllUsers from "../../actions/getAllUsers";
 import getCurrentUserFromDb from "../../actions/getCurrentUserFromDb";
@@ -27,6 +28,7 @@ const UserManagementPage = async () => {
         <div className="mt-5">
           <UserTable users={users} currentUser={currentUser} />
         </div>
+        <AddUserDialog />
       </div>
       <div
         className={`h-full flex items-center justify-center ${
