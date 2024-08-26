@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { createUser } from "@/app/actions/createUser";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,12 +29,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { signUp } from "@/app/actions/signUp";
+import { signOut } from "@/app/actions/signOut";
 
 const userFormSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   tuMail: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(8, { message: "Must be at least 8 characters" }),
+  tempPassword: z.string().min(8, { message: "Must be at least 8 characters" }),
   isAdmin: z.boolean().default(false),
   isCoordinator: z.boolean().default(false),
   isFaculty: z.boolean().default(false),
@@ -46,6 +50,8 @@ const AddUserDialog = () => {
     defaultValues: {
       firstName: undefined,
       lastName: undefined,
+      tuMail: undefined,
+      tempPassword: undefined,
       isAdmin: false,
       isCoordinator: false,
       isFaculty: false,
@@ -57,6 +63,9 @@ const AddUserDialog = () => {
 
   const onSubmit = async (values: z.infer<typeof userFormSchema>) => {
     // todo
+    // await createUser(values.tuMail, values.tempPassword);
+    await signUp(values.tuMail, values.tempPassword);
+    await signOut();
   };
 
   return (
@@ -129,7 +138,7 @@ const AddUserDialog = () => {
             />
             <FormField
               control={form.control}
-              name="password"
+              name="tempPassword"
               render={({ field }) => (
                 <FormItem className="flex flex-col mt-6">
                   <FormLabel>Temporary Password</FormLabel>
