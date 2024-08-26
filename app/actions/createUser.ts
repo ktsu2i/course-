@@ -1,21 +1,19 @@
-// This is not working (invalid JWT error)
+// This is not working due to invalid JWT
 
 "use server";
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { AuthAdminApi } from "@supabase/auth-js";
+import { createClient } from "@supabase/supabase-js";
 
 export async function createUser(email: string, password: string) {
-  const auth = new AuthAdminApi({
-    url: "http://auth:9999",
-    headers: {
-      Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
-    },
-  });
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
 
-  const { data, error } = await auth.createUser({
+  const { data, error } = await supabase.auth.admin.createUser({
     email,
     password,
   });
