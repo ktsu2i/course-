@@ -12,6 +12,7 @@ import CourseTable from "@/components/CourseTable";
 
 import getCurrentUserFromDb from "../actions/getCurrentUserFromDb";
 import getAllCourses from "../actions/getAllCourses";
+import getCurrentUser from "../actions/getCurrentUser";
 
 export default async function Home() {
   const currentUser = await getCurrentUserFromDb();
@@ -26,6 +27,8 @@ export default async function Home() {
   // const hasNoRoles = !isAdmin && !isCoordinator && !isFaculty && !isStaff;
 
   const hasNoRoles = false;
+
+  const user = await getCurrentUser();
 
   let alertContent;
 
@@ -66,6 +69,7 @@ export default async function Home() {
                   {/* Welcome Back, {session?.user.first_name}! */}
                   Welcome Back, Test!
                 </h1>
+                <p>{user?.email}</p>
                 {/* <p className="text-slate-500 mt-1">
                   Manage your information and courses
                 </p> */}
