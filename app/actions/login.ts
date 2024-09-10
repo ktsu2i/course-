@@ -14,6 +14,7 @@ export async function login(email: string, password: string) {
   });
 
   const token = data.session?.access_token;
+  console.log("access_token in /login.ts");
   console.log(token);
 
   if (error) {

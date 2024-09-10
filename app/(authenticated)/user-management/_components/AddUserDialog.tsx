@@ -62,10 +62,9 @@ const AddUserDialog = () => {
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof userFormSchema>) => {
-    // todo
-    // await createUser(values.tuMail, values.tempPassword);
-    await signUp(values.tuMail, values.tempPassword);
-    await signOut();
+    await createUser(values.tuMail, values.tempPassword);
+    // await signUp(values.tuMail, values.tempPassword);
+    // await signOut();
   };
 
   return (

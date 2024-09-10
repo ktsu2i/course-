@@ -2,12 +2,16 @@
 
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@supabase/supabase-js";
+// import { createAdminClient } from "@/utils/supabase/admin";
 
 export async function createUser(email: string, password: string) {
+  // const supabase = createAdminClient();
+
+  console.log("SERVICE ROLE KEY: ", process.env.SUPABASE_SERVICE_ROLE_KEY);
+
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -18,6 +22,7 @@ export async function createUser(email: string, password: string) {
     password,
   });
 
+  console.log("data.user in /createUser.ts");
   console.log(data.user);
 
   if (error) {
