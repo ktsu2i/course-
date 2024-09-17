@@ -12,6 +12,24 @@ interface ISchedule {
   }
 };
 
+export async function GET() {
+  try {
+    const supabase = createClient();
+    const user = await supabase.auth.getUser();
+
+    if (!user) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const courses = await axios.get(`http:localhost:8080/api/courses`);
+    
+    return NextResponse.json(courses);
+  } catch (error) {
+    console.log("[COURSES] - GET", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
 export async function POST(
   request: Request
 ) {

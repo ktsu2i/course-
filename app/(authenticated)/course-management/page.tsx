@@ -4,6 +4,7 @@ import getAllProfessors from "../../actions/getAllProfessors";
 import getAllCourses from "../../actions/getAllCourses";
 import getCurrentUserFromDb from "../../actions/getCurrentUserFromDb";
 import getAllUniqueRecordKeys from "../../actions/getAllUniqueRecordKeys";
+import { Course } from "@prisma/client";
 
 const CourseManagementPage = async () => {
   const professors = await getAllProfessors();

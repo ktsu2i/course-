@@ -52,3 +52,24 @@ export type DecodedType = {
   family_name: string;
   email: string;
 };
+
+export type Course = {
+  record_key: string;
+  department: string;
+  course_number: string;
+  section: string;
+  title: string;
+  crn: string;
+  credits: number;
+  instructor_id: string;
+  schedule: ScheduleType;
+  semester: string;
+  year: number;
+  class_type: string;
+  room_number: string | null;
+  has_secured_room: boolean | null;
+  special_info: string | null;
+  notes: string | null;
+  label: string;
+  status: string;
+}
