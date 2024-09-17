@@ -1,7 +1,9 @@
 import { db } from "@/lib/db";
 
-import { currentUser } from "@clerk/nextjs";
+// import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { createClient } from "@/utils/supabase/server";
+import axios from "axios";
 
 interface ISchedule {
   [day: string]: {
@@ -14,7 +16,9 @@ export async function POST(
   request: Request
 ) {
   try {
-    const user = await currentUser();
+    // const user = await currentUser();
+    const supabase = createClient();
+    const user = await supabase.auth.getUser();
 
     if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -87,95 +91,171 @@ export async function POST(
     if (id) {
       // add an updated course
       if (classType === "online") {
-        course = await db.course.create({
-          data: {
-            recordKey: recordKey,
-            department: department,
-            courseNum: courseNum,
-            section: section,
-            title: title,
-            crn: crn,
-            credits: Number(credits),
-            userId: instructorId,
-            isNewInstructor: isNewInstructor,
-            schedule: schedule,
-            semester: semester,
-            year: yearValue,
-            classType: classType,
-            specialInfo: specialInfo,
-            notes: notes,
-            label: label,
-            status: "updated"
-          },
+        // course = await db.course.create({
+        //   data: {
+        //     recordKey: recordKey,
+        //     department: department,
+        //     courseNum: courseNum,
+        //     section: section,
+        //     title: title,
+        //     crn: crn,
+        //     credits: Number(credits),
+        //     userId: instructorId,
+        //     isNewInstructor: isNewInstructor,
+        //     schedule: schedule,
+        //     semester: semester,
+        //     year: yearValue,
+        //     classType: classType,
+        //     specialInfo: specialInfo,
+        //     notes: notes,
+        //     label: label,
+        //     status: "updated"
+        // },
+      // });
+        course = await axios.post(`http:localhost:8080/api/courses`, {
+          record_key: recordKey,
+          department: department,
+          course_number: courseNum,
+          section: section,
+          title: title,
+          crn: crn,
+          credits: Number(credits),
+          instructor_id: instructorId,
+          schedule: schedule,
+          semester: semester,
+          year: yearValue,
+          class_type: classType,
+          special_info: specialInfo,
+          notes: notes,
+          label: label,
+          status: "updated"
         });
       } else {
-        course = await db.course.create({
-          data: {
-            recordKey: recordKey,
-            department: department,
-            courseNum: courseNum,
-            section: section,
-            title: title,
-            crn: crn,
-            credits: Number(credits),
-            userId: instructorId,
-            isNewInstructor: isNewInstructor,
-            schedule: schedule,
-            semester: semester,
-            year: yearValue,
-            classType: classType,
-            roomNum: roomNum,
-            hasSecuredRoom: hasSecuredRoom,
-            specialInfo: specialInfo,
-            notes: notes,
-            label: label,
-            status: "updated"
-          },
+        // course = await db.course.create({
+        //   data: {
+        //     recordKey: recordKey,
+        //     department: department,
+        //     courseNum: courseNum,
+        //     section: section,
+        //     title: title,
+        //     crn: crn,
+        //     credits: Number(credits),
+        //     userId: instructorId,
+        //     isNewInstructor: isNewInstructor,
+        //     schedule: schedule,
+        //     semester: semester,
+        //     year: yearValue,
+        //     classType: classType,
+        //     roomNum: roomNum,
+        //     hasSecuredRoom: hasSecuredRoom,
+        //     specialInfo: specialInfo,
+        //     notes: notes,
+        //     label: label,
+        //     status: "updated"
+        //   },
+        // });
+        course = await axios.post(`http:localhost:8080/api/courses`, {
+          record_key: recordKey,
+          department: department,
+          course_number: courseNum,
+          section: section,
+          title: title,
+          crn: crn,
+          credits: Number(credits),
+          instructor_id: instructorId,
+          schedule: schedule,
+          semester: semester,
+          year: yearValue,
+          class_type: classType,
+          room_number: roomNum,
+          has_secured_room: hasSecuredRoom,
+          special_info: specialInfo,
+          notes: notes,
+          label: label,
+          status: "updated"
         });
       }
     } else {
       // add a new course
       if (classType === "online") {
-        course = await db.course.create({
-          data: {
-            department: department,
-            courseNum: courseNum,
-            section: section,
-            title: title,
-            crn: crn,
-            credits: Number(credits),
-            userId: instructorId,
-            isNewInstructor: isNewInstructor,
-            schedule: schedule,
-            semester: semester,
-            year: year,
-            classType: classType,
-            specialInfo: specialInfo,
-            notes: notes,
-            label: label,
-          },
+        // course = await db.course.create({
+        //   data: {
+        //     department: department,
+        //     courseNum: courseNum,
+        //     section: section,
+        //     title: title,
+        //     crn: crn,
+        //     credits: Number(credits),
+        //     userId: instructorId,
+        //     isNewInstructor: isNewInstructor,
+        //     schedule: schedule,
+        //     semester: semester,
+        //     year: year,
+        //     classType: classType,
+        //     specialInfo: specialInfo,
+        //     notes: notes,
+        //     label: label,
+        //   },
+        // });
+        course = await axios.post(`http:localhost:8080/api/courses`, {
+          record_key: recordKey,
+          department: department,
+          course_number: courseNum,
+          section: section,
+          title: title,
+          crn: crn,
+          credits: Number(credits),
+          instructor_id: instructorId,
+          schedule: schedule,
+          semester: semester,
+          year: yearValue,
+          class_type: classType,
+          special_info: specialInfo,
+          notes: notes,
+          label: label,
+          status: "updated"
         });
       } else {
-        course = await db.course.create({
-          data: {
-            department: department,
-            courseNum: courseNum,
-            section: section,
-            title: title,
-            crn: crn,
-            credits: Number(credits),
-            userId: instructorId,
-            isNewInstructor: isNewInstructor,
-            schedule: schedule,
-            semester: semester,
-            year: year,
-            classType: classType,
-            roomNum: roomNum,
-            hasSecuredRoom: hasSecuredRoom,
-            specialInfo: specialInfo,
-            notes: notes,
-            label: label,
-          },
+        // course = await db.course.create({
+        //   data: {
+        //     department: department,
+        //     courseNum: courseNum,
+        //     section: section,
+        //     title: title,
+        //     crn: crn,
+        //     credits: Number(credits),
+        //     userId: instructorId,
+        //     isNewInstructor: isNewInstructor,
+        //     schedule: schedule,
+        //     semester: semester,
+        //     year: year,
+        //     classType: classType,
+        //     roomNum: roomNum,
+        //     hasSecuredRoom: hasSecuredRoom,
+        //     specialInfo: specialInfo,
+        //     notes: notes,
+        //     label: label,
+        //   },
+        // });
+        course = await axios.post(`http:localhost:8080/api/courses`, {
+          record_key: recordKey,
+          department: department,
+          course_number: courseNum,
+          section: section,
+          title: title,
+          crn: crn,
+          credits: Number(credits),
+          instructor_id: instructorId,
+          schedule: schedule,
+          semester: semester,
+          year: yearValue,
+          class_type: classType,
+          room_number: roomNum,
+          has_secured_room: hasSecuredRoom,
+          special_info: specialInfo,
+          notes: notes,
+          label: label,
+          status: "updated"
         });
       }
     }
@@ -188,125 +268,130 @@ export async function POST(
   }
 }
 
-export async function PATCH(
-  request: Request,
-) {
-  try {
-    const user = await currentUser();
-    const {
-      id,
-      department,
-      courseNum,
-      section,
-      title,
-      crn,
-      credits,
-      instructorId,
-      isNewInstructor,
-      schedule,
-      semester,
-      year,
-      customYear,
-      classType,
-      roomNum,
-      hasSecuredRoom,
-      specialInfo,
-      notes,
-      status,
-    } = await request.json();
+// export async function PATCH(
+//   request: Request,
+// ) {
+//   try {
+//     const user = await currentUser();
+//     const {
+//       id,
+//       department,
+//       courseNum,
+//       section,
+//       title,
+//       crn,
+//       credits,
+//       instructorId,
+//       isNewInstructor,
+//       schedule,
+//       semester,
+//       year,
+//       customYear,
+//       classType,
+//       roomNum,
+//       hasSecuredRoom,
+//       specialInfo,
+//       notes,
+//       status,
+//     } = await request.json();
 
-    if (!user) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+//     if (!user) {
+//       return new NextResponse("Unauthorized", { status: 401 });
+//     }
 
-    const padCourseNum = String(courseNum).padStart(4, '0');
-    const updatedLabel = `${department.toUpperCase()} ${padCourseNum} (${section})`;
+//     const padCourseNum = String(courseNum).padStart(4, '0');
+//     const updatedLabel = `${department.toUpperCase()} ${padCourseNum} (${section})`;
 
-    let yearValue: number;
-    if (year === "other") {
-      yearValue = customYear;
-    } else {
-      yearValue = Number(year);
-    }
+//     let yearValue: number;
+//     if (year === "other") {
+//       yearValue = customYear;
+//     } else {
+//       yearValue = Number(year);
+//     }
 
-    let course;
+//     let course;
 
-    if (classType === "online") {
-      course = await db.course.update({
-        where: {
-          id: id,
-        },
-        data: {
-          department: department,
-          courseNum: courseNum,
-          section: section,
-          title: title,
-          crn: crn,
-          credits: Number(credits),
-          userId: instructorId,
-          isNewInstructor: isNewInstructor,
-          semester: semester,
-          year: yearValue,
-          classType: classType,
-          roomNum: undefined,
-          hasSecuredRoom: undefined,
-          specialInfo: specialInfo,
-          notes: notes,
-          label: updatedLabel,
-          status: status,
-        },
-      });
-    } else {
-      course = await db.course.update({
-        where: {
-          id: id,
-        },
-        data: {
-          department: department,
-          courseNum: courseNum,
-          section: section,
-          title: title,
-          crn: crn,
-          credits: Number(credits),
-          userId: instructorId,
-          isNewInstructor: isNewInstructor,
-          semester: semester,
-          year: yearValue,
-          classType: classType,
-          roomNum: roomNum,
-          hasSecuredRoom: hasSecuredRoom,
-          specialInfo: specialInfo,
-          notes: notes,
-          label: updatedLabel,
-          status: status,
-        },
-      });
-    }
+//     if (classType === "online") {
+//       course = await db.course.update({
+//         where: {
+//           id: id,
+//         },
+//         data: {
+//           department: department,
+//           courseNum: courseNum,
+//           section: section,
+//           title: title,
+//           crn: crn,
+//           credits: Number(credits),
+//           userId: instructorId,
+//           isNewInstructor: isNewInstructor,
+//           semester: semester,
+//           year: yearValue,
+//           classType: classType,
+//           roomNum: undefined,
+//           hasSecuredRoom: undefined,
+//           specialInfo: specialInfo,
+//           notes: notes,
+//           label: updatedLabel,
+//           status: status,
+//         },
+//       });
+//     } else {
+//       course = await db.course.update({
+//         where: {
+//           id: id,
+//         },
+//         data: {
+//           department: department,
+//           courseNum: courseNum,
+//           section: section,
+//           title: title,
+//           crn: crn,
+//           credits: Number(credits),
+//           userId: instructorId,
+//           isNewInstructor: isNewInstructor,
+//           semester: semester,
+//           year: yearValue,
+//           classType: classType,
+//           roomNum: roomNum,
+//           hasSecuredRoom: hasSecuredRoom,
+//           specialInfo: specialInfo,
+//           notes: notes,
+//           label: updatedLabel,
+//           status: status,
+//         },
+//       });
+//     }
 
-    return NextResponse.json(course);
+//     return NextResponse.json(course);
 
-  } catch (error) {
-    console.log("[COURSES] - PATCH", error);
-    return new NextResponse("Internal Error", { status: 500 });
-  }
-}
+//   } catch (error) {
+//     console.log("[COURSES] - PATCH", error);
+//     return new NextResponse("Internal Error", { status: 500 });
+//   }
+// }
 
 export async function DELETE(
   request: Request,
 ) {
   try {
-    const user = await currentUser();
+    // const user = await currentUser();
+    const supabase = createClient();
+    const user = await supabase.auth.getUser();
+
     const { recordKey } = await request.json();
 
     if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    await db.course.deleteMany({
-      where: {
-        recordKey: recordKey,
-      },
-    });
+    // await db.course.deleteMany({
+    //   where: {
+    //     recordKey: recordKey,
+    //   },
+    // });
+
+    await axios.delete(`http:localhost:8080/api/courses/${recordKey}`);
 
     return NextResponse.json({ message: "Success" });
 
