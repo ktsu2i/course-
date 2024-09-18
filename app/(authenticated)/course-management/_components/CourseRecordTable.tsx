@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { ScheduleType } from "@/lib/types";
+import { Course, ScheduleType } from "@/lib/types";
 
 interface CourseRecordTableProps {
   professors: User[];

@@ -36,7 +36,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-import { ScheduleType } from "@/lib/types";
+import { Course, ScheduleType } from "@/lib/types";
 
 interface CourseTableProps {
   professors: User[];

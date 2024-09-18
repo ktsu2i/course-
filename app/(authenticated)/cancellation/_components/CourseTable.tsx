@@ -22,7 +22,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 
-import { ScheduleType } from "@/lib/types";
+import { Course, ScheduleType } from "@/lib/types";
 import { DAY_NAMES } from "@/lib/constants";
 
 import { DataTable } from "./DataTable";

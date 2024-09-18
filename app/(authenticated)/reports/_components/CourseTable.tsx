@@ -34,7 +34,7 @@ import {
 } from "@/components/ui/hover-card";
 
 import { DEPARTMENTS } from "@/lib/constants";
-import { ScheduleType } from "@/lib/types";
+import { Course, ScheduleType } from "@/lib/types";
 
 import { DataTable } from "./DataTable";
 
