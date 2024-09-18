@@ -1,5 +1,7 @@
 // import { db } from "@/lib/db";
 
+import { User } from "@/lib/types";
+
 export default async function getAllUsers() {
   try {
     // const users = await db.user.findMany();
