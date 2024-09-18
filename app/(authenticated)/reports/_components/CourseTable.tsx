@@ -1,7 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Course, User } from "@prisma/client";
 import { ArrowUpDown, Check, X, AlertTriangle, History } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -35,7 +34,7 @@ import {
 } from "@/components/ui/hover-card";
 
 import { DEPARTMENTS } from "@/lib/constants";
-import { ScheduleType } from "@/lib/types";
+import { Course, ScheduleType, User } from "@/lib/types";
 
 import { DataTable } from "./DataTable";
 
@@ -280,7 +279,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKe
           const prevCourse = secondLatestCourses.find(
             (course) => course?.recordKey === recordKey
           );
-          hasChanged = userId !== prevCourse?.userId;
+          hasChanged = userId !== prevCourse?.instructorId;
         }
 
         const firstName = instructor?.firstName;
@@ -403,7 +402,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ professors, courses, recordKe
           const prevCourse = secondLatestCourses.find(
             (course) => course?.recordKey === recordKey
           );
-          hasChanged = roomNum !== prevCourse?.roomNum;
+          hasChanged = roomNum !== prevCourse?.roomNumber;
         }
 
         if (classType !== "online" && !hasSecuredRoom) {

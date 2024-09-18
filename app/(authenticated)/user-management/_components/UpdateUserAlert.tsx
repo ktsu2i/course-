@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Pencil } from "lucide-react";
-import { User } from "@prisma/client";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -32,6 +31,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { User } from "@/lib/types";
 
 interface UpdateUserAlertProps {
   users: User[];
@@ -83,7 +83,7 @@ const UpdateUserAlert: React.FC<UpdateUserAlertProps> = ({
 
   const onSubmit = async (values: z.infer<typeof userFormSchema>) => {
     try {
-      await axios.patch("/api/users", { id: userId, clerkUserId: uniqueUser?.clerkUserId, ...values });
+      // await axios.patch("/api/users", { id: userId, clerkUserId: uniqueUser?.clerkUserId, ...values });
       toast.success("User updated!");
       router.refresh();
     } catch {
@@ -100,7 +100,7 @@ const UpdateUserAlert: React.FC<UpdateUserAlertProps> = ({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Update &apos;{uniqueUser?.fullName}&apos;</AlertDialogTitle>
+          <AlertDialogTitle>Update &apos;{uniqueUser?.firstName + " " + uniqueUser?.lastName}&apos;</AlertDialogTitle>
           <AlertDialogDescription>
             Please make changes below to update the information.
           </AlertDialogDescription>

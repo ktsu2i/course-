@@ -1,7 +1,8 @@
+import { User } from "@/lib/types";
 import { clerkClient, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-import { db } from "@/lib/db";
+// import { db } from "@/lib/db";
 
 export async function POST(
   request: Request,
@@ -19,23 +20,37 @@ export async function POST(
     const fullName = firstName + " " + lastName;
     const emailAddress = user?.emailAddresses[0].emailAddress;
 
-    const newUser = await db.user.create({
-      data: {
-        tuid: tuid,
-        clerkUserId: user.id,
-        department: department,
-        firstName: firstName,
-        lastName: lastName,
-        fullName: fullName,
-        tuMail: emailAddress,
-      }
-    });
+    // const newUser = await db.user.create({
+    //   data: {
+    //     tuid: tuid,
+    //     clerkUserId: user.id,
+    //     department: department,
+    //     firstName: firstName,
+    //     lastName: lastName,
+    //     fullName: fullName,
+    //     tuMail: emailAddress,
+    //   }
+    // });
 
     // await clerkClient.users.updateUserMetadata(user?.id, {
     //   publicMetadata: {
     //     "hasRegistered": true
     //   }
     // });
+
+    const newUser: User = {
+      id: "mock-id",
+      tuid: 123456,
+      firstName: "mock",
+      lastName: "mock",
+      fullName: "mock mock",
+      tuMail: "mock@mock.com",
+      department: "mock",
+      isAdmin: false,
+      isCoordinator: false,
+      isFaculty: false,
+      isStaff: false,
+    }
 
     return NextResponse.json(newUser);
 
@@ -69,21 +84,21 @@ export async function PATCH(
     }
 
     // Update a user from db
-    await db.user.update({
-      where: {
-        id: id,
-      },
-      data: {
-        tuid: tuid,
-        firstName: firstName,
-        lastName: lastName,
-        fullName: fullName,
-        isAdmin: isAdmin,
-        isCoordinator: isCoordinator,
-        isFaculty: isFaculty,
-        isStaff: isStaff,
-      }
-    });
+    // await db.user.update({
+    //   where: {
+    //     id: id,
+    //   },
+    //   data: {
+    //     tuid: tuid,
+    //     firstName: firstName,
+    //     lastName: lastName,
+    //     fullName: fullName,
+    //     isAdmin: isAdmin,
+    //     isCoordinator: isCoordinator,
+    //     isFaculty: isFaculty,
+    //     isStaff: isStaff,
+    //   }
+    // });
 
     // Update a user from Clerk
     const params = {
@@ -91,7 +106,7 @@ export async function PATCH(
       lastName: lastName,
     };
 
-    await clerkClient.users.updateUser(clerkUserId, params);
+    // await clerkClient.users.updateUser(clerkUserId, params);
 
     return NextResponse.json({ message: "Success" });
 
@@ -113,13 +128,13 @@ export async function DELETE(
     }
 
     // Delete a user from db
-    await db.user.delete({
-      where: {
-        id: userId,
-      },
-    });
+    // await db.user.delete({
+    //   where: {
+    //     id: userId,
+    //   },
+    // });
 
-    await clerkClient.users.deleteUser(clerkUserId);
+    // await clerkClient.users.deleteUser(clerkUserId);
 
     return NextResponse.json({ message: "Success" });
 

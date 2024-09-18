@@ -1,8 +1,8 @@
 import { ArrowUpFromLine } from "lucide-react";
-import { Course } from "@prisma/client";
 // import * as xlsx from "xlsx";
 
 import { Button } from "./ui/button";
+import { Course } from "@/lib/types";
 
 interface ExportButtonProps {
   courses: Course[];

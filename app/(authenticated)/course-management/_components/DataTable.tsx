@@ -12,7 +12,6 @@ import {
   getPaginationRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { User } from "@prisma/client";
 
 import {
   Table,
@@ -33,6 +32,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import AddCourseAlert from "./AddCourseAlert";
+import { User } from "@/lib/types";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

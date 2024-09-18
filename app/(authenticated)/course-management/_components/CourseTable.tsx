@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Trash2, ArrowUpDown, History, AlertTriangle } from "lucide-react";
 import { parseISO, format } from "date-fns";
-import { Course, User } from "@prisma/client";
 
 import UpdateCourseAlert from "./UpdateCourseAlert";
 import { DataTable } from "../_components/DataTable";
@@ -37,7 +36,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-import { ScheduleType } from "@/lib/types";
+import { Course, ScheduleType, User } from "@/lib/types";
 
 interface CourseTableProps {
   professors: User[];
@@ -245,7 +244,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
           const prevCourse = secondLatestCourses.find(
             (course) => course?.recordKey === recordKey
           );
-          hasChanged = userId !== prevCourse?.userId;
+          hasChanged = userId !== prevCourse?.instructorId;
         }
 
         const firstName = instructor?.firstName;
@@ -368,7 +367,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
           const prevCourse = secondLatestCourses.find(
             (course) => course?.recordKey === recordKey
           );
-          hasChanged = roomNum !== prevCourse?.roomNum;
+          hasChanged = roomNum !== prevCourse?.roomNumber;
         }
 
         if (classType !== "online" && !hasSecuredRoom) {

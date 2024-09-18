@@ -1,7 +1,6 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -56,6 +55,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { DAYS, DEPARTMENTS } from "@/lib/constants";
 import { Label } from "@/components/ui/label";
+import { User } from "@/lib/types";
 
 interface AddCourseAlertProps {
   professors: User[];
