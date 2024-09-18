@@ -1,15 +1,15 @@
-import { db } from "@/lib/db";
+// import { db } from "@/lib/db";
 
-export default async function getAllCourses() {
-  try {
-    const courses = await db.course.findMany();
+// export default async function getAllCourses() {
+//   try {
+//     const courses = await db.course.findMany();
 
-    if (!courses) {
-      return [];
-    }
+//     if (!courses) {
+//       return [];
+//     }
 
-    return courses;
-  } catch (error) {
-    return [];
-  }
-}
+//     return courses;
+//   } catch (error) {
+//     return [];
+//   }
+// }
