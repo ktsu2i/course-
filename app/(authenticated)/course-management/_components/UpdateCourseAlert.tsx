@@ -56,7 +56,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
 import { DAYS, DEPARTMENTS } from "@/lib/constants";
-import { Course, ScheduleType } from "@/lib/types";
+import { Course, ScheduleType, User } from "@/lib/types";
 
 interface UpdateCourseAlertProps {
   professors: User[];
@@ -247,8 +247,8 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
   }
 
   let defaultRoomNum: number | undefined = undefined;
-  if (uniqueCourse?.roomNum) {
-    defaultRoomNum = uniqueCourse.roomNum;
+  if (uniqueCourse?.roomNumber) {
+    defaultRoomNum = uniqueCourse.roomNumber;
   }
 
   let defaultHasSecuredRoom: boolean | undefined = undefined;
@@ -296,13 +296,13 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
     resolver: zodResolver(courseFormSchema),
     defaultValues: {
       department: uniqueCourse?.department,
-      courseNum: uniqueCourse?.courseNum,
+      courseNum: uniqueCourse?.courseNumber,
       section: uniqueCourse?.section,
       title: uniqueCourse?.title, 
       crn: uniqueCourse?.crn,
       credits: uniqueCourse?.credits.toString(),
-      instructorId: uniqueCourse?.userId,
-      isNewInstructor: uniqueCourse?.isNewInstructor,
+      instructorId: uniqueCourse?.instructorId,
+      // isNewInstructor: uniqueCourse?.isNewInstructor,
       classType: defaultClassType,
       roomNum: defaultRoomNum,
       hasSecuredRoom: defaultHasSecuredRoom,
@@ -526,13 +526,13 @@ const UpdateCourseAlert: React.FC<UpdateCourseAlertProps> = ({
                           <CommandGroup>
                             {professors?.map((professor) => (
                               <CommandItem
-                                value={professor.fullName}
+                                value={professor.firstName + " " + professor.lastName}
                                 key={professor.id}
                                 onSelect={() => {
                                   form.setValue("instructorId", professor.id);
                                 }}
                               >
-                                {professor.fullName}
+                                {professor.firstName + " " + professor.lastName}
                               </CommandItem>
                             ))}
                           </CommandGroup>

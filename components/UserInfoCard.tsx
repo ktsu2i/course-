@@ -46,6 +46,7 @@ import {
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
 import { DEPARTMENTS } from "@/lib/constants";
+import { User } from "@/lib/types";
 
 interface UserInfoCardProps {
   currentUser: User | null;
@@ -226,7 +227,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({ currentUser }) => {
         <div className={`${!currentUser && "hidden"}`}>
           <div className="flex gap-x-2 mb-2">
             <div className="font-bold">Name:</div>
-            <div className="text-slate-600">{currentUser?.fullName}</div>
+            <div className="text-slate-600">{currentUser?.firstName + " " + currentUser?.lastName}</div>
           </div>
           <div className="flex items-center mb-2">
             <div className="font-bold">Role:</div>

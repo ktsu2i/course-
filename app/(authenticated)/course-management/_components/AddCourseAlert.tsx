@@ -55,6 +55,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { DAYS, DEPARTMENTS } from "@/lib/constants";
 import { Label } from "@/components/ui/label";
+import { User } from "@/lib/types";
 
 interface AddCourseAlertProps {
   professors: User[];

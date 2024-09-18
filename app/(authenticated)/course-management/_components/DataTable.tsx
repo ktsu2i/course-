@@ -32,6 +32,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import AddCourseAlert from "./AddCourseAlert";
+import { User } from "@/lib/types";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

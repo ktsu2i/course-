@@ -16,7 +16,7 @@ import {
 
 import { DataTable } from "./DataTable";
 import { DEPARTMENTS } from "@/lib/constants";
-import { ScheduleType } from "@/lib/types";
+import { Course, ScheduleType, User } from "@/lib/types";
 
 interface CourseTableProps {
   courses: Course[];
@@ -223,7 +223,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
   const latestCourses = Object.values(latestCourseObject);
 
   const myCourses = latestCourses.filter(
-    (course) => course.userId === currentUser?.id
+    (course) => course.instructorId === currentUser?.id
   );
 
   // const mondayCourses = courses.filter((course) => {

@@ -22,7 +22,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 
-import { Course, ScheduleType } from "@/lib/types";
+import { Course, ScheduleType, User } from "@/lib/types";
 import { DAY_NAMES } from "@/lib/constants";
 
 import { DataTable } from "./DataTable";
@@ -176,7 +176,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, currentUser }) => {
 
   // filter only user's approved courses
   const userCourses = latestCourses.filter(
-    (course) => course.userId === currentUser?.id && course.status === "approved"
+    (course) => course.instructorId === currentUser?.id && course.status === "approved"
   );
 
   // filter courses by current semester and year

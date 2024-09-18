@@ -2,6 +2,7 @@ import { ArrowUpFromLine } from "lucide-react";
 // import * as xlsx from "xlsx";
 
 import { Button } from "./ui/button";
+import { Course } from "@/lib/types";
 
 interface ExportButtonProps {
   courses: Course[];

@@ -54,14 +54,15 @@ export type DecodedType = {
 };
 
 export type Course = {
+  id: string;
   recordKey: string;
   department: string;
-  courseNumber: string;
-  section: string;
-  crn: string;
+  courseNumber: number;
+  section: number;
+  crn: number;
   title: string;
   classType: string;
-  roomNumber: string | null;
+  roomNumber: number | null;
   hasSecuredRoom: boolean | null;
   schedule: ScheduleType;
   semester: string;
@@ -72,4 +73,21 @@ export type Course = {
   instructorId: string;
   specialInfo: string | null;
   notes: string | null;
+
+  createdAt: Date; // string? Date?
+  updatedAt: Date; // string? Date?
+};
+
+export type User = {
+  id: string;
+  tuid: number;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  tuMail: string;
+  department: string;
+  isAdmin: boolean;
+  isCoordinator: boolean;
+  isFaculty: boolean;
+  isStaff: boolean;
 };
