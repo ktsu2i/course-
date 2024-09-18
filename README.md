@@ -7,7 +7,7 @@ I am working on this project to solve the problems below for faculty and staff a
 ### Problems
 
 - Professors must fill out a Google form which contains a lot of unnecessary inputs every time they request to offer a course in upcoming semester.
-- Staff approve the offered courses and manually add them on Excel sheets.
+- Staff approve the requested courses and manually add them on Excel sheets.
 - There is another Google form for professors to request to cancel a class due to sickness and so on. This also contains a lot of unnecessary inputs.
 
 ## Features
@@ -47,10 +47,12 @@ I am working on this project to solve the problems below for faculty and staff a
 - React
 - Next.js
 - Node.js
+- Ruby
+- Ruby on Rails
 - Tailwind CSS
-- MySQL
+- PostgreSQL
 - shadcn/ui
-- Supabase
+- Supabase (Self-host)
 - Docker
 
 ## How to Run
@@ -58,5 +60,5 @@ I am working on this project to solve the problems below for faculty and staff a
 Run this command to run docker
 
 ```
-docker-compose --env-file .env up
+docker-compose up
 ```
