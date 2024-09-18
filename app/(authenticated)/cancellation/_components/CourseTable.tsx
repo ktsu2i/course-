@@ -1,6 +1,5 @@
 "use client";
 
-import { Course, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, CalendarIcon } from "lucide-react";
 import { parseISO, format, add } from "date-fns";

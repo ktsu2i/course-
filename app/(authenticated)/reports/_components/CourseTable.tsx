@@ -1,7 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Course, User } from "@prisma/client";
 import { ArrowUpDown, Check, X, AlertTriangle, History } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";

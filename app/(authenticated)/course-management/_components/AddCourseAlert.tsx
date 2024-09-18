@@ -1,7 +1,6 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

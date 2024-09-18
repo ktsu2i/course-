@@ -11,7 +11,6 @@
   "dependencies": {
     "@clerk/nextjs": "^4.29.1",
     "@hookform/resolvers": "^3.3.3",
-    "@prisma/client": "^5.7.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -59,7 +58,6 @@
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",
-    "prisma": "^5.7.1",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }

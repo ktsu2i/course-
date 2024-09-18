@@ -12,7 +12,6 @@ import {
   getPaginationRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { Course } from "@prisma/client";
 
 import {
   Table,

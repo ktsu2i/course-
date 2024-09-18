@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "@prisma/client";
 import { Contact2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
