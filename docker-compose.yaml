@@ -7,29 +7,12 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       WATCHPACK_POLLING: true
-    depends_on:
-      - mysql
     volumes:
       - .:/app
       - /app/node_modules
     networks:
       - course-manager-network
 
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - course-manager-network
-
-volumes:
-  mysql-data:
 networks:
   course-manager-network:
     external: true
