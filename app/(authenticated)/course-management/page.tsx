@@ -1,13 +1,16 @@
 import CourseTable from "./_components/CourseTable";
 
 import getAllProfessors from "../../actions/getAllProfessors";
-import getAllCourses from "../../actions/getAllCourses";
+// import getAllCourses from "../../actions/getAllCourses";
 import getCurrentUserFromDb from "../../actions/getCurrentUserFromDb";
 import getAllUniqueRecordKeys from "../../actions/getAllUniqueRecordKeys";
 
+import { Course } from "@/lib/types";
+
 const CourseManagementPage = async () => {
   const professors = await getAllProfessors();
-  const courses = await getAllCourses();
+  // const courses = await getAllCourses();
+  const courses: Course[] = [];
   const recordKeys = await getAllUniqueRecordKeys();
 
   // const isAdmin = session?.user.roles.includes("admin");

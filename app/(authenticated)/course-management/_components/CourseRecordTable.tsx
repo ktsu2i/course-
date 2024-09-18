@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { parseISO, format, formatDistanceToNowStrict } from "date-fns";
 
-import { DataTable } from "@/app/course-management/_components/DataTable";
+import { DataTable } from "@/app/(authenticated)/course-management/_components/DataTable";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
