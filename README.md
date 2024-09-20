@@ -55,6 +55,8 @@ I am working on this project to solve the problems below for faculty and staff a
 - Supabase (Self-host)
 - Docker
 
+# For Developers
+
 ## How to Run
 
 Run this command to run docker
