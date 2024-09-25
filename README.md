@@ -56,7 +56,7 @@ I am working on this project to solve the problems below for faculty and staff a
 - Supabase (Self-host)
 - Docker
 
-# For Developers
+# For Developers (me)
 
 ## How to Run
 
