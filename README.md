@@ -51,6 +51,7 @@ I am working on this project to solve the problems below for faculty and staff a
 - Ruby on Rails
 - Tailwind CSS
 - PostgreSQL
+- MySQL
 - shadcn/ui
 - Supabase (Self-host)
 - Docker
