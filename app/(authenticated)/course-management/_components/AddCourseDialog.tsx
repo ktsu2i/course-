@@ -10,15 +10,14 @@ import { useRouter } from "next/navigation";
 import { isBefore } from "date-fns";
 
 import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -200,20 +199,20 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
   const nextYear = currentYear + 1;
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>
+    <Dialog>
+      <DialogTrigger>
         <Button size="sm" variant="temple">
           <Plus className="h-4 w-4 mr-1" />
           Request
         </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent className="max-h-[1200px] max-w-[600px] overflow-y-auto">
-        <AlertDialogHeader>
-          <AlertDialogTitle>Add a course</AlertDialogTitle>
-          <AlertDialogDescription>
+      </DialogTrigger>
+      <DialogContent className="max-h-[1200px] max-w-[600px] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Add a course</DialogTitle>
+          <DialogDescription>
             Please fill out the form below to add a course.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+          </DialogDescription>
+        </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
@@ -766,8 +765,7 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
                 </FormItem>
               )}
             />
-            <AlertDialogFooter className="mt-10">
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <DialogFooter className="mt-10">
               <Button
                 type="submit"
                 variant="temple"
@@ -775,11 +773,11 @@ const AddCourseAlert: React.FC<AddCourseAlertProps> = ({ professors }) => {
               >
                 Request
               </Button>
-            </AlertDialogFooter>
+            </DialogFooter>
           </form>
         </Form>
-      </AlertDialogContent>
-    </AlertDialog>
+      </DialogContent>
+    </Dialog>
   );
 };
 

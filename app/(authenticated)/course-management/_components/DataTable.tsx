@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 
-import AddCourseAlert from "./AddCourseAlert";
+import AddCourseDialog from "./AddCourseDialog";
 import { User } from "@/lib/types";
 
 interface DataTableProps<TData, TValue> {
@@ -157,7 +157,7 @@ export function DataTable<TData, TValue>({
         </div>
         <div className={`flex ${hidden ? "justify-end" : "justify-between"} py-4`}>
           <div className={`${hidden && "hidden"}`}>
-            <AddCourseAlert professors={professors} />
+            <AddCourseDialog professors={professors} />
           </div>
           <div className="flex items-center justify-end space-x-2">
             <Button
