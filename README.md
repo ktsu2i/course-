@@ -50,7 +50,7 @@ I am working on this project to solve the problems below for faculty and staff a
 - Ruby
 - Ruby on Rails
 - Tailwind CSS
-- PostgreSQL
+- PostgreSQL -> MySQL
 - shadcn/ui
 - Supabase (Self-host)
 - Docker
